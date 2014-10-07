@@ -16,7 +16,7 @@ week_number = date(currentYear, currentMonth, currentDay).isocalendar()[1]
 
 print(week_number)
 
-file_name = 'test'+str(week_number)+'.pdf'
+file_name = 'menu'+str(week_number)+'.pdf'
 # Download file
 # param : url of the file
 # param : new local file name
