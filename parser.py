@@ -8,6 +8,7 @@ import re
 if(len(sys.argv) != 3) :
     exit("Fatal Error: This script needs exactly 2 arguments: input file and output file.")
 
+
 # PDF to extract
 input = sys.argv[1]
 # Raw html
