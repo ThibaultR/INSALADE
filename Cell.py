@@ -1,24 +1,29 @@
+# Use Python 3.2.5
+# @author Hyukchan Kwon (hyukchan.k@gmail.com)
+# @author Thibault Rapin (thibault.rapin@gmail.com)
+
+
 import Word
 
-# Each Cell of the table will be represented by the object Cell wich contain a list of Word
+# Each Cell of the table will be represented by the object Cell which contains a list of Word
 class Cell:
-	def __init__(self):
-		self.wordList = []
-		
-	def addW(self, word):
-		
-		i = 0
-		for w in self.wordList:
-			if word.posY < w.posY and i < len(self.wordList):
-				self.wordList.insert(i,word)
-				break
-			i = i + 1
+    def __init__(self):
+        self.wordList = []
+        
+    def addW(self, word):
+        
+        i = 0
+        for w in self.wordList:
+            if word.posY < w.posY and i < len(self.wordList):
+                self.wordList.insert(i,word)
+                break
+            i = i + 1
 
-		# case if word.posY is the biggest
-		if i == len(self.wordList):
-			self.wordList.insert(i,word)
-		
-		
+        # case if word.posY is the biggest
+        if i == len(self.wordList):
+            self.wordList.insert(i,word)
+        
+        
 """
 #Test Cell and Word classes
 c = Cell()
@@ -26,7 +31,7 @@ w1 = Word.Word("coucou1", 88, 69)
 w2 = Word.Word("coucou2", 88, 70)
 w3 = Word.Word("coucou3", 88, 51)
 w4 = Word.Word("coucou4", 56, 69)
-print(c.wordList)	
+print(c.wordList)
 c.addW(w1)
 c.addW(w2)
 c.addW(w3)

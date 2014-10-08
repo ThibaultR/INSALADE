@@ -1,5 +1,11 @@
+# Use Python 3.2.5
+# @author Hyukchan Kwon (hyukchan.k@gmail.com)
+# @author Thibault Rapin (thibault.rapin@gmail.com)
+
+
 import urllib.request
 import time
+
 # To use date without datetime.date
 from datetime import date
 
