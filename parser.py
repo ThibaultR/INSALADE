@@ -17,11 +17,15 @@ if(len(sys.argv) != 3):
 
 # PDF to extract
 input = sys.argv[1]
-# Raw html
+
+# Extracted in html
+tmpHtmlFile = "tmp.html"
+
+# Export file (XML)
 output = sys.argv[2]
 
 # Extract pdf into html
-os.system(("pdf2txt.py -t html %s > %s")%(input, output))
+os.system(("pdf2txt.py -t html %s > %s")%(input, tmpHtmlFile))
 
 # List of x coordinate of each column
 tabColumn = []
@@ -55,7 +59,7 @@ def selectCell(word):
 
 # Fill tabColumn and tabRow with appropriate coordinates
 i = 0
-for line in open(output):
+for line in open(tmpHtmlFile):
     # Search the corners of the cells which are represented by points
     if "width:0px; height:0px;" in line:
         i = i + 1
@@ -68,7 +72,7 @@ for line in open(output):
             if(int(mRow.group(1)) == tabColumn[0]):
                 tabRow.append(int(mRow.group(2)))
 
-for line in open(output):
+for line in open(tmpHtmlFile):
     if "</div><div" in line:
         mDiv = re.search("left:(.*?)px; top:(.*?)px;(.*)>(.*?)\s*$", line)
         tmpX = int(mDiv.group(1))
@@ -105,7 +109,7 @@ for i in range(0,7):
     while j < len(cellTable[2][i].wordList):
         menuTable[0][i].dessert.append(cellTable[2][i].wordList[j])
         j = j + 1
-    
+
     # set starter mainCourse dessert dinner
     if len(cellTable[3][i].wordList)>0:
         menuTable[1][i].starter.append(cellTable[3][i].wordList[0])
@@ -122,8 +126,24 @@ for i in range(0,7):
     menuTable[1][i].when = CONST_DINNER
     
     # set date
-    menuTable[0][i].date = cellTable[0][i].wordList[0]
-    menuTable[1][i].date = cellTable[0][i].wordList[0]
-    
-    
-    
+    menuTable[0][i].date = cellTable[0][i].wordList[0].wordStr
+    menuTable[1][i].date = cellTable[0][i].wordList[0].wordStr
+
+outputFile = open(output, "w")
+for y in range(0,7):
+    for x in range(0,2):
+        outputFile.write("<menu date=\""+menuTable[x][y].date+"\" when=\""+str(menuTable[x][y].when)+"\">\n")
+        outputFile.write("\t<starter>\n")
+        for w in menuTable[x][y].starter:
+            outputFile.write("\t\t"+w.wordStr+"\n")
+        outputFile.write("\t</starter>\n")
+
+        outputFile.write("\t<maincourse>\n")
+        for w in menuTable[x][y].mainCourse:
+            outputFile.write("\t\t"+w.wordStr+"\n")
+        outputFile.write("\t<maincourse>\n")
+        
+        outputFile.write("\t<dessert>\n")
+        for w in menuTable[x][y].dessert:
+            outputFile.write("\t\t"+w.wordStr+"\n")
+        outputFile.write("\t</dessert>\n")
