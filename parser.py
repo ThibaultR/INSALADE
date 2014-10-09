@@ -9,6 +9,7 @@ import sys
 import re
 import Word
 import Cell
+import Menu
 
 if(len(sys.argv) != 3):
     exit("Fatal Error: This script needs exactly 2 arguments: input file and output file.")
@@ -86,11 +87,43 @@ for line in open(output):
         #addCurrentWord(tabWord, currentWord)
         selectCell(Word.Word(currentWord, tmpX, tmpY))
 
-#print(tabWord)
-for w in cellTable[3][6].wordList:
-    print(w.wordStr)
-    print(w.posX)
-    print(w.posY)
+
+menuTable =[[Menu.Menu() for j in range(0,7)] for i in range(0,2)]
+
+CONST_LUNCH = 0
+CONST_DINNER = 1
+# Loop on the row of the matrix
+for i in range(0,7):
+    # set starter lunch
+    menuTable[0][i].starter = cellTable[1][i].wordList
+
+    # set mainCourse and dessert lunch
+    j = 0
+    while len(cellTable[2][i].wordList)>0 and cellTable[2][i].wordList[j].wordStr != "Yaourt":
+        menuTable[0][i].mainCourse.append(cellTable[2][i].wordList[j])
+        j = j + 1
+    while j < len(cellTable[2][i].wordList):
+        menuTable[0][i].dessert.append(cellTable[2][i].wordList[j])
+        j = j + 1
+    
+    # set starter mainCourse dessert dinner
+    if len(cellTable[3][i].wordList)>0:
+        menuTable[1][i].starter.append(cellTable[3][i].wordList[0])
+        j = 1
+        while cellTable[3][i].wordList[j].wordStr != "Yaourt":
+            menuTable[1][i].mainCourse.append(cellTable[3][i].wordList[j])
+            j = j + 1
+        while j < len(cellTable[3][i].wordList):
+            menuTable[1][i].dessert.append(cellTable[3][i].wordList[j])
+            j = j + 1
+
+    # set when
+    menuTable[0][i].when = CONST_LUNCH
+    menuTable[1][i].when = CONST_DINNER
+    
+    # set date
+    menuTable[0][i].date = cellTable[0][i].wordList[0]
+    menuTable[1][i].date = cellTable[0][i].wordList[0]
     
     
-# print(cellTable[0][0].wordList[1].wordStr)
+    
