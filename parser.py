@@ -76,19 +76,18 @@ for line in open(tmpHtmlFile):
     if "</div><div" in line:
         mDiv = re.search("left:(.*?)px; top:(.*?)px;(.*)>(.*?)\s*$", line)
         tmpX = int(mDiv.group(1))
-        tmpY = int(mDiv.group(2))
+        tmpY = int(mDiv.group(2)) + 10
         currentWord = mDiv.group(4)
-        #addCurrentWord(tabWord, currentWord)
         selectCell(Word.Word(currentWord, tmpX, tmpY))
     elif "</span><span" in line:
+        tmpY = tmpY + 12
         mSpan = re.search(".*>(.*?)\s*$", line)
         currentWord = mSpan.group(1)
-        #addCurrentWord(tabWord, currentWord)
         selectCell(Word.Word(currentWord, tmpX, tmpY))
     elif "<br>" in line:
+        tmpY = tmpY + 12
         mBr = re.search("<br>(.*?)\s*$", line)
         currentWord = mBr.group(1)
-        #addCurrentWord(tabWord, currentWord)
         selectCell(Word.Word(currentWord, tmpX, tmpY))
 
 
@@ -141,9 +140,10 @@ for y in range(0,7):
         outputFile.write("\t<maincourse>\n")
         for w in menuTable[x][y].mainCourse:
             outputFile.write("\t\t"+w.wordStr+"\n")
-        outputFile.write("\t<maincourse>\n")
+        outputFile.write("\t</maincourse>\n")
         
         outputFile.write("\t<dessert>\n")
         for w in menuTable[x][y].dessert:
             outputFile.write("\t\t"+w.wordStr+"\n")
         outputFile.write("\t</dessert>\n")
+        outputFile.write("</menu>\n")
