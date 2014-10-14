@@ -129,21 +129,24 @@ for i in range(0,7):
     menuTable[1][i].date = cellTable[0][i].wordList[0].wordStr
 
 outputFile = open(output, "w")
+outputFile.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n")
+outputFile.write("<week>\n")
 for y in range(0,7):
     for x in range(0,2):
-        outputFile.write("<menu date=\""+menuTable[x][y].date+"\" when=\""+str(menuTable[x][y].when)+"\">\n")
-        outputFile.write("\t<starter>\n")
+        outputFile.write("\t<menu date=\""+menuTable[x][y].date+"\" when=\""+str(menuTable[x][y].when)+"\">\n")
+        outputFile.write("\t\t<starter>\n")
         for w in menuTable[x][y].starter:
-            outputFile.write("\t\t"+w.wordStr+"\n")
-        outputFile.write("\t</starter>\n")
+            outputFile.write("\t\t\t"+w.wordStr+"\n")
+        outputFile.write("\t\t</starter>\n")
 
-        outputFile.write("\t<maincourse>\n")
+        outputFile.write("\t\t<maincourse>\n")
         for w in menuTable[x][y].mainCourse:
-            outputFile.write("\t\t"+w.wordStr+"\n")
-        outputFile.write("\t</maincourse>\n")
+            outputFile.write("\t\t\t"+w.wordStr+"\n")
+        outputFile.write("\t\t</maincourse>\n")
         
-        outputFile.write("\t<dessert>\n")
+        outputFile.write("\t\t<dessert>\n")
         for w in menuTable[x][y].dessert:
-            outputFile.write("\t\t"+w.wordStr+"\n")
-        outputFile.write("\t</dessert>\n")
-        outputFile.write("</menu>\n")
+            outputFile.write("\t\t\t"+w.wordStr+"\n")
+        outputFile.write("\t\t</dessert>\n")
+        outputFile.write("\t</menu>\n")
+outputFile.write("</week>\n")
