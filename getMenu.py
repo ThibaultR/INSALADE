@@ -23,11 +23,16 @@ week_number = date(currentYear, currentMonth, currentDay).isocalendar()[1]
 print(week_number)
 
 file_name = 'menu'+str(week_number)+'.pdf'
+
 # Download file
 
-username = 'USERNAME'
-password = 'PASSWORD'
+# Get login/pwd
+fic = open('./pw.txt','r')
+username = fic.readline();
+password = fic.readline();
+fic.close()
 
+# Connect with mechanize
 url = "https://cas.insa-rennes.fr/cas/login?service=http://intranet.insa-rennes.fr/"
 br = mechanize.Browser()
 br.set_handle_robots(False) #You may need to do this
