@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<week>
+	<menu date="Lundi 13" when="0">
+		<starter>
+			Feuilleté au gruyère
+			Crevettes beurre
+			Champignon à la crème
+			½ pomelos
+			œuf mayonnaise
+		</starter>
+		<maincourse>
+			escalope de dinde à
+			l’estragon
+			sauté de porc
+			Pates / carottes a la crème
+		</maincourse>
+		<dessert>
+			Yaourt
+			Arlequin / fruit
+		</dessert>
+	</menu>
+	<menu date="Lundi 13" when="1">
+		<starter>
+			macédoine½ œuf
+		</starter>
+		<maincourse>
+			poisson meunière
+			Riz
+		</maincourse>
+		<dessert>
+			Yaourt
+			Beignet  / fruit
+		</dessert>
+	</menu>
+	<menu date="Mardi  14" when="0">
+		<starter>
+			Salade norvégienne
+			Carotte ½ œuf
+			Salade aux noix
+			½ pomelos
+			œuf mayonnaise
+		</starter>
+		<maincourse>
+			*Tajine d’agneau
+			Poisson du jour
+			semoule/ poêlée forestière
+		</maincourse>
+		<dessert>
+			Yaourt
+			pâtisserie  / fruit
+		</dessert>
+	</menu>
+	<menu date="Mardi  14" when="1">
+		<starter>
+			charcuterie
+		</starter>
+		<maincourse>
+			sauté de poulet aux fruits
+			poêlée bretonne
+		</maincourse>
+		<dessert>
+			Yaourt
+			Compote biscuit / fruit
+		</dessert>
+	</menu>
+	<menu date="Mercredi 15" when="0">
+		<starter>
+			Quiche lorraine
+			Champignon/tomates
+			Salade à la fourme
+			½ pomelos
+			œuf mayonnaise
+		</starter>
+		<maincourse>
+			Steak haché
+			Merguez grillées
+			Frites / gratin de courgettes
+		</maincourse>
+		<dessert>
+			Yaourt
+			Génoise aux fruits / fruit
+		</dessert>
+	</menu>
+	<menu date="Mercredi 15" when="1">
+		<starter>
+			piémontaise
+		</starter>
+		<maincourse>
+			Roti de porc aux pruneaux
+			lentilles
+		</maincourse>
+		<dessert>
+			Yaourt
+			Entremet biscuit / fruit
+		</dessert>
+	</menu>
+	<menu date="Jeudi  16" when="0">
+		<starter>
+			Tomate surimi
+			Artichaut vinaigrette
+			Betteraves mimosa
+			½ pomelos
+			œuf mayonnaise
+		</starter>
+		<maincourse>
+			Goulash hongrois
+			Côte de porc sauce
+			moutarde
+			Spaghettis / poêlée
+			ratatouille
+		</maincourse>
+		<dessert>
+			Yaourt
+			/ fruit
+		</dessert>
+	</menu>
+	<menu date="Jeudi  16" when="1">
+		<starter>
+			Salade sicilienne
+		</starter>
+		<maincourse>
+			Nems au poulet
+			Riz cantonais
+		</maincourse>
+		<dessert>
+			Yaourt
+			Crème caramel / fruit
+		</dessert>
+	</menu>
+	<menu date="Vendredi 17" when="0">
+		<starter>
+			Feuilleté hot dog
+			Concombre à la crème
+			Tomates/champignons
+			½ pomelos
+			œuf mayonnaise
+		</starter>
+		<maincourse>
+			Flan de légumes
+			Paupiette de veau forestière
+			purée / haricots verts
+		</maincourse>
+		<dessert>
+			Yaourt
+			Cône glacé / fruit
+		</dessert>
+	</menu>
+	<menu date="Vendredi 17" when="1">
+		<starter>
+			Tomates mimosa
+		</starter>
+		<maincourse>
+			Omelette paysanne
+			poêlée maraîchère Salade
+			verte
+		</maincourse>
+		<dessert>
+			Yaourt
+			Chausson aux pommes / fruit
+		</dessert>
+	</menu>
+	<menu date="Samedi 18" when="0">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Samedi 18" when="1">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Dimanche 19" when="0">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Dimanche 19" when="1">
+		<starter>
+			Salade de tomates
+		</starter>
+		<maincourse>
+			Filet de poisson meunière
+			Poêlée brocolis champignons
+		</maincourse>
+		<dessert>
+			Yaourt
+			Compote / fruit
+		</dessert>
+	</menu>
+</week>
