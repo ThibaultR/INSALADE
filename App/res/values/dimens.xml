@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="hHeader">155dp</dimen>
+    <dimen name="hHeaderMenu">75dp</dimen>
+    <dimen name="headerMenuText">60sp</dimen>
+    <dimen name="hDate">60dp</dimen>
+    <dimen name="hDateText">20sp</dimen>
+    <dimen name="elementVerticalMargin">5dp</dimen>
+    <dimen name="elementHorizontalMargin">10dp</dimen>
+    <dimen name="elementPadding">15dp</dimen>
+    <dimen name="contentMarginLeft">30dp</dimen>
+</resources>

@@ -46,3 +46,5 @@ Ressources/*
 
 *.pyc
 *.pdf
+
+App/App.iml

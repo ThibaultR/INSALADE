@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Insalade</string>
+    <string name="menuActivity">MenuActivity</string>
+    <string name="starter">Entrées</string>
+    <string name="mainCourse">Plats</string>
+    <string name="dessert">Desserts</string>
 </resources>

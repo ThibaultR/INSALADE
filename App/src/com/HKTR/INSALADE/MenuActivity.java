@@ -15,7 +15,7 @@ public class MenuActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
-        TextView tv = (TextView) findViewById(R.id.textView);
+        /*TextView tv = (TextView) findViewById(R.id.textView);
 
         DayModel currentDay = WeekModel.getWeekList().get(42).getWeek().get(WeekModel.getCurrentMenuId());
         MenuModel currentMenu;
@@ -29,6 +29,6 @@ public class MenuActivity extends Activity {
         }
         tv.append(currentMenu.getStarter() + "\n\n");
         tv.append(currentMenu.getMainCourse() + "\n\n");
-        tv.append(currentMenu.getDessert() + "\n");
+        tv.append(currentMenu.getDessert() + "\n");*/
     }
 }
