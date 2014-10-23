@@ -48,3 +48,5 @@ Ressources/*
 *.pdf
 
 App/App.iml
+App/build.xml
+App/ant.properties
