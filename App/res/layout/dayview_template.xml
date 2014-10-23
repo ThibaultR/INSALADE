@@ -29,6 +29,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
+            android:onClick="onClickLunchButton"
             />
     <Button
             android:layout_width="match_parent"
@@ -41,5 +42,6 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
+            android:onClick="onClickDinnerButton"
             />
 </FrameLayout>

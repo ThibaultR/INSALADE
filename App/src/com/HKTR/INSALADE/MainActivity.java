@@ -1,14 +1,19 @@
 package com.HKTR.INSALADE;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import com.HKTR.INSALADE.model.DayModel;
+import com.HKTR.INSALADE.model.MenuModel;
+import com.HKTR.INSALADE.model.WeekModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,6 +31,11 @@ public class MainActivity extends Activity {
     LinearLayout dayList;
     Typeface fontExistenceLight;
     FrameLayout lastDayView;
+    DayModel currentDay;
+    WeekModel currentWeek;
+    Integer currentWeekNumber;
+    Integer menuNumber;
+
     /**
      * Called when the activity is first created.
      */
@@ -37,8 +47,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         dayList = (LinearLayout) findViewById(R.id.dayList);
         fontExistenceLight = Typeface.createFromAsset(getAssets(), "fonts/Existence-Light.otf");
+        currentWeekNumber = 42;
+        menuNumber = 0;
         getMenus("menu42");
-
     }
 
     public void getMenus(String file) {
@@ -70,6 +81,10 @@ public class MainActivity extends Activity {
             final NodeList racineNoeuds = racine.getChildNodes();
             final int nbRacineNoeuds = racineNoeuds.getLength();
 
+            currentWeek = new WeekModel();
+
+            WeekModel.getWeekList().put(currentWeekNumber, currentWeek);
+
             for (int i = 0; i<nbRacineNoeuds; i++) {
                 if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
                     final Element menu = (Element) racineNoeuds.item(i);
@@ -79,6 +94,11 @@ public class MainActivity extends Activity {
                     String dateInt = "";
                     Pattern p;
                     Matcher m;
+
+                    final Element starter = (Element) menu.getElementsByTagName("starter").item(0);
+                    final Element mainCourse = (Element) menu.getElementsByTagName("maincourse").item(0);
+                    final Element dessert = (Element) menu.getElementsByTagName("dessert").item(0);
+
                     if (menu.getAttribute("when").equals("0")) {
 
                         // get date string (ex: Lundi)
@@ -99,25 +119,34 @@ public class MainActivity extends Activity {
                         Button lunchButton = (Button) dayView.findViewWithTag("lunchButton");
                         Button dinnerButton = (Button) dayView.findViewWithTag("dinnerButton");
 
+                        currentDay = new DayModel();
+                        MenuModel lunch = new MenuModel(menu.getAttribute("date"), starter.getTextContent(), mainCourse.getTextContent(), dessert.getTextContent());
+
                         dayButton.setText(dateStr + " " + dateInt);
                         dayButton.setTypeface(fontExistenceLight);
 
                         lunchButton.setText(dateStr + " midi");
                         lunchButton.setTypeface(fontExistenceLight);
+                        lunchButton.setId(menuNumber);
 
                         dinnerButton.setText(dateStr + " soir");
                         dinnerButton.setTypeface(fontExistenceLight);
+                        dinnerButton.setId(menuNumber++);
 
                         dayList.addView(dayView);
+
+                        currentDay.setLunch(lunch);
+                    } else {
+                        MenuModel dinner = new MenuModel(menu.getAttribute("date"), starter.getTextContent(), mainCourse.getTextContent(), dessert.getTextContent());
+
+                        currentDay.setDinner(dinner);
+                        currentWeek.getWeek().add(currentDay);
                     }
+
                     //print a menu
                     System.out.println("\n*************MENU************");
                     System.out.println("date : " + menu.getAttribute("date"));
                     System.out.println("when : " + menu.getAttribute("when"));
-
-                    final Element starter = (Element) menu.getElementsByTagName("starter").item(0);
-                    final Element mainCourse = (Element) menu.getElementsByTagName("maincourse").item(0);
-                    final Element dessert = (Element) menu.getElementsByTagName("dessert").item(0);
 
                     //print starter, mainCourse and dessert
                     System.out.println("starer : " + starter.getTextContent());
@@ -151,5 +180,20 @@ public class MainActivity extends Activity {
         Button dinnerButton = (Button) dayView.findViewWithTag("dinnerButton");
         lunchButton.setVisibility(View.VISIBLE);
         dinnerButton.setVisibility(View.VISIBLE);
+    }
+
+
+    public void onClickLunchButton(View view) {
+        WeekModel.setCurrentMenuId(view.getId());
+        WeekModel.setCurrentMenuIsLunch(true);
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickDinnerButton(View view) {
+        WeekModel.setCurrentMenuId(view.getId());
+        WeekModel.setCurrentMenuIsLunch(false);
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 }
