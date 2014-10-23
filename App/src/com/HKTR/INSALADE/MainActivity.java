@@ -47,9 +47,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         dayList = (LinearLayout) findViewById(R.id.dayList);
         fontExistenceLight = Typeface.createFromAsset(getAssets(), "fonts/Existence-Light.otf");
-        currentWeekNumber = 42;
+        currentWeekNumber = 42; // TODO : to generalize
         menuNumber = 0;
-        getMenus("menu42");
+        getMenus("menu42"); // TODO : to generalize
     }
 
     public void getMenus(String file) {

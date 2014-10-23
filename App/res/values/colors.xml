@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mainColor">#64cd40</color>
+    <color name="tileBackground">#59A23F</color>
+    <color name="tileBackgroundDarker">#51843F</color>
+    <color name="headerMenuFontColor">#FFFFFF</color>
+    <color name="dateMenuFontColor">#FFFFFF</color>
+    <color name="mainTextColor">#FFFFFF</color>
+</resources>

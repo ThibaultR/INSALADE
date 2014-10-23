@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
     <!--Start topbar-->
     <RelativeLayout
@@ -15,16 +15,18 @@
                 android:id="@+id/previous"
                 android:layout_width="@dimen/hHeaderMenu"
                 android:layout_height="@dimen/hHeaderMenu"
-                android:src="@drawable/previous"
+                android:src="@drawable/previous_white"
                 android:background="@android:color/transparent"
                 android:layout_centerVertical="true"
                 android:scaleType="fitCenter"
+                android:onClick="onClickPreviousButton"
                 />
         <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:text="@string/app_name"
                 android:textSize="@dimen/headerMenuText"
+                android:textColor="@color/mainColor"
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 />
@@ -37,7 +39,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:fillViewport="true"
-            android:background="#FFFFFF"
+            android:background="@android:color/white"
             android:layout_below="@id/headerMenu"
             >
 
@@ -45,7 +47,7 @@
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#64CD40"
+                android:background="@color/mainColor"
                 android:layout_marginTop="3dp"
                 >
             <!--Start Date-->
@@ -70,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/hDate"
                         android:textSize="@dimen/hDateText"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/dateMenuFontColor"
                         android:layout_centerInParent="true"
                         android:gravity="center"
                         />
@@ -94,7 +96,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/date"
-                    android:background="#59A242"
+                    android:background="@color/tileBackground"
                     android:layout_marginTop="@dimen/elementVerticalMargin"
                     android:layout_marginRight="@dimen/elementHorizontalMargin"
                     android:layout_marginBottom="@dimen/elementVerticalMargin"
@@ -108,8 +110,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:text="@string/starter"
-                        android:textSize="25sp"
-                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/mainFontSize"
+                        android:textColor="@color/mainTextColor"
                         android:textStyle="bold"
                         />
                 <TextView
@@ -117,8 +119,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/starterTitle"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/contentFontSize"
+                        android:textColor="@color/mainTextColor"
                         android:layout_marginLeft="@dimen/contentMarginLeft"
                         />
 
@@ -131,7 +133,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/starter"
-                    android:background="#59A242"
+                    android:background="@color/tileBackground"
                     android:layout_marginTop="@dimen/elementVerticalMargin"
                     android:layout_marginRight="@dimen/elementHorizontalMargin"
                     android:layout_marginBottom="@dimen/elementVerticalMargin"
@@ -145,8 +147,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:text="@string/mainCourse"
-                        android:textSize="25sp"
-                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/mainFontSize"
+                        android:textColor="@color/mainTextColor"
                         android:textStyle="bold"
                         />
                 <TextView
@@ -154,8 +156,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/mainCourseTitle"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/contentFontSize"
+                        android:textColor="@color/mainTextColor"
                         android:layout_marginLeft="@dimen/contentMarginLeft"
                         />
 
@@ -168,7 +170,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/mainCourse"
-                    android:background="#59A242"
+                    android:background="@color/tileBackground"
                     android:layout_marginTop="@dimen/elementVerticalMargin"
                     android:layout_marginRight="@dimen/elementHorizontalMargin"
                     android:layout_marginBottom="@dimen/elementVerticalMargin"
@@ -182,8 +184,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:text="@string/dessert"
-                        android:textSize="25sp"
-                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/mainFontSize"
+                        android:textColor="@color/mainTextColor"
                         android:textStyle="bold"
                         />
                 <TextView
@@ -191,8 +193,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/dessertTitle"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/contentFontSize"
+                        android:textColor="@color/mainTextColor"
                         android:layout_marginLeft="@dimen/contentMarginLeft"
                         />
 

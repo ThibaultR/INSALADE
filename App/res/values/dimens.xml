@@ -9,4 +9,10 @@
     <dimen name="elementHorizontalMargin">10dp</dimen>
     <dimen name="elementPadding">15dp</dimen>
     <dimen name="contentMarginLeft">30dp</dimen>
+    <dimen name="mainVerticalPadding">10dp</dimen>
+    <dimen name="hDayView">100dp</dimen>
+    <dimen name="mainFontSize">30sp</dimen>
+    <dimen name="mainDayViewPadding">30dp</dimen>
+    <dimen name="hWhenView">50dp</dimen>
+    <dimen name="contentFontSize">20sp</dimen>
 </resources>
