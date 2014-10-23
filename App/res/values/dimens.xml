@@ -2,9 +2,9 @@
 <resources>
     <dimen name="hHeader">155dp</dimen>
     <dimen name="hHeaderMenu">75dp</dimen>
-    <dimen name="headerMenuText">60sp</dimen>
+    <dimen name="headerMenuText">40sp</dimen>
     <dimen name="hDate">60dp</dimen>
-    <dimen name="hDateText">20sp</dimen>
+    <dimen name="hDateText">30sp</dimen>
     <dimen name="elementVerticalMargin">5dp</dimen>
     <dimen name="elementHorizontalMargin">10dp</dimen>
     <dimen name="elementPadding">15dp</dimen>
@@ -14,5 +14,7 @@
     <dimen name="mainFontSize">30sp</dimen>
     <dimen name="mainDayViewPadding">30dp</dimen>
     <dimen name="hWhenView">50dp</dimen>
-    <dimen name="contentFontSize">20sp</dimen>
+    <dimen name="contentFontSize">25sp</dimen>
+    <dimen name="hPreviousButton">40dp</dimen>
+    <dimen name="hDateNavigationButton">30dp</dimen>
 </resources>
