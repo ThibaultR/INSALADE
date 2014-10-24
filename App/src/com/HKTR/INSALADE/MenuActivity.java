@@ -65,10 +65,8 @@ public class MenuActivity extends Activity {
             currentMenu = currentDay.getDinner();
             date.setText(currentMenu.getDate() + " soir");
         }
-        starterContent.setText("bonjour\nhhhikhi");
+        starterContent.setText(currentMenu.getStarter());
         mainCourseContent.setText(currentMenu.getMainCourse());
-        System.out.println("AAAAAAA" + currentMenu.getMainCourse() + "BBBBB");
-        System.out.println("bonjour");
         dessertContent.setText(currentMenu.getDessert());
     }
 

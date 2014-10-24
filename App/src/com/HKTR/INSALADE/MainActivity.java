@@ -120,7 +120,12 @@ public class MainActivity extends Activity {
                         Button dinnerButton = (Button) dayView.findViewWithTag("dinnerButton");
 
                         currentDay = new DayModel();
-                        MenuModel lunch = new MenuModel(menu.getAttribute("date"), starter.getTextContent(), mainCourse.getTextContent(), dessert.getTextContent());
+
+                        String starterContent = removeWhiteSpaces(starter.getTextContent());
+                        String mainCourseContent = removeWhiteSpaces(mainCourse.getTextContent());
+                        String dessertContent = removeWhiteSpaces(dessert.getTextContent());
+
+                        MenuModel lunch = new MenuModel(menu.getAttribute("date"), starterContent, mainCourseContent, dessertContent);
 
                         dayButton.setText(dateStr + " " + dateInt);
                         dayButton.setTypeface(fontExistenceLight);
@@ -137,7 +142,12 @@ public class MainActivity extends Activity {
 
                         currentDay.setLunch(lunch);
                     } else {
-                        MenuModel dinner = new MenuModel(menu.getAttribute("date"), starter.getTextContent(), mainCourse.getTextContent(), dessert.getTextContent());
+
+                        String starterContent = removeWhiteSpaces(starter.getTextContent());
+                        String mainCourseContent = removeWhiteSpaces(mainCourse.getTextContent());
+                        String dessertContent = removeWhiteSpaces(dessert.getTextContent());
+
+                        MenuModel dinner = new MenuModel(menu.getAttribute("date"), starterContent, mainCourseContent, dessertContent);
 
                         currentDay.setDinner(dinner);
                         currentWeek.getWeek().add(currentDay);
@@ -195,5 +205,21 @@ public class MainActivity extends Activity {
         WeekModel.setCurrentMenuIsLunch(false);
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
+    }
+
+    public String removeWhiteSpaces(String input) {
+        String result = "";
+        String[] lines = input.split("\\n");
+        for (String line : lines) {
+            if(line.trim().length() > 1) {
+                result += (line.trim() + "\n");
+            }
+        };
+
+        //removes the last '\n'
+        if(result.length() > 0)
+            result = result.substring(0, result.length()-1);
+
+        return result;
     }
 }

@@ -117,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:text="@string/starter"
-                        android:textSize="@dimen/mainFontSize"
+                        android:textSize="@dimen/contentFontSize"
                         android:textColor="@color/mainTextColor"
                         android:textStyle="bold"
                         />
@@ -154,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:text="@string/mainCourse"
-                        android:textSize="@dimen/mainFontSize"
+                        android:textSize="@dimen/contentFontSize"
                         android:textColor="@color/mainTextColor"
                         android:textStyle="bold"
                         />
@@ -191,7 +191,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:text="@string/dessert"
-                        android:textSize="@dimen/mainFontSize"
+                        android:textSize="@dimen/contentFontSize"
                         android:textColor="@color/mainTextColor"
                         android:textStyle="bold"
                         />
