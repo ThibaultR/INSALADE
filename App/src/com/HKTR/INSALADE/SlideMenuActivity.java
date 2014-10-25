@@ -11,8 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
-import com.HKTR.INSALADE.model.DayModel;
-import com.HKTR.INSALADE.model.MenuModel;
 import com.HKTR.INSALADE.model.WeekModel;
 
 public class SlideMenuActivity extends FragmentActivity {
@@ -54,6 +52,14 @@ public class SlideMenuActivity extends FragmentActivity {
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(indexPage);
 
+    }
+
+    public void onClickPreviousMenu(View view) {
+        mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+    }
+
+    public void onClickNextMenu(View view) {
+        mPager.setCurrentItem(mPager.getCurrentItem() + 1);
     }
 
   /*  @Override
