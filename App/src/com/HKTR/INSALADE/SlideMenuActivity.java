@@ -77,7 +77,7 @@ public class SlideMenuActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new SlideMenuFragment();
+            return SlideMenuFragment.create(position);
         }
 
         @Override

@@ -17,8 +17,37 @@ import com.HKTR.INSALADE.model.WeekModel;
  * Created by Thibault on 25/10/2014.
  */
 public class SlideMenuFragment extends Fragment {
+    /**
+     * The argument key for the page number this fragment represents.
+     */
+    public static final String ARG_PAGE = "page";
 
-    private static Integer i = 0;
+    /**
+     * The fragment's page number, which is set to the argument value for {@link #ARG_PAGE}.
+     */
+    private int mPageNumber;
+
+    /**
+     * Factory method for this fragment class. Constructs a new fragment for the given page number.
+     */
+    public static SlideMenuFragment create(int pageNumber) {
+        SlideMenuFragment fragment = new SlideMenuFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE, pageNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public SlideMenuFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPageNumber = getArguments().getInt(ARG_PAGE);
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,10 +83,10 @@ public class SlideMenuFragment extends Fragment {
 
 
         //DayModel currentDay = WeekModel.getWeekList().get(42).getWeek().get(WeekModel.getCurrentMenuId());// TODO : to generalize
-        DayModel currentDay = WeekModel.getDayById(i);// TODO : to generalize
+        DayModel currentDay = WeekModel.getDayById(getPageNumber());// TODO : to generalize
         MenuModel currentMenu;
 
-        if(i%2 == 0) {
+        if(getPageNumber()%2 == 0) {
             currentMenu = currentDay.getLunch();
             date.setText(currentMenu.getDate() + " midi");
         } else {
@@ -68,8 +97,14 @@ public class SlideMenuFragment extends Fragment {
         mainCourseContent.setText(currentMenu.getMainCourse());
         dessertContent.setText(currentMenu.getDessert());
 
-        i++;
-
         return rootView;
+    }
+
+
+    /**
+     * Returns the page number represented by this fragment object.
+     */
+    public int getPageNumber() {
+        return mPageNumber;
     }
 }
