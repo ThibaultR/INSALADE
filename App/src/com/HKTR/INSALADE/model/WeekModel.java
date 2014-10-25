@@ -44,4 +44,8 @@ public class WeekModel {
     public static void setCurrentMenuIsLunch(Boolean currentMenuIsLunch) {
         WeekModel.currentMenuIsLunch = currentMenuIsLunch;
     }
+
+    public static DayModel getDayById(Integer id) {
+        return weekList.get(42).getWeek().get(id/2); //TODO : to Generalize
+    }
 }

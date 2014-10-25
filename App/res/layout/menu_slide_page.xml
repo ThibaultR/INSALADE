@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Start body-->
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:background="@android:color/white"
+        android:layout_below="@id/headerMenu"
+        >
+
+    <!--Start Only Element scrollView-->
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/mainColor"
+            android:layout_marginTop="3dp"
+            android:paddingBottom="@dimen/mainVerticalPadding"
+            >
+        <!--Start Date-->
+        <RelativeLayout
+                android:id="@+id/date"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/hDate"
+                >
+
+            <ImageButton
+                    android:layout_width="@dimen/hDateNavigationButton"
+                    android:layout_height="@dimen/hDateNavigationButton"
+                    android:src="@drawable/previous"
+                    android:scaleType="fitCenter"
+                    android:background="@android:color/transparent"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/dateText"
+                    android:layout_marginLeft="@dimen/elementHorizontalMargin"
+                    android:layout_marginRight="@dimen/elementHorizontalMargin"
+                    />
+
+            <TextView
+                    android:id="@+id/dateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/hDate"
+                    android:textSize="@dimen/hDateText"
+                    android:textColor="@color/dateMenuFontColor"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    />
+
+            <ImageButton
+                    android:layout_width="@dimen/hDateNavigationButton"
+                    android:layout_height="@dimen/hDateNavigationButton"
+                    android:src="@drawable/next"
+                    android:scaleType="fitCenter"
+                    android:background="@android:color/transparent"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/dateText"
+                    android:layout_marginLeft="@dimen/elementHorizontalMargin"
+                    android:layout_marginRight="@dimen/elementHorizontalMargin"
+                    />
+
+        </RelativeLayout>
+        <!--End Date-->
+
+        <!--Start Starter-->
+        <RelativeLayout
+                android:id="@+id/starter"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/date"
+                android:background="@color/tileBackground"
+                android:layout_marginTop="@dimen/elementVerticalMargin"
+                android:layout_marginRight="@dimen/elementHorizontalMargin"
+                android:layout_marginBottom="@dimen/elementVerticalMargin"
+                android:layout_marginLeft="@dimen/elementHorizontalMargin"
+                android:padding="@dimen/elementPadding"
+                >
+
+            <TextView
+                    android:id="@+id/starterTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/starter"
+                    android:textSize="@dimen/contentFontSize"
+                    android:textColor="@color/mainTextColor"
+                    android:textStyle="bold"
+                    />
+            <TextView
+                    android:id="@+id/starterContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/starterTitle"
+                    android:textSize="@dimen/contentFontSize"
+                    android:textColor="@color/mainTextColor"
+                    android:layout_marginLeft="@dimen/contentMarginLeft"
+                    />
+
+        </RelativeLayout>
+        <!--End Starter-->
+
+        <!--Start MainCourse-->
+        <RelativeLayout
+                android:id="@+id/mainCourse"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/starter"
+                android:background="@color/tileBackground"
+                android:layout_marginTop="@dimen/elementVerticalMargin"
+                android:layout_marginRight="@dimen/elementHorizontalMargin"
+                android:layout_marginBottom="@dimen/elementVerticalMargin"
+                android:layout_marginLeft="@dimen/elementHorizontalMargin"
+                android:padding="@dimen/elementPadding"
+                >
+
+            <TextView
+                    android:id="@+id/mainCourseTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/mainCourse"
+                    android:textSize="@dimen/contentFontSize"
+                    android:textColor="@color/mainTextColor"
+                    android:textStyle="bold"
+                    />
+            <TextView
+                    android:id="@+id/mainCourseContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/mainCourseTitle"
+                    android:textSize="@dimen/contentFontSize"
+                    android:textColor="@color/mainTextColor"
+                    android:layout_marginLeft="@dimen/contentMarginLeft"
+                    />
+
+        </RelativeLayout>
+        <!--End MainCourse-->
+
+        <!--Start Dessert-->
+        <RelativeLayout
+                android:id="@+id/dessert"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mainCourse"
+                android:background="@color/tileBackground"
+                android:layout_marginTop="@dimen/elementVerticalMargin"
+                android:layout_marginRight="@dimen/elementHorizontalMargin"
+                android:layout_marginBottom="@dimen/elementVerticalMargin"
+                android:layout_marginLeft="@dimen/elementHorizontalMargin"
+                android:padding="@dimen/elementPadding"
+                >
+
+            <TextView
+                    android:id="@+id/dessertTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/dessert"
+                    android:textSize="@dimen/contentFontSize"
+                    android:textColor="@color/mainTextColor"
+                    android:textStyle="bold"
+                    />
+            <TextView
+                    android:id="@+id/dessertContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dessertTitle"
+                    android:textSize="@dimen/contentFontSize"
+                    android:textColor="@color/mainTextColor"
+                    android:layout_marginLeft="@dimen/contentMarginLeft"
+                    />
+
+        </RelativeLayout>
+        <!--End Dessert-->
+
+    </RelativeLayout>
+    <!--End Only Element scrollView-->
+</ScrollView>
+<!--End body-->

@@ -6,8 +6,7 @@
     <uses-sdk android:minSdkVersion="19"/>
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
         <activity android:name="MainActivity"
-                  android:label="@string/app_name"
-                  android:launchMode="singleInstance">
+                  android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -15,5 +14,7 @@
         </activity>
         <activity android:name="MenuActivity"
                   android:label="@string/menuActivity"/>
+        <activity android:name=".SlideMenuActivity"/>
+        <activity android:name=".SlideMenuFragment"/>
     </application>
 </manifest>

@@ -71,7 +71,6 @@ public class MenuActivity extends Activity {
     }
 
     public void onClickPreviousButton(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        onBackPressed();
     }
 }

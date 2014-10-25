@@ -196,14 +196,14 @@ public class MainActivity extends Activity {
     public void onClickLunchButton(View view) {
         WeekModel.setCurrentMenuId(view.getId());
         WeekModel.setCurrentMenuIsLunch(true);
-        Intent intent = new Intent(this, MenuActivity.class);
+        Intent intent = new Intent(this, SlideMenuActivity.class);
         startActivity(intent);
     }
 
     public void onClickDinnerButton(View view) {
         WeekModel.setCurrentMenuId(view.getId());
         WeekModel.setCurrentMenuIsLunch(false);
-        Intent intent = new Intent(this, MenuActivity.class);
+        Intent intent = new Intent(this, SlideMenuActivity.class);
         startActivity(intent);
     }
 
@@ -214,7 +214,7 @@ public class MainActivity extends Activity {
             if(line.trim().length() > 1) {
                 result += (line.trim() + "\n");
             }
-        };
+        }
 
         //removes the last '\n'
         if(result.length() > 0)
