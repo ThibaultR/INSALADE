@@ -81,8 +81,6 @@ public class SlideMenuFragment extends Fragment {
         dessertTitle.setTypeface(nexaRust);
 
 
-
-        //DayModel currentDay = WeekModel.getWeekList().get(42).getWeek().get(WeekModel.getCurrentMenuId());// TODO : to generalize
         DayModel currentDay = WeekModel.getDayById(getPageNumber());// TODO : to generalize
         MenuModel currentMenu;
 

@@ -197,6 +197,7 @@ public class MainActivity extends Activity {
         WeekModel.setCurrentMenuId(view.getId());
         WeekModel.setCurrentMenuIsLunch(true);
         Intent intent = new Intent(this, SlideMenuActivity.class);
+        intent.putExtra("idPage", view.getId()*2);
         startActivity(intent);
     }
 
@@ -204,6 +205,7 @@ public class MainActivity extends Activity {
         WeekModel.setCurrentMenuId(view.getId());
         WeekModel.setCurrentMenuIsLunch(false);
         Intent intent = new Intent(this, SlideMenuActivity.class);
+        intent.putExtra("idPage", view.getId()*2 +1);
         startActivity(intent);
     }
 

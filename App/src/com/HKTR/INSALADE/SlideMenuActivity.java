@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import com.HKTR.INSALADE.model.DayModel;
@@ -38,6 +39,8 @@ public class SlideMenuActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_slide);
 
+        int indexPage = getIntent().getIntExtra("idPage",0);
+
         //Change header menu title font
         Typeface fontPacifico = Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf");
         TextView headerMenuTitle = (TextView) findViewById(R.id.headerMenuTitle);
@@ -49,10 +52,9 @@ public class SlideMenuActivity extends FragmentActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(indexPage);
 
-
-
-}
+    }
 
   /*  @Override
     public void onBackPressed() {
@@ -66,10 +68,7 @@ public class SlideMenuActivity extends FragmentActivity {
         }
     }*/
 
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -84,5 +83,11 @@ public class SlideMenuActivity extends FragmentActivity {
         public int getCount() {
             return NUM_PAGES;
         }
+    }
+
+
+
+    public void onClickPreviousButton(View view) {
+        onBackPressed();
     }
 }
