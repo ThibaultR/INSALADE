@@ -1,7 +1,8 @@
 package com.HKTR.INSALADE.model;
 
 /**
- * Created by Hyukchan on 22/10/2014.
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
 public class MenuModel {
     private String date;

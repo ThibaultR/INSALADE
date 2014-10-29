@@ -1,8 +1,10 @@
-# Use Python 3.2.5
+# We use Python 3.2.5
+# Need to DL pdfMiner and install it with "python setup.py install" (DL : http://www.unixuser.org/~euske/python/pdfminer/#download)
+# 
 # @author Hyukchan Kwon (hyukchan.k@gmail.com)
 # @author Thibault Rapin (thibault.rapin@gmail.com)
-# Need to DL pdfMiner and install it with "python setup.py install"
-# use with "python3 parser.py X.pdf PDFextract.html"
+# 
+# use script with "python3 parser.py X.pdf output.xml"
 
 import os
 import sys
@@ -12,7 +14,7 @@ import Cell
 import Menu
 
 if(len(sys.argv) != 3):
-    exit("Fatal Error: This script needs exactly 2 arguments: input file and output file.")
+    exit("Fatal Error: This script needs exactly 2 arguments: input file (.pdf) and output file (.xml).")
 
 
 # PDF to extract

@@ -12,9 +12,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="MenuActivity"
-                  android:label="@string/menuActivity"/>
-        <activity android:name=".SlideMenuActivity"/>
-        <activity android:name=".SlideMenuFragment"/>
+        <activity android:name=".SlideMenuActivity"
+                  android:label="@string/slideMenuActivity"/>
+        <activity android:name=".SlideMenuFragment"
+                  android:label="@string/slideMenuFragment"/>
     </application>
 </manifest>

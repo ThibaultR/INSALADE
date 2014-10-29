@@ -13,9 +13,13 @@ import android.view.Window;
 import android.widget.TextView;
 import com.HKTR.INSALADE.model.WeekModel;
 
+/**
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
+ */
 public class SlideMenuActivity extends FragmentActivity {
     /**
-     * The number of pages (wizard steps) to show in this demo.
+     * The number of pages (Number of week times seven days times two menus by day).
      */
     private static final int NUM_PAGES = WeekModel.getWeekList().size() * 7 * 2;
 
@@ -51,7 +55,6 @@ public class SlideMenuActivity extends FragmentActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(indexPage);
-
     }
 
     public void onClickPreviousMenu(View view) {
@@ -61,18 +64,6 @@ public class SlideMenuActivity extends FragmentActivity {
     public void onClickNextMenu(View view) {
         mPager.setCurrentItem(mPager.getCurrentItem() + 1);
     }
-
-  /*  @Override
-    public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
-        } else {
-            // Otherwise, select the previous step.
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-        }
-    }*/
 
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

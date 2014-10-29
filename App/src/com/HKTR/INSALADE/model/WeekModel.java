@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Hyukchan on 22/10/2014.
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
 public class WeekModel {
     private static HashMap<Integer, WeekModel> weekList = new HashMap<Integer, WeekModel>();
@@ -45,7 +46,16 @@ public class WeekModel {
         WeekModel.currentMenuIsLunch = currentMenuIsLunch;
     }
 
+
     public static DayModel getDayById(Integer id) {
-        return weekList.get(42).getWeek().get(id/2); //TODO : to Generalize
+        for(Integer weekNum : weekList.keySet()){
+            for(DayModel d : weekList.get(weekNum).getWeek()){
+                if(d.getDayNumber() == (id/2)){
+                    return d;
+                }
+            }
+        }
+
+        return new DayModel();
     }
 }

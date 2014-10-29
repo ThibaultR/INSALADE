@@ -1,6 +1,11 @@
-# Use Python 3.2.5
+# We use Python 3.2.5 (this script works with python 2)
+# Need to DL mechanize-0.2.5 and install it with "python setup.py install" (DL : http://wwwsearch.sourceforge.net/mechanize/download.html#source-code-release)
+# You need a file named pw.txt with for first line your intranet login and for second your password.
+#
 # @author Hyukchan Kwon (hyukchan.k@gmail.com)
 # @author Thibault Rapin (thibault.rapin@gmail.com)
+# 
+# use script with "python getMenu.py"
 
 import time
 import re

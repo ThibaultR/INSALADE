@@ -1,20 +1,19 @@
 package com.HKTR.INSALADE;
 
-import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.TextView;
 import com.HKTR.INSALADE.model.DayModel;
 import com.HKTR.INSALADE.model.MenuModel;
 import com.HKTR.INSALADE.model.WeekModel;
 
 /**
- * Created by Thibault on 25/10/2014.
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
 public class SlideMenuFragment extends Fragment {
     /**
@@ -81,7 +80,7 @@ public class SlideMenuFragment extends Fragment {
         dessertTitle.setTypeface(nexaRust);
 
 
-        DayModel currentDay = WeekModel.getDayById(getPageNumber());// TODO : to generalize
+        DayModel currentDay = WeekModel.getDayById(getPageNumber());
         MenuModel currentMenu;
 
         if(getPageNumber()%2 == 0) {

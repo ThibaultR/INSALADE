@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -24,9 +22,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
+ */
 public class MainActivity extends Activity {
     LinearLayout dayList;
     Typeface fontExistenceLight;
@@ -47,9 +50,28 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         dayList = (LinearLayout) findViewById(R.id.dayList);
         fontExistenceLight = Typeface.createFromAsset(getAssets(), "fonts/Existence-Light.otf");
-        currentWeekNumber = 42; // TODO : to generalize
         menuNumber = 0;
-        getMenus("menu42"); // TODO : to generalize
+
+
+        // Get menus from res/raw folder
+        Field[] menus = R.raw.class.getFields();
+
+        for(Field f : menus) {
+            String menuFileName = f.getName();
+            // Get week number from the name of the xml file (ex : menu42 return 42)
+            Pattern p;
+            Matcher m;
+            String weekNumString = "";
+            p = Pattern.compile("([\\d]+)");
+            m = p.matcher(menuFileName);
+            while (m.find()) {
+                weekNumString = m.group(1);
+            }
+            currentWeekNumber = Integer.valueOf(weekNumString);
+
+            getMenus(menuFileName);
+        }
+
     }
 
     public void getMenus(String file) {
@@ -120,6 +142,8 @@ public class MainActivity extends Activity {
                         Button dinnerButton = (Button) dayView.findViewWithTag("dinnerButton");
 
                         currentDay = new DayModel();
+                        currentDay.setWeekNumber(currentWeekNumber);
+                        currentDay.setDayNumber(menuNumber); //TODO : why ? o_O
 
                         String starterContent = removeWhiteSpaces(starter.getTextContent());
                         String mainCourseContent = removeWhiteSpaces(mainCourse.getTextContent());

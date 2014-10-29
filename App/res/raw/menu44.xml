@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<week>
+	<menu date="Lundi  27" when="0">
+		<starter>
+			Allumette au fromage
+			maquereau
+			½ pomelo
+			Betteraves
+			œuf mayonnaise
+			Charcuterie
+		</starter>
+		<maincourse>
+			Steack haché+ lasagnes
+			Confit de poule
+			Semoule / haricots beurre
+		</maincourse>
+		<dessert>
+			Yaourt
+			Flan pâtissier / fruit
+		</dessert>
+	</menu>
+	<menu date="Lundi  27" when="1">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Mardi  28" when="0">
+		<starter>
+			Terrine forestière
+			Salade à la feta
+			½ pomelo
+			œuf mayonnaise
+			Charcuterie
+		</starter>
+		<maincourse>
+			Râble de lapin aux pruneaux
+			Poisson du jour
+			Riz parfumé / gratin  de
+			courgette
+		</maincourse>
+		<dessert>
+			Yaourt
+			Roulé chocolat fruit
+		</dessert>
+	</menu>
+	<menu date="Mardi  28" when="1">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Mercredi  29" when="0">
+		<starter>
+			Carottes râpées
+			Tomate/celeri
+			½ pomelo
+			feuilleté
+			œuf mayonnaise
+			Charcuterie
+		</starter>
+		<maincourse>
+			Sauté de canard
+			Paupiette
+			Pates / Carottes/choux
+		</maincourse>
+		<dessert>
+			Yaourt
+			Quatre quart fruit
+		</dessert>
+	</menu>
+	<menu date="Mercredi  29" when="1">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Jeudi  30" when="0">
+		<starter>
+			Radis pate  de foie
+			Salade pomme carotte
+			Charcuterie
+			Ouf mayo
+			½ pomelo
+		</starter>
+		<maincourse>
+			Saucisse grillée
+			Steack bistrot
+			Frites / poèlée de légumes
+		</maincourse>
+		<dessert>
+			Yaourt
+			Mousse chocolat fruit
+		</dessert>
+	</menu>
+	<menu date="Jeudi  30" when="1">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Vendredi 31" when="0">
+		<starter>
+			Charcuterie
+			Tomates concombres
+			Champignon à la
+			crème
+			Salade bruxelloise
+			Bouchée fruits de mer
+			œuf mayonnaise
+		</starter>
+		<maincourse>
+			Filet de lieu sauce beurre blanc
+			Pintade forestière
+			Pommes vapeur / épinards a la
+			crème
+		</maincourse>
+		<dessert>
+			Yaourt
+			Glace fruit
+		</dessert>
+	</menu>
+	<menu date="Vendredi 31" when="1">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Samedi 01" when="0">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Samedi 01" when="1">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Dimanche 02" when="0">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+	<menu date="Dimanche 02" when="1">
+		<starter>
+		</starter>
+		<maincourse>
+		</maincourse>
+		<dessert>
+		</dessert>
+	</menu>
+</week>
