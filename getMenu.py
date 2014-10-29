@@ -10,6 +10,8 @@
 import time
 import re
 import mechanize
+import urllib2
+import os
 
 # To use date without datetime.date
 from datetime import date
@@ -26,8 +28,6 @@ print(currentDay)
 week_number = date(currentYear, currentMonth, currentDay).isocalendar()[1]
 
 print(week_number)
-
-file_name = 'menu'+str(week_number)+'.pdf'
 
 # Download file
 
@@ -48,7 +48,12 @@ br['password']=password
 br.method = "POST"
 response = br.submit() #At this point you should see the html for the page that loads after login
 
-fo = open(file_name, "w")
-fo.write(br.open('http://intranet.insa-rennes.fr/fileadmin/ressources_intranet/Restaurant/menu'+str(week_number)+'.pdf').get_data())
-
-fo.close()
+for index in range(week_number-2, week_number+2):
+    file_name = 'menu'+str(index)+'.pdf'
+    try:
+        fo = open(file_name, "w")
+        fo.write(br.open('http://intranet.insa-rennes.fr/fileadmin/ressources_intranet/Restaurant/menu'+str(index)+'.pdf').get_data())
+        fo.close()
+    except urllib2.HTTPError, e:
+        print e.code
+        os.remove(fo.name)
