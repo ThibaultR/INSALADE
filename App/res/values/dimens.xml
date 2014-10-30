@@ -17,4 +17,7 @@
     <dimen name="contentFontSize">25sp</dimen>
     <dimen name="hPreviousButton">40dp</dimen>
     <dimen name="hDateNavigationButton">30dp</dimen>
+    <dimen name="closedMenu">300dp</dimen>
+    <dimen name="hIconClosed">45dp</dimen>
+    <dimen name="wIconClosed">60dp</dimen>
 </resources>

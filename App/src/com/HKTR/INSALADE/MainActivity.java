@@ -2,13 +2,13 @@ package com.HKTR.INSALADE;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.*;
 import com.HKTR.INSALADE.model.DayModel;
 import com.HKTR.INSALADE.model.MenuModel;
 import com.HKTR.INSALADE.model.WeekModel;
@@ -38,6 +38,11 @@ public class MainActivity extends Activity {
     WeekModel currentWeek;
     Integer currentWeekNumber;
     Integer menuNumber;
+
+    FrameLayout currentDayView;
+    Button currentDayButton;
+    Button currentLunchButton;
+    Button currentDinnerButton;
 
     /**
      * Called when the activity is first created.
@@ -136,10 +141,10 @@ public class MainActivity extends Activity {
                         while (m.find()) { // Find each match in turn; String can't do this.
                             dateInt = m.group(1); // Access a submatch group; String can't do this.
                         }
-                        FrameLayout dayView = (FrameLayout) getLayoutInflater().inflate(R.layout.dayview_template, dayList, false);
-                        Button dayButton = (Button) dayView.findViewWithTag("dayButton");
-                        Button lunchButton = (Button) dayView.findViewWithTag("lunchButton");
-                        Button dinnerButton = (Button) dayView.findViewWithTag("dinnerButton");
+                        currentDayView = (FrameLayout) getLayoutInflater().inflate(R.layout.dayview_template, dayList, false);
+                        currentDayButton = (Button) currentDayView.findViewWithTag("dayButton");
+                        currentLunchButton = (Button) currentDayView.findViewWithTag("lunchButton");
+                        currentDinnerButton = (Button) currentDayView.findViewWithTag("dinnerButton");
 
                         currentDay = new DayModel();
                         currentDay.setWeekNumber(currentWeekNumber);
@@ -151,18 +156,18 @@ public class MainActivity extends Activity {
 
                         MenuModel lunch = new MenuModel(menu.getAttribute("date"), starterContent, mainCourseContent, dessertContent);
 
-                        dayButton.setText(dateStr + " " + dateInt);
-                        dayButton.setTypeface(fontExistenceLight);
+                        currentDayButton.setText(dateStr + " " + dateInt);
+                        currentDayButton.setTypeface(fontExistenceLight);
 
-                        lunchButton.setText(dateStr + " midi");
-                        lunchButton.setTypeface(fontExistenceLight);
-                        lunchButton.setId(menuNumber);
+                        currentLunchButton.setText(dateStr + " midi");
+                        currentLunchButton.setTypeface(fontExistenceLight);
+                        currentLunchButton.setId(menuNumber);
 
-                        dinnerButton.setText(dateStr + " soir");
-                        dinnerButton.setTypeface(fontExistenceLight);
-                        dinnerButton.setId(menuNumber++);
+                        currentDinnerButton.setText(dateStr + " soir");
+                        currentDinnerButton.setTypeface(fontExistenceLight);
+                        currentDinnerButton.setId(menuNumber++);
 
-                        dayList.addView(dayView);
+                        dayList.addView(currentDayView);
 
                         currentDay.setLunch(lunch);
                     } else {
@@ -175,6 +180,32 @@ public class MainActivity extends Activity {
 
                         currentDay.setDinner(dinner);
                         currentWeek.getWeek().add(currentDay);
+
+                        //adds "closed" icons if there is no menu
+
+
+                        if(currentDay.isClosed()) {
+                            ImageView closed = (ImageView) getLayoutInflater().inflate(R.layout.iconclosed_template, currentDayView, false);
+                            closed.setTag("dayButtonClosedIcon");
+                            closed.setVisibility(View.VISIBLE);
+                            currentDayView.addView(closed);
+                        }
+
+                        if(currentDay.getLunch().isClosed()) {
+                            ImageView closedLunch = (ImageView) getLayoutInflater().inflate(R.layout.iconclosed_template, currentDayView, false);
+                            closedLunch.setTag("lunchButtonClosedIcon");
+                            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) closedLunch.getLayoutParams();
+                            params. bottomMargin = dpToPx(50);
+                            closedLunch.setLayoutParams(params);
+                            currentDayView.addView(closedLunch);
+                        }
+
+                        if(currentDay.getDinner().isClosed()) {
+                            ImageView closedDinner = (ImageView) getLayoutInflater().inflate(R.layout.iconclosed_template, currentDayView, false);
+                            closedDinner.setTag("dinnerButtonClosedIcon");
+                            closedDinner.setBackgroundColor(getResources().getColor(R.color.tileBackgroundDarker));
+                            currentDayView.addView(closedDinner);
+                        }
                     }
 
                     //print a menu
@@ -201,36 +232,74 @@ public class MainActivity extends Activity {
     }
 
     public void onClickDayButton(View view) {
-        if( lastDayView != null ) {
-            Button lunchButton = (Button) lastDayView.findViewWithTag("lunchButton");
-            Button dinnerButton = (Button) lastDayView.findViewWithTag("dinnerButton");
-            lunchButton.setVisibility(View.GONE);
-            dinnerButton.setVisibility(View.GONE);
-        }
-
         FrameLayout dayView = (FrameLayout) view.getParent();
-        lastDayView = dayView;
-        Button lunchButton = (Button) dayView.findViewWithTag("lunchButton");
-        Button dinnerButton = (Button) dayView.findViewWithTag("dinnerButton");
-        lunchButton.setVisibility(View.VISIBLE);
-        dinnerButton.setVisibility(View.VISIBLE);
+
+        ImageView dayButtonClosedIcon = (ImageView) dayView.findViewWithTag("dayButtonClosedIcon");
+
+        //if it is closed for that day, than do not react at the click
+        if(dayButtonClosedIcon == null) {
+            if (lastDayView != null) {
+                Button lunchButton = (Button) lastDayView.findViewWithTag("lunchButton");
+                Button dinnerButton = (Button) lastDayView.findViewWithTag("dinnerButton");
+                lunchButton.setVisibility(View.GONE);
+                dinnerButton.setVisibility(View.GONE);
+
+                ImageView lunchButtonClosedIcon = (ImageView) lastDayView.findViewWithTag("lunchButtonClosedIcon");
+                if (lunchButtonClosedIcon != null) {
+                    lunchButtonClosedIcon.setVisibility(View.GONE);
+                }
+                ImageView dinnerButtonClosedIcon = (ImageView) lastDayView.findViewWithTag("dinnerButtonClosedIcon");
+                if (dinnerButtonClosedIcon != null) {
+                    dinnerButtonClosedIcon.setVisibility(View.GONE);
+                }
+            }
+
+
+            lastDayView = dayView;
+            Button lunchButton = (Button) dayView.findViewWithTag("lunchButton");
+            Button dinnerButton = (Button) dayView.findViewWithTag("dinnerButton");
+            lunchButton.setVisibility(View.VISIBLE);
+
+            ImageView lunchButtonClosedIcon = (ImageView) dayView.findViewWithTag("lunchButtonClosedIcon");
+            if (lunchButtonClosedIcon != null) {
+                lunchButtonClosedIcon.setVisibility(View.VISIBLE);
+            }
+            dinnerButton.setVisibility(View.VISIBLE);
+
+            ImageView dinnerButtonClosedIcon = (ImageView) dayView.findViewWithTag("dinnerButtonClosedIcon");
+            if (dinnerButtonClosedIcon != null) {
+                dinnerButtonClosedIcon.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
 
     public void onClickLunchButton(View view) {
-        WeekModel.setCurrentMenuId(view.getId());
-        WeekModel.setCurrentMenuIsLunch(true);
-        Intent intent = new Intent(this, SlideMenuActivity.class);
-        intent.putExtra("idPage", view.getId()*2);
-        startActivity(intent);
+        FrameLayout dayView = (FrameLayout) view.getParent();
+        ImageView lunchButtonClosedIcon = (ImageView) dayView.findViewWithTag("lunchButtonClosedIcon");
+
+        //if it is closed for that lunch, than do not react at the click
+        if(lunchButtonClosedIcon == null) {
+            WeekModel.setCurrentMenuId(view.getId());
+            WeekModel.setCurrentMenuIsLunch(true);
+            Intent intent = new Intent(this, SlideMenuActivity.class);
+            intent.putExtra("idPage", view.getId()*2);
+            startActivity(intent);
+        }
     }
 
     public void onClickDinnerButton(View view) {
-        WeekModel.setCurrentMenuId(view.getId());
-        WeekModel.setCurrentMenuIsLunch(false);
-        Intent intent = new Intent(this, SlideMenuActivity.class);
-        intent.putExtra("idPage", view.getId()*2 +1);
-        startActivity(intent);
+        FrameLayout dayView = (FrameLayout) view.getParent();
+        ImageView dinnerButtonClosedIcon = (ImageView) dayView.findViewWithTag("dinnerButtonClosedIcon");
+
+        //if it is closed for that lunch, than do not react at the click
+        if(dinnerButtonClosedIcon == null) {
+            WeekModel.setCurrentMenuId(view.getId());
+            WeekModel.setCurrentMenuIsLunch(false);
+            Intent intent = new Intent(this, SlideMenuActivity.class);
+            intent.putExtra("idPage", view.getId() * 2 + 1);
+            startActivity(intent);
+        }
     }
 
     public String removeWhiteSpaces(String input) {
@@ -247,5 +316,10 @@ public class MainActivity extends Activity {
             result = result.substring(0, result.length()-1);
 
         return result;
+    }
+
+    public static int dpToPx(int dp)
+    {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }

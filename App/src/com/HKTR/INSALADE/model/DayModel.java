@@ -42,4 +42,7 @@ public class DayModel {
         this.dayNumber = dayNumber;
     }
 
+    public boolean isClosed() {
+        return lunch.isClosed() && dinner.isClosed();
+    }
 }

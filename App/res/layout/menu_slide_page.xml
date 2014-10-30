@@ -15,6 +15,7 @@
 
     <!--Start Only Element scrollView-->
     <RelativeLayout
+            android:id="@+id/menuContent"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@color/mainColor"

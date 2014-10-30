@@ -32,4 +32,8 @@ public class MenuModel {
     public String getDessert() {
         return dessert;
     }
+
+    public boolean isClosed() {
+        return starter.trim().length() < 3 || mainCourse.trim().length() < 3 || dessert.trim().length() < 3;
+    }
 }
