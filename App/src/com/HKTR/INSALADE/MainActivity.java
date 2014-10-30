@@ -232,74 +232,56 @@ public class MainActivity extends Activity {
     }
 
     public void onClickDayButton(View view) {
+        if (lastDayView != null) {
+            Button lunchButton = (Button) lastDayView.findViewWithTag("lunchButton");
+            Button dinnerButton = (Button) lastDayView.findViewWithTag("dinnerButton");
+            lunchButton.setVisibility(View.GONE);
+            dinnerButton.setVisibility(View.GONE);
+
+            ImageView lunchButtonClosedIcon = (ImageView) lastDayView.findViewWithTag("lunchButtonClosedIcon");
+            if (lunchButtonClosedIcon != null) {
+                lunchButtonClosedIcon.setVisibility(View.GONE);
+            }
+            ImageView dinnerButtonClosedIcon = (ImageView) lastDayView.findViewWithTag("dinnerButtonClosedIcon");
+            if (dinnerButtonClosedIcon != null) {
+                dinnerButtonClosedIcon.setVisibility(View.GONE);
+            }
+        }
+
         FrameLayout dayView = (FrameLayout) view.getParent();
 
-        ImageView dayButtonClosedIcon = (ImageView) dayView.findViewWithTag("dayButtonClosedIcon");
+        lastDayView = dayView;
+        Button lunchButton = (Button) dayView.findViewWithTag("lunchButton");
+        Button dinnerButton = (Button) dayView.findViewWithTag("dinnerButton");
+        lunchButton.setVisibility(View.VISIBLE);
 
-        //if it is closed for that day, than do not react at the click
-        if(dayButtonClosedIcon == null) {
-            if (lastDayView != null) {
-                Button lunchButton = (Button) lastDayView.findViewWithTag("lunchButton");
-                Button dinnerButton = (Button) lastDayView.findViewWithTag("dinnerButton");
-                lunchButton.setVisibility(View.GONE);
-                dinnerButton.setVisibility(View.GONE);
+        ImageView lunchButtonClosedIcon = (ImageView) dayView.findViewWithTag("lunchButtonClosedIcon");
+        if (lunchButtonClosedIcon != null) {
+            lunchButtonClosedIcon.setVisibility(View.VISIBLE);
+        }
+        dinnerButton.setVisibility(View.VISIBLE);
 
-                ImageView lunchButtonClosedIcon = (ImageView) lastDayView.findViewWithTag("lunchButtonClosedIcon");
-                if (lunchButtonClosedIcon != null) {
-                    lunchButtonClosedIcon.setVisibility(View.GONE);
-                }
-                ImageView dinnerButtonClosedIcon = (ImageView) lastDayView.findViewWithTag("dinnerButtonClosedIcon");
-                if (dinnerButtonClosedIcon != null) {
-                    dinnerButtonClosedIcon.setVisibility(View.GONE);
-                }
-            }
-
-
-            lastDayView = dayView;
-            Button lunchButton = (Button) dayView.findViewWithTag("lunchButton");
-            Button dinnerButton = (Button) dayView.findViewWithTag("dinnerButton");
-            lunchButton.setVisibility(View.VISIBLE);
-
-            ImageView lunchButtonClosedIcon = (ImageView) dayView.findViewWithTag("lunchButtonClosedIcon");
-            if (lunchButtonClosedIcon != null) {
-                lunchButtonClosedIcon.setVisibility(View.VISIBLE);
-            }
-            dinnerButton.setVisibility(View.VISIBLE);
-
-            ImageView dinnerButtonClosedIcon = (ImageView) dayView.findViewWithTag("dinnerButtonClosedIcon");
-            if (dinnerButtonClosedIcon != null) {
-                dinnerButtonClosedIcon.setVisibility(View.VISIBLE);
-            }
+        ImageView dinnerButtonClosedIcon = (ImageView) dayView.findViewWithTag("dinnerButtonClosedIcon");
+        if (dinnerButtonClosedIcon != null) {
+            dinnerButtonClosedIcon.setVisibility(View.VISIBLE);
         }
     }
 
 
     public void onClickLunchButton(View view) {
-        FrameLayout dayView = (FrameLayout) view.getParent();
-        ImageView lunchButtonClosedIcon = (ImageView) dayView.findViewWithTag("lunchButtonClosedIcon");
-
-        //if it is closed for that lunch, than do not react at the click
-        if(lunchButtonClosedIcon == null) {
-            WeekModel.setCurrentMenuId(view.getId());
-            WeekModel.setCurrentMenuIsLunch(true);
-            Intent intent = new Intent(this, SlideMenuActivity.class);
-            intent.putExtra("idPage", view.getId()*2);
-            startActivity(intent);
-        }
+        WeekModel.setCurrentMenuId(view.getId());
+        WeekModel.setCurrentMenuIsLunch(true);
+        Intent intent = new Intent(this, SlideMenuActivity.class);
+        intent.putExtra("idPage", view.getId()*2);
+        startActivity(intent);
     }
 
     public void onClickDinnerButton(View view) {
-        FrameLayout dayView = (FrameLayout) view.getParent();
-        ImageView dinnerButtonClosedIcon = (ImageView) dayView.findViewWithTag("dinnerButtonClosedIcon");
-
-        //if it is closed for that lunch, than do not react at the click
-        if(dinnerButtonClosedIcon == null) {
-            WeekModel.setCurrentMenuId(view.getId());
-            WeekModel.setCurrentMenuIsLunch(false);
-            Intent intent = new Intent(this, SlideMenuActivity.class);
-            intent.putExtra("idPage", view.getId() * 2 + 1);
-            startActivity(intent);
-        }
+        WeekModel.setCurrentMenuId(view.getId());
+        WeekModel.setCurrentMenuIsLunch(false);
+        Intent intent = new Intent(this, SlideMenuActivity.class);
+        intent.putExtra("idPage", view.getId() * 2 + 1);
+        startActivity(intent);
     }
 
     public String removeWhiteSpaces(String input) {
