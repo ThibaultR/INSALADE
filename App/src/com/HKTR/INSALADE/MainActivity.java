@@ -182,14 +182,6 @@ public class MainActivity extends Activity {
                         currentDayButton.setText(dateStr + " " + dateInt);
                         currentDayButton.setTypeface(fontExistenceLight);
 
-                        //if current day is today, set a tag for default scroll
-                        DateFormat df = new SimpleDateFormat("dd");
-                        Date today = new Date();
-                        if(df.format(today).equals(dateInt)) {
-                            currentDayView.setTag("today");
-                            currentDayButton.setText("Aujourd'hui");
-                        }
-
                         currentLunchButton.setText(dateStr + " midi");
                         currentLunchButton.setTypeface(fontExistenceLight);
                         currentLunchButton.setId(menuNumber);
@@ -197,6 +189,16 @@ public class MainActivity extends Activity {
                         currentDinnerButton.setText(dateStr + " soir");
                         currentDinnerButton.setTypeface(fontExistenceLight);
                         currentDinnerButton.setId(menuNumber++);
+
+                        //if current day is today, set a tag for default scroll
+                        DateFormat df = new SimpleDateFormat("dd");
+                        Date today = new Date();
+                        if(df.format(today).equals(dateInt)) {
+                            currentDayView.setTag("today");
+                            currentDayButton.setText("Aujourd'hui");
+                            currentLunchButton.setText("Ce midi");
+                            currentDinnerButton.setText("Ce soir");
+                        }
 
                         dayList.addView(currentDayView);
 
