@@ -21,14 +21,16 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.HKTR.INSALADE.XmlFileGetter.*;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
@@ -40,7 +42,7 @@ public class MainActivity extends Activity {
     FrameLayout lastDayView;
     DayModel currentDay;
     WeekModel currentWeek;
-    Integer currentWeekNumber;
+    Integer currentWeekNumber = 0;
     Integer menuNumber;
 
     FrameLayout currentDayView;
@@ -61,11 +63,14 @@ public class MainActivity extends Activity {
         fontExistenceLight = Typeface.createFromAsset(getAssets(), "fonts/Existence-Light.otf");
         menuNumber = 0;
 
+        // Get menus from internet if possible
+        getXmlFiles();
 
-        // Get menus from res/raw folder
-        Field[] menus = R.raw.class.getFields();
+        // Get menus list from intern storage
+        File[] menus = getFilesDir().listFiles();
 
-        for(Field f : menus) {
+        // Loop on all files to get content
+        for(File f : menus) {
             String menuFileName = f.getName();
             // Get week number from the name of the xml file (ex : menu42 return 42)
             Pattern p;
@@ -77,26 +82,23 @@ public class MainActivity extends Activity {
                 weekNumString = m.group(1);
             }
 
-            //gets only last week, current week, and next week's menus
-            currentWeekNumber = Integer.valueOf(weekNumString);
-            Calendar now = Calendar.getInstance();
-            int todayWeekNumber = now.get(Calendar.WEEK_OF_YEAR);
-
-            if(Math.abs(currentWeekNumber - todayWeekNumber) <= 1) {
+            if (weekNumString.length() > 0) {
+                currentWeekNumber = Integer.valueOf(weekNumString);
                 getMenus(menuFileName);
             }
-
-            final FrameLayout todayButton = (FrameLayout) dayList.findViewWithTag("today");
-            if(todayButton != null) {
-                final ScrollView scrollView = (ScrollView) dayList.getParent();
-                scrollView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollView.smoothScrollTo(0, todayButton.getTop());
-                    }
-                });
-            }
         }
+
+        final FrameLayout todayButton = (FrameLayout) dayList.findViewWithTag("today");
+        if(todayButton != null) {
+            final ScrollView scrollView = (ScrollView) dayList.getParent();
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.smoothScrollTo(0, todayButton.getTop());
+                }
+            });
+        }
+
     }
 
     public void getMenus(String file) {
@@ -108,21 +110,11 @@ public class MainActivity extends Activity {
             final DocumentBuilder builder = factory.newDocumentBuilder();
 
             //Step 3 : getting the XML document
-            int fileId = getResources().getIdentifier(file, "raw", this.getPackageName());
-            final Document document= builder.parse(getResources().openRawResource(fileId));
-
-            //Affiche du prologue
-            System.out.println("*************PROLOGUE************");
-            System.out.println("version : " + document.getXmlVersion());
-            System.out.println("encodage : " + document.getXmlEncoding());
-            System.out.println("standalone : " + document.getXmlStandalone());
+            InputStream xmlFile = openFileInput(file);
+            final Document document = builder.parse(xmlFile);
 
             //Step 4 : getting the root element
             final Element racine = document.getDocumentElement();
-
-            //Print the root element
-            System.out.println("\n*************RACINE************");
-            System.out.println(racine.getNodeName());
 
             //Step 5 : getting menus
             final NodeList racineNoeuds = racine.getChildNodes();
@@ -240,16 +232,6 @@ public class MainActivity extends Activity {
                             currentDayView.addView(closedDinner);
                         }
                     }
-
-                    //print a menu
-                    System.out.println("\n*************MENU************");
-                    System.out.println("date : " + menu.getAttribute("date"));
-                    System.out.println("when : " + menu.getAttribute("when"));
-
-                    //print starter, mainCourse and dessert
-                    System.out.println("starer : " + starter.getTextContent());
-                    System.out.println("mainCourse : " + mainCourse.getTextContent());
-                    System.out.println("dessert : " + dessert.getTextContent());
                 }
             }
         }
@@ -350,4 +332,47 @@ public class MainActivity extends Activity {
             });
         }
     }
+
+    public void getXmlFiles(){
+        String[] urls = getUrls(getApplicationContext());
+
+        // Execute File Downloader
+        final DownloadTask downloadTask = new DownloadTask(MainActivity.this);
+        downloadTask.execute(urls);
+
+        // Remove old files
+        Boolean currentWeekMenu = false;
+        File[] listFiles = getFilesDir().listFiles();
+        for(int i = 0; i<listFiles.length;i++) {
+            Pattern p;
+            Matcher m;
+            String number = "";
+            p = Pattern.compile("([\\d]+)");
+            m = p.matcher(listFiles[i].getName());
+            while (m.find()) {
+                number = m.group(1);
+            }
+            if(number.length() > 0){
+                // if old -> remove
+                if( Integer.valueOf(number) <= weekNumber-2 ) {
+                    listFiles[i].delete();
+                }
+                // is currentWeekMenu present
+                if(Integer.valueOf(number) == weekNumber) {
+                    currentWeekMenu = true;
+                }
+            }
+        }
+
+        // Toast if current Week Menu hasn't been downloaded
+        if(!currentWeekMenu){
+            if(isOnline(getApplicationContext())){
+                Toast.makeText(getApplicationContext(), "Menu de la semaine non disponible sur l'intranet...", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Menu de la semaine non disponible, vérifiez votre connexion", Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
+
 }
