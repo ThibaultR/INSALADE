@@ -16,6 +16,7 @@
             android:layout_height="@dimen/hHeader"
             android:src="@drawable/header_logo"
             android:layout_marginBottom="@dimen/elementVerticalMargin"
+            android:onClick="onClickHeaderLogo"
             />
 
     <ScrollView

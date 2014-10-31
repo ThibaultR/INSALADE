@@ -23,6 +23,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,11 +76,27 @@ public class MainActivity extends Activity {
             while (m.find()) {
                 weekNumString = m.group(1);
             }
+
+            //gets only last week, current week, and next week's menus
             currentWeekNumber = Integer.valueOf(weekNumString);
+            Calendar now = Calendar.getInstance();
+            int todayWeekNumber = now.get(Calendar.WEEK_OF_YEAR);
 
-            getMenus(menuFileName);
+            if(Math.abs(currentWeekNumber - todayWeekNumber) <= 1) {
+                getMenus(menuFileName);
+            }
+
+            final FrameLayout todayButton = (FrameLayout) dayList.findViewWithTag("today");
+            if(todayButton != null) {
+                final ScrollView scrollView = (ScrollView) dayList.getParent();
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.smoothScrollTo(0, todayButton.getTop());
+                    }
+                });
+            }
         }
-
     }
 
     public void getMenus(String file) {
@@ -141,7 +161,9 @@ public class MainActivity extends Activity {
                         while (m.find()) { // Find each match in turn; String can't do this.
                             dateInt = m.group(1); // Access a submatch group; String can't do this.
                         }
+
                         currentDayView = (FrameLayout) getLayoutInflater().inflate(R.layout.dayview_template, dayList, false);
+
                         currentDayButton = (Button) currentDayView.findViewWithTag("dayButton");
                         currentLunchButton = (Button) currentDayView.findViewWithTag("lunchButton");
                         currentDinnerButton = (Button) currentDayView.findViewWithTag("dinnerButton");
@@ -156,8 +178,17 @@ public class MainActivity extends Activity {
 
                         MenuModel lunch = new MenuModel(menu.getAttribute("date"), starterContent, mainCourseContent, dessertContent);
 
+
                         currentDayButton.setText(dateStr + " " + dateInt);
                         currentDayButton.setTypeface(fontExistenceLight);
+
+                        //if current day is today, set a tag for default scroll
+                        DateFormat df = new SimpleDateFormat("dd");
+                        Date today = new Date();
+                        if(df.format(today).equals(dateInt)) {
+                            currentDayView.setTag("today");
+                            currentDayButton.setText("Aujourd'hui");
+                        }
 
                         currentLunchButton.setText(dateStr + " midi");
                         currentLunchButton.setTypeface(fontExistenceLight);
@@ -303,5 +334,18 @@ public class MainActivity extends Activity {
     public static int dpToPx(int dp)
     {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public void onClickHeaderLogo(View view) {
+        final FrameLayout todayButton = (FrameLayout) dayList.findViewWithTag("today");
+        if(todayButton != null) {
+            final ScrollView scrollView = (ScrollView) dayList.getParent();
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.smoothScrollTo(0, todayButton.getTop());
+                }
+            });
+        }
     }
 }
