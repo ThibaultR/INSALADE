@@ -49,7 +49,7 @@ br.method = "POST"
 response = br.submit() #At this point you should see the html for the page that loads after login
 
 for index in range(week_number-2, week_number+2):
-    file_name = 'menu'+str(index)+'.pdf'
+    file_name = 'pdf/menu'+str(index)+'.pdf'
     try:
         fo = open(file_name, "w")
         fo.write(br.open('http://intranet.insa-rennes.fr/fileadmin/ressources_intranet/Restaurant/menu'+str(index)+'.pdf').get_data())

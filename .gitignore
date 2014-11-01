@@ -46,6 +46,9 @@ Ressources/*
 
 *.pyc
 *.pdf
+*.xml
+pdf/*
+xml/*
 
 App/App.iml
 App/build.xml
