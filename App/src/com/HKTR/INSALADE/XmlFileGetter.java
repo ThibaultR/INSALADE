@@ -3,7 +3,7 @@ package com.HKTR.INSALADE;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
-import android.os.PowerManager;
+
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -18,6 +18,7 @@ import java.util.Calendar;
  */
 public class XmlFileGetter {
     static int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+    static Boolean currentWeekMenu = false;
 
     public static String[] getUrls(Context context) {
         ArrayList<String> urls = new ArrayList<String>();
@@ -34,6 +35,7 @@ public class XmlFileGetter {
         return urls.toArray(new String[urls.size()]);
     }
 
+
     public static boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -44,7 +46,6 @@ public class XmlFileGetter {
     static class DownloadTask extends AsyncTask<String, Integer, String> {
 
         private Context context;
-        private PowerManager.WakeLock mWakeLock;
 
         public DownloadTask(Context context) {
             this.context = context;
@@ -64,7 +65,8 @@ public class XmlFileGetter {
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = bufferedReader.readLine()) != null) {
-                        sb.append(line);
+
+                        sb.append(line + "\n");
                     }
                     bufferedReader.close();
                     inputStreamReader.close();
@@ -72,7 +74,7 @@ public class XmlFileGetter {
                     String fileText = sb.toString();
 
                     // write in file
-                    FileOutputStream fileOutputStream = context.openFileOutput("menu"+(weekNumber+i-1), Context.MODE_PRIVATE);
+                    FileOutputStream fileOutputStream = context.openFileOutput("menu" + (weekNumber + i - 1), Context.MODE_PRIVATE);
                     fileOutputStream.write(fileText.getBytes());
                     fileOutputStream.close();
 
@@ -82,7 +84,6 @@ public class XmlFileGetter {
                     e.printStackTrace();
                 }
             }
-
             return null;
         }
 

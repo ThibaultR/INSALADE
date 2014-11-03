@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -340,8 +346,22 @@ public class MainActivity extends Activity {
         final DownloadTask downloadTask = new DownloadTask(MainActivity.this);
         downloadTask.execute(urls);
 
+        int k = 0;
+        while(! (new ArrayList(Arrays.asList(getFilesDir().list()))).contains("menu"+weekNumber) && k<10){
+            try {
+                downloadTask.get(1000, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            }
+
+            k++;
+        }
+
         // Remove old files
-        Boolean currentWeekMenu = false;
         File[] listFiles = getFilesDir().listFiles();
         for(int i = 0; i<listFiles.length;i++) {
             Pattern p;
@@ -364,6 +384,7 @@ public class MainActivity extends Activity {
             }
         }
 
+
         // Toast if current Week Menu hasn't been downloaded
         if(!currentWeekMenu){
             if(isOnline(getApplicationContext())){
@@ -374,5 +395,4 @@ public class MainActivity extends Activity {
 
         }
     }
-
 }
