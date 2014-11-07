@@ -48,14 +48,14 @@ public class SlideMenuActivity extends FragmentActivity {
         TextView headerMenuTitle = (TextView) findViewById(R.id.headerMenuTitle);
         headerMenuTitle.setTypeface(fontPacifico);
 
-
-
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(indexPage);
     }
+
+
 
     public void onClickPreviousMenu(View view) {
         mPager.setCurrentItem(mPager.getCurrentItem() - 1);
@@ -81,7 +81,6 @@ public class SlideMenuActivity extends FragmentActivity {
             return NUM_PAGES;
         }
     }
-
 
 
     public void onClickPreviousButton(View view) {

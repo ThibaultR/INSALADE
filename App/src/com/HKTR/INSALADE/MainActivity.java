@@ -76,7 +76,9 @@ public class MainActivity extends Activity {
     }
 
 
-    @Override protected void onResume() {
+    @Override protected void onStart() {
+        menuNumber = 0;
+        Log.e("start", "start");
         super.onResume();
         dayList.removeAllViews();
         // Get menus from internet if possible
@@ -122,6 +124,11 @@ public class MainActivity extends Activity {
                 }
             });
         }
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        Log.e("resume","resume");
     }
 
     public void getMenus(String file) {

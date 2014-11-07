@@ -1,5 +1,7 @@
 package com.HKTR.INSALADE.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,6 +52,7 @@ public class WeekModel {
     public static DayModel getDayById(Integer id) {
         for(Integer weekNum : weekList.keySet()){
             for(DayModel d : weekList.get(weekNum).getWeek()){
+                Log.w("dayNumber: ", (d.getDayNumber()).toString());
                 if(d.getDayNumber() == (id/2)){
                     return d;
                 }
