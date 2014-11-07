@@ -20,4 +20,5 @@
     <dimen name="closedMenu">300dp</dimen>
     <dimen name="hIconClosed">45dp</dimen>
     <dimen name="wIconClosed">60dp</dimen>
+    <dimen name="weekSeparatorPadding">15dp</dimen>
 </resources>

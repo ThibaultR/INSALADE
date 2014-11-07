@@ -6,4 +6,5 @@
     <color name="headerMenuFontColor">#FFFFFF</color>
     <color name="dateMenuFontColor">#FFFFFF</color>
     <color name="mainTextColor">#FFFFFF</color>
+    <color name="weekSeparatorFontColor">#FFFFFF</color>
 </resources>

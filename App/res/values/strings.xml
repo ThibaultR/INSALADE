@@ -6,4 +6,5 @@
     <string name="dessert">Desserts</string>
     <string name="slideMenuActivity">SlideMenuActivity</string>
     <string name="slideMenuFragment">SlideMenuFragment</string>
+    <string name="semaine">Semaine</string>
 </resources>

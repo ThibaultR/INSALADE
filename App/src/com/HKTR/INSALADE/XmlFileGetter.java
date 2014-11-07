@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
@@ -24,9 +26,9 @@ public class XmlFileGetter {
         ArrayList<String> urls = new ArrayList<String>();
         String[]  existingFiles = context.getFilesDir().list();
         ArrayList existingFilesList = new ArrayList(Arrays.asList(existingFiles));
-        String URL = "http://37.59.123.110/INSALADE/XmlMenus/menu";
+        String URL = "http://37.59.123.110/INSALADE/debug/menu";
 
-        for(int i = weekNumber-1; i<weekNumber+3; i++){
+        for(int i = weekNumber; i<weekNumber+3; i++){
             if(!(existingFilesList.contains("menu"+i))) {
                 urls.add(URL + i + ".xml");
             }
@@ -73,8 +75,11 @@ public class XmlFileGetter {
                     inputStream.close();
                     String fileText = sb.toString();
 
+
+                    String weekNumString = getWeekNumberFromPattern(sUrl[i],"menu([\\d]+)\\.xml");
+
                     // write in file
-                    FileOutputStream fileOutputStream = context.openFileOutput("menu" + (weekNumber + i - 1), Context.MODE_PRIVATE);
+                    FileOutputStream fileOutputStream = context.openFileOutput("menu" + weekNumString, Context.MODE_PRIVATE);
                     fileOutputStream.write(fileText.getBytes());
                     fileOutputStream.close();
 
@@ -87,5 +92,17 @@ public class XmlFileGetter {
             return null;
         }
 
+    }
+
+    static String getWeekNumberFromPattern(String s, String pattern){
+        Pattern p;
+        Matcher m;
+        String weekNumString = "";
+        p = Pattern.compile(pattern);
+        m = p.matcher(s);
+        while (m.find()) {
+            weekNumString = m.group(1);
+        }
+        return weekNumString;
     }
 }

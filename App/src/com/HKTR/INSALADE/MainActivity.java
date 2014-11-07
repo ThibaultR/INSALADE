@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -45,6 +46,7 @@ import static com.HKTR.INSALADE.XmlFileGetter.*;
 public class MainActivity extends Activity {
     LinearLayout dayList;
     Typeface fontExistenceLight;
+    Typeface latoBold;
     FrameLayout lastDayView;
     DayModel currentDay;
     WeekModel currentWeek;
@@ -55,6 +57,8 @@ public class MainActivity extends Activity {
     Button currentDayButton;
     Button currentLunchButton;
     Button currentDinnerButton;
+
+    TextView weekSeparatorView;
 
     /**
      * Called when the activity is first created.
@@ -67,29 +71,43 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         dayList = (LinearLayout) findViewById(R.id.dayList);
         fontExistenceLight = Typeface.createFromAsset(getAssets(), "fonts/Existence-Light.otf");
+        latoBold = Typeface.createFromAsset(getAssets(), "fonts/Lato-Bold.ttf");
         menuNumber = 0;
+    }
 
+
+    @Override protected void onResume() {
+        super.onResume();
+        dayList.removeAllViews();
         // Get menus from internet if possible
         getXmlFiles();
 
         // Get menus list from intern storage
         File[] menus = getFilesDir().listFiles();
+        Arrays.sort(menus);
 
+        Boolean isFirstWeek = true;
         // Loop on all files to get content
         for(File f : menus) {
+            Log.e("plop", f.getName());
             String menuFileName = f.getName();
             // Get week number from the name of the xml file (ex : menu42 return 42)
-            Pattern p;
-            Matcher m;
-            String weekNumString = "";
-            p = Pattern.compile("([\\d]+)");
-            m = p.matcher(menuFileName);
-            while (m.find()) {
-                weekNumString = m.group(1);
-            }
+            String weekNumString = getWeekNumberFromPattern(menuFileName, "([\\d]+)");
 
             if (weekNumString.length() > 0) {
                 currentWeekNumber = Integer.valueOf(weekNumString);
+                //add WeekSeparator
+
+                weekSeparatorView = (TextView) getLayoutInflater().inflate(R.layout.weekseparator_template, dayList, false);
+                weekSeparatorView.setTypeface(latoBold);
+                if (isFirstWeek){
+                    weekSeparatorView.setText("Cette semaine");
+                    isFirstWeek = false;
+                } else {
+                    weekSeparatorView.setText("Semaine "+currentWeekNumber);
+                }
+                dayList.addView(weekSeparatorView);
+
                 getMenus(menuFileName);
             }
         }
@@ -104,7 +122,6 @@ public class MainActivity extends Activity {
                 }
             });
         }
-
     }
 
     public void getMenus(String file) {
@@ -136,7 +153,7 @@ public class MainActivity extends Activity {
 
                     String date = menu.getAttribute("date");
                     String dateStr = "";
-                    String dateInt = "";
+                    String dateInt;
                     Pattern p;
                     Matcher m;
 
@@ -154,11 +171,7 @@ public class MainActivity extends Activity {
                         }
 
                         // get date int (ex: 12)
-                        p = Pattern.compile("([\\d]+)");
-                        m = p.matcher(date);
-                        while (m.find()) { // Find each match in turn; String can't do this.
-                            dateInt = m.group(1); // Access a submatch group; String can't do this.
-                        }
+                        dateInt = getWeekNumberFromPattern(date, "([\\d]+)");
 
                         currentDayView = (FrameLayout) getLayoutInflater().inflate(R.layout.dayview_template, dayList, false);
 
@@ -364,17 +377,12 @@ public class MainActivity extends Activity {
         // Remove old files
         File[] listFiles = getFilesDir().listFiles();
         for(int i = 0; i<listFiles.length;i++) {
-            Pattern p;
-            Matcher m;
-            String number = "";
-            p = Pattern.compile("([\\d]+)");
-            m = p.matcher(listFiles[i].getName());
-            while (m.find()) {
-                number = m.group(1);
-            }
+
+            String number = getWeekNumberFromPattern(listFiles[i].getName(), "([\\d]+)");
+
             if(number.length() > 0){
                 // if old -> remove
-                if( Integer.valueOf(number) <= weekNumber-2 ) {
+                if( Integer.valueOf(number) < weekNumber ) {
                     listFiles[i].delete();
                 }
                 // is currentWeekMenu present
