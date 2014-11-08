@@ -21,7 +21,7 @@ public class SlideMenuActivity extends FragmentActivity {
     /**
      * The number of pages (Number of week times seven days times two menus by day).
      */
-    private static final int NUM_PAGES = WeekModel.getWeekList().size() * 7 * 2;
+    private static int numPages = WeekModel.getWeekList().size() * 7 * 2;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -41,12 +41,17 @@ public class SlideMenuActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_slide);
 
-        int indexPage = getIntent().getIntExtra("idPage",0);
-
         //Change header menu title font
         Typeface fontPacifico = Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf");
         TextView headerMenuTitle = (TextView) findViewById(R.id.headerMenuTitle);
         headerMenuTitle.setTypeface(fontPacifico);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        numPages = WeekModel.getWeekList().size() * 7 * 2;
+        int indexPage = getIntent().getIntExtra("idPage",0);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -54,8 +59,6 @@ public class SlideMenuActivity extends FragmentActivity {
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(indexPage);
     }
-
-
 
     public void onClickPreviousMenu(View view) {
         mPager.setCurrentItem(mPager.getCurrentItem() - 1);
@@ -78,7 +81,7 @@ public class SlideMenuActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return numPages;
         }
     }
 

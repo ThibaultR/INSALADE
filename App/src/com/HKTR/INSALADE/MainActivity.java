@@ -76,10 +76,9 @@ public class MainActivity extends Activity {
     }
 
 
-    @Override protected void onStart() {
-        menuNumber = 0;
-        Log.e("start", "start");
+    @Override protected void onResume() {
         super.onResume();
+        menuNumber = 0;
         dayList.removeAllViews();
         // Get menus from internet if possible
         getXmlFiles();
@@ -100,6 +99,7 @@ public class MainActivity extends Activity {
                 currentWeekNumber = Integer.valueOf(weekNumString);
                 //add WeekSeparator
 
+                /*
                 weekSeparatorView = (TextView) getLayoutInflater().inflate(R.layout.weekseparator_template, dayList, false);
                 weekSeparatorView.setTypeface(latoBold);
                 if (isFirstWeek){
@@ -109,6 +109,7 @@ public class MainActivity extends Activity {
                     weekSeparatorView.setText("Semaine "+currentWeekNumber);
                 }
                 dayList.addView(weekSeparatorView);
+                */
 
                 getMenus(menuFileName);
             }
@@ -124,11 +125,6 @@ public class MainActivity extends Activity {
                 }
             });
         }
-    }
-
-    @Override protected void onResume() {
-        super.onResume();
-        Log.e("resume","resume");
     }
 
     public void getMenus(String file) {
@@ -276,8 +272,14 @@ public class MainActivity extends Activity {
         if (lastDayView != null) {
             Button lunchButton = (Button) lastDayView.findViewWithTag("lunchButton");
             Button dinnerButton = (Button) lastDayView.findViewWithTag("dinnerButton");
+            Button dayButton = (Button) lastDayView.findViewWithTag("dayButton");
             lunchButton.setVisibility(View.GONE);
             dinnerButton.setVisibility(View.GONE);
+            dayButton.setVisibility(View.VISIBLE);
+            ImageView dayButtonClosedIcon = (ImageView) lastDayView.findViewWithTag("dayButtonClosedIcon");
+            if (dayButtonClosedIcon != null) {
+                dayButtonClosedIcon.setVisibility(View.VISIBLE);
+            }
 
             ImageView lunchButtonClosedIcon = (ImageView) lastDayView.findViewWithTag("lunchButtonClosedIcon");
             if (lunchButtonClosedIcon != null) {
@@ -294,6 +296,16 @@ public class MainActivity extends Activity {
         lastDayView = dayView;
         Button lunchButton = (Button) dayView.findViewWithTag("lunchButton");
         Button dinnerButton = (Button) dayView.findViewWithTag("dinnerButton");
+        Button dayButton = (Button) dayView.findViewWithTag("dayButton");
+
+        dayButton.setVisibility(View.GONE);
+
+        ImageView dayButtonClosedIcon = (ImageView) dayView.findViewWithTag("dayButtonClosedIcon");
+        if (dayButtonClosedIcon != null) {
+            dayButtonClosedIcon.setVisibility(View.GONE);
+        }
+
+
         lunchButton.setVisibility(View.VISIBLE);
 
         ImageView lunchButtonClosedIcon = (ImageView) dayView.findViewWithTag("lunchButtonClosedIcon");
