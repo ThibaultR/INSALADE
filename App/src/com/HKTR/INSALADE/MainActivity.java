@@ -97,9 +97,8 @@ public class MainActivity extends Activity {
 
             if (weekNumString.length() > 0) {
                 currentWeekNumber = Integer.valueOf(weekNumString);
-                //add WeekSeparator
 
-                /*
+                //add WeekSeparator
                 weekSeparatorView = (TextView) getLayoutInflater().inflate(R.layout.weekseparator_template, dayList, false);
                 weekSeparatorView.setTypeface(latoBold);
                 if (isFirstWeek){
@@ -109,7 +108,7 @@ public class MainActivity extends Activity {
                     weekSeparatorView.setText("Semaine "+currentWeekNumber);
                 }
                 dayList.addView(weekSeparatorView);
-                */
+
 
                 getMenus(menuFileName);
             }
