@@ -46,7 +46,6 @@ Ressources/*
 
 *.pyc
 *.pdf
-*.xml
 pdf/*
 xml/*
 

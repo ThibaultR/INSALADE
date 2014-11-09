@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:paddingLeft="@dimen/weekSeparatorPadding"
+          android:paddingRight="@dimen/weekSeparatorPadding"
+          android:paddingTop="5dp"
+          android:paddingBottom="5dp"
+          android:layout_marginTop="5dp"
+          android:layout_marginBottom="5dp"
+          android:text="@string/semaine"
+          android:textSize="@dimen/mainFontSize"
+          android:textColor="@color/weekSeparatorFontColor"
+          android:background="#333333"
+
+        />
