@@ -48,6 +48,8 @@ Ressources/*
 *.pdf
 pdf/*
 xml/*
+menu*.xml
+
 
 App/App.iml
 App/build.xml
