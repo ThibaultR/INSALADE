@@ -10,7 +10,7 @@
     <dimen name="elementPadding">15dp</dimen>
     <dimen name="contentMarginLeft">30dp</dimen>
     <dimen name="mainVerticalPadding">10dp</dimen>
-    <dimen name="hDayView">100dp</dimen>
+    <dimen name="hDayView">105dp</dimen>
     <dimen name="mainFontSize">30sp</dimen>
     <dimen name="mainDayViewPadding">30dp</dimen>
     <dimen name="hWhenView">50dp</dimen>
@@ -21,4 +21,7 @@
     <dimen name="hIconClosed">45dp</dimen>
     <dimen name="wIconClosed">60dp</dimen>
     <dimen name="weekSeparatorPadding">15dp</dimen>
+    <dimen name="dayViewMargin">3dp</dimen>
+    <dimen name="dayViewPadding">3dp</dimen>
+    <dimen name="dayViewPaddingTop">2dp</dimen>
 </resources>
