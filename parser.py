@@ -104,7 +104,8 @@ for i in range(0,7):
 
     # set mainCourse and dessert lunch
     j = 0
-    while len(cellTable[2][i].wordList)>0 and cellTable[2][i].wordList[j].wordStr != "Yaourt":
+    print i;
+    while j < len(cellTable[2][i].wordList) and len(cellTable[2][i].wordList)>0 and cellTable[2][i].wordList[j].wordStr.find("Yaourt") == -1:
         menuTable[0][i].mainCourse.append(cellTable[2][i].wordList[j])
         j = j + 1
     while j < len(cellTable[2][i].wordList):
@@ -115,7 +116,7 @@ for i in range(0,7):
     if len(cellTable[3][i].wordList)>0:
         menuTable[1][i].starter.append(cellTable[3][i].wordList[0])
         j = 1
-        while cellTable[3][i].wordList[j].wordStr != "Yaourt":
+        while j < len(cellTable[3][i].wordList) and cellTable[3][i].wordList[j].wordStr.find("Yaourt") == -1:
             menuTable[1][i].mainCourse.append(cellTable[3][i].wordList[j])
             j = j + 1
         while j < len(cellTable[3][i].wordList):
