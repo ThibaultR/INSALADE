@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+@author Hyukchan Kwon (hyukchan.k@gmail.com)
+@author Thibault Rapin (thibault.rapin@gmail.com)
+-->
 <resources>
     <string name="app_name">insalade</string>
     <string name="starter">Entrées</string>

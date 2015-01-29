@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -37,6 +35,9 @@ import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.HKTR.INSALADE.Tools.dpToPx;
+import static com.HKTR.INSALADE.Tools.getWeekNumberFromPattern;
+import static com.HKTR.INSALADE.Tools.isOnline;
 import static com.HKTR.INSALADE.XmlFileGetter.*;
 
 /**
@@ -90,7 +91,6 @@ public class MainActivity extends Activity {
         Boolean isFirstWeek = true;
         // Loop on all files to get content
         for(File f : menus) {
-            Log.e("plop", f.getName());
             String menuFileName = f.getName();
             // Get week number from the name of the xml file (ex : menu42 return 42)
             String weekNumString = getWeekNumberFromPattern(menuFileName, "([\\d]+)");
@@ -352,10 +352,7 @@ public class MainActivity extends Activity {
         return result;
     }
 
-    public static int dpToPx(int dp)
-    {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
+
 
     public void onClickHeaderLogo(View view) {
         final FrameLayout todayButton = (FrameLayout) dayList.findViewWithTag("today");

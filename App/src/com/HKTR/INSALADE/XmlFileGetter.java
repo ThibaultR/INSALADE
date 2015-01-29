@@ -14,6 +14,8 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.HKTR.INSALADE.Tools.getWeekNumberFromPattern;
+
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
  * @author Thibault Rapin (thibault.rapin@gmail.com)
@@ -35,13 +37,6 @@ public class XmlFileGetter {
         }
 
         return urls.toArray(new String[urls.size()]);
-    }
-
-
-    public static boolean isOnline(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 
 
@@ -94,15 +89,4 @@ public class XmlFileGetter {
 
     }
 
-    static String getWeekNumberFromPattern(String s, String pattern){
-        Pattern p;
-        Matcher m;
-        String weekNumString = "";
-        p = Pattern.compile(pattern);
-        m = p.matcher(s);
-        while (m.find()) {
-            weekNumString = m.group(1);
-        }
-        return weekNumString;
-    }
 }
