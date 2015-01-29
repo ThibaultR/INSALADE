@@ -3,6 +3,7 @@ package com.HKTR.INSALADE;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.util.Log;
 
 
 import java.io.*;
@@ -30,9 +31,9 @@ public class XmlFileGetter {
         ArrayList existingFilesList = new ArrayList(Arrays.asList(existingFiles));
         String URL = "http://37.59.123.110/INSALADE/XmlMenus/menu";
 
-        for(int i = weekNumber; i<weekNumber+3; i++){
-            if(!(existingFilesList.contains("menu"+i))) {
-                urls.add(URL + i + ".xml");
+        for(int i = weekNumber; i<weekNumber+2; i++){
+            if(!(existingFilesList.contains("menu"+i%52))) {
+                urls.add(URL + i%52 + ".xml");
             }
         }
 

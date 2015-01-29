@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -44,7 +47,7 @@ import static com.HKTR.INSALADE.XmlFileGetter.*;
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
  * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener{
     LinearLayout dayList;
     Typeface fontExistenceLight;
     Typeface latoBold;
@@ -61,6 +64,8 @@ public class MainActivity extends Activity {
 
     TextView weekSeparatorView;
 
+    SwipeRefreshLayout swipeLayout;
+
     /**
      * Called when the activity is first created.
      */
@@ -74,6 +79,10 @@ public class MainActivity extends Activity {
         fontExistenceLight = Typeface.createFromAsset(getAssets(), "fonts/Existence-Light.otf");
         latoBold = Typeface.createFromAsset(getAssets(), "fonts/Lato-Bold.ttf");
         menuNumber = 0;
+
+        //SwipeRefreshLayout
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(this);
     }
 
 
@@ -396,8 +405,8 @@ public class MainActivity extends Activity {
             String number = getWeekNumberFromPattern(listFiles[i].getName(), "([\\d]+)");
 
             if(number.length() > 0){
-                // if old -> remove
-                if( Integer.valueOf(number) < weekNumber ) {
+                // if it's not the current week or the next week, we delete
+                if(weekNumber != Integer.valueOf(number) && (weekNumber + 1)%52 != Integer.valueOf(number)) {
                     listFiles[i].delete();
                 }
                 // is currentWeekMenu present
@@ -417,5 +426,28 @@ public class MainActivity extends Activity {
             }
 
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isOnline(getApplicationContext())) {
+                    File[] listFiles = getFilesDir().listFiles();
+                    for(File f : listFiles) {
+                        f.delete();
+                    }
+
+                    onResume();
+                    Toast.makeText(getApplicationContext(), "Menu mis à jour", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Connexion internet non disponible", Toast.LENGTH_LONG).show();
+                }
+
+                swipeLayout.setRefreshing(false);
+            }
+        }, 5000);
     }
 }
