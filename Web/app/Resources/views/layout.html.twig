@@ -1,11 +1,21 @@
 {% extends '::base.html.twig' %}
 
-{% block body %}
-    {% block navbar %}
+{% block navbar %}
+    {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, staticTop: false, inverse: true } %}
+        {% block brand %}
+            <a class="navbar-brand insalade-navbar-name" href="#">Insalade</a>
+        {% endblock %}
 
-    {% endblock navbar %}
+        {% block menu %}
+            {{ mopa_bootstrap_menu('AppBundle:Builder:mainMenu') }}
+        {% endblock %}
+    {% endembed %}
+{% endblock navbar %}
 
+{% block container %}
+    <div class="content">
     {% block content %}
 
     {% endblock content %}
-{% endblock body %}
+    </div>
+{% endblock container %}

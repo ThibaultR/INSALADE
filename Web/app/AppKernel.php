@@ -22,6 +22,9 @@ class AppKernel extends Kernel
             new Insalade\UserBundle\InsaladeUserBundle(),
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             new Insalade\CommunicationBundle\InsaladeCommunicationBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Craue\FormFlowBundle\CraueFormFlowBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

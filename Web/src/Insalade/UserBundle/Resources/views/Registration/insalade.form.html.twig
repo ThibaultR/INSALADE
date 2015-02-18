@@ -5,8 +5,8 @@
 
     <form action="{{ path('insalade_registration') }}" {{ form_enctype(form) }} method="POST">
         {{ form_widget(form) }}
-        <div>
-            <input type="submit" value="{{ 'registration.submit'|trans }}" />
+        <div style="text-align: center;">
+            <input type="submit" class="btn btn-success" value="{{ 'registration.submit'|trans }}" />
         </div>
     </form>
 {% endblock fos_user_content %}

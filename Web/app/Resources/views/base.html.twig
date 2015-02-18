@@ -1,3 +1,14 @@
 {% extends 'MopaBootstrapBundle::base_css.html.twig' %}
 
 {% block title %} Insalade {% endblock title %}
+
+{% block foot_script %}
+{{ parent() }}
+<script>
+    $(document).on('click','.navbar-collapse.in',function(e) {
+        if( $(e.target).is('a') ) {
+            $(this).collapse('hide');
+        }
+    });
+</script>
+{% endblock foot_script %}
