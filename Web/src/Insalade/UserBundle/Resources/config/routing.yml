@@ -1,0 +1,7 @@
+insalade_registration:
+    pattern:  /register/insalade
+    defaults: { _controller: InsaladeUserBundle:RegistrationInsalade:register }
+
+amicale_registration:
+    pattern:  /register/amicale
+    defaults: { _controller: InsaladeUserBundle:RegistrationAmicale:register }

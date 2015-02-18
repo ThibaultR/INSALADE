@@ -1,0 +1,19 @@
+pugx_multi_user:
+  users:
+    insalade:
+        entity: 
+          class: Insalade\UserBundle\Entity\Insalade
+#          factory: 
+        registration:
+          form: 
+            type: Insalade\UserBundle\Form\Type\RegistrationInsaladeFormType
+            name: fos_user_registration_form
+            validation_groups:  [Registration, Default]
+          template: InsaladeUserBundle:Registration:insalade.form.html.twig
+    amicale:
+        entity: 
+          class: Insalade\UserBundle\Entity\Amicale
+        registration:
+          form: 
+            type: Insalade\UserBundle\Form\Type\RegistrationAmicaleFormType
+          template: InsaladeUserBundle:Registration:amicale.form.html.twig

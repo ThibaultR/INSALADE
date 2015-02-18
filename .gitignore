@@ -54,3 +54,7 @@ menu*.xml
 App/App.iml
 App/build.xml
 App/ant.properties
+
+Web/vendor/*
+Web/app/logs
+Web/app/cache
