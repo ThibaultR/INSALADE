@@ -1,3 +1,8 @@
+insalade_communication:
+    resource: "@InsaladeCommunicationBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 insalade_user:
     resource: "@InsaladeUserBundle/Resources/config/routing.yml"
 

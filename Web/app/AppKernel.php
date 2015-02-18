@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Insalade\UserBundle\InsaladeUserBundle(),
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
+            new Insalade\CommunicationBundle\InsaladeCommunicationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

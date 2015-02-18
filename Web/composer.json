@@ -22,7 +22,11 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "pugx/multi-user-bundle": "3.0.*@dev",
         "mopa/bootstrap-bundle": "~2.3",
-        "twbs/bootstrap": "~3.3"
+        "twbs/bootstrap": "~3.3",
+        "knplabs/knp-paginator-bundle": "dev-master",
+        "knplabs/knp-menu-bundle": "dev-master",
+        "knplabs/knp-menu": "2.0.*@dev",
+        "craue/formflow-bundle": "~2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

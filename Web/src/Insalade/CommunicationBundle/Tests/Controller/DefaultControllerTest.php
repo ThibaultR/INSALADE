@@ -1,6 +1,6 @@
 <?php
 
-namespace Insalade\UserBundle\Tests\Controller;
+namespace Insalade\CommunicationBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
