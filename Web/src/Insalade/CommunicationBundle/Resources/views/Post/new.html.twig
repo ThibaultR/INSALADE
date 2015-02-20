@@ -1,6 +1,6 @@
-{% extends '::base.html.twig' %}
+{% extends '::layout.html.twig' %}
 
-{% block body -%}
+{% block content%}
     <h1>Post creation</h1>
 
     {{ form(form) }}
@@ -12,4 +12,4 @@
         </a>
     </li>
 </ul>
-{% endblock %}
+{% endblock content %}

@@ -1,6 +1,6 @@
-{% extends '::base.html.twig' %}
+{% extends '::layout.html.twig' %}
 
-{% block body -%}
+{% block content %}
     <h1>Post</h1>
 
     <table class="record_properties">
@@ -10,16 +10,36 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
+                <th>Association</th>
+                <td>{{ entity.association }}</td>
+            </tr>
+            <tr>
                 <th>Title</th>
                 <td>{{ entity.title }}</td>
             </tr>
             <tr>
-                <th>Publishingdate</th>
-                <td>{{ entity.publishingDate | date("d/m/Y") }}</td>
+                <th>Pushtext</th>
+                <td>{{ entity.pushText }}</td>
             </tr>
             <tr>
-                <th>Image</th>
-                <td>{{ entity.image }}</td>
+                <th>Imageurl</th>
+                <td>{{ entity.imageUrl }}</td>
+            </tr>
+            <tr>
+                <th>Datestart</th>
+                <td>{{ entity.dateStart|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Dateend</th>
+                <td>{{ entity.dateEnd|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Datecreate</th>
+                <td>{{ entity.dateCreate|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>State</th>
+                <td>{{ entity.state }}</td>
             </tr>
         </tbody>
     </table>
@@ -37,4 +57,4 @@
     </li>
     <li>{{ form(delete_form) }}</li>
 </ul>
-{% endblock %}
+{% endblock content %}

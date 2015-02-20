@@ -1,0 +1,5 @@
+services:
+    user.registration.listener:
+        class: Insalade\UserBundle\Listener\RegistrationListener
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }

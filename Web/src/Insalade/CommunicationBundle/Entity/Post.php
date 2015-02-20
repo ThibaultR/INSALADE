@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Post
  *
- * @ORM\Table()
+ * @ORM\Table(name="event")
  * @ORM\Entity
  */
 class Post
@@ -15,11 +15,18 @@ class Post
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id_event", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="association", type="string", length=255)
+     */
+    private $association;
 
     /**
      * @var string
@@ -29,26 +36,46 @@ class Post
     private $title;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="publishing_date", type="datetime")
+     * @ORM\Column(name="push_text", type="string", length=255)
      */
-    private $publishingDate;
+    private $pushText;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="image", type="string", length=255)
+     * @ORM\Column(name="image_url", type="string", length=255)
      */
-    private $image;
+    private $imageUrl;
 
     /**
-     * @var boolean
+     * @var \DateTime
      *
-     * @ORM\Column(name="validated", type="boolean")
+     * @ORM\Column(name="date_start", type="datetime")
      */
-    private $validated;
+    private $dateStart;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_end", type="datetime")
+     */
+    private $dateEnd;
+
+    /**
+     * @var \Date
+     *
+     * @ORM\Column(name="date_create", type="date")
+     */
+    private $dateCreate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="state", type="string", length=255)
+     */
+    private $state;
 
     /**
      * Get id
@@ -58,6 +85,29 @@ class Post
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set association
+     *
+     * @param string $association
+     * @return Post
+     */
+    public function setAssociation($association)
+    {
+        $this->association = $association;
+
+        return $this;
+    }
+
+    /**
+     * Get association
+     *
+     * @return string 
+     */
+    public function getAssociation()
+    {
+        return $this->association;
     }
 
     /**
@@ -84,69 +134,140 @@ class Post
     }
 
     /**
-     * Set publishingDate
+     * Set pushText
      *
-     * @param \DateTime $publishingDate
+     * @param string $pushText
      * @return Post
      */
-    public function setPublishingDate($publishingDate)
+    public function setPushText($pushText)
     {
-        $this->publishingDate = $publishingDate;
+        $this->pushText = $pushText;
 
         return $this;
     }
 
     /**
-     * Get publishingDate
-     *
-     * @return \DateTime 
-     */
-    public function getPublishingDate()
-    {
-        return $this->publishingDate;
-    }
-
-    /**
-     * Set image
-     *
-     * @param string $image
-     * @return Post
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
+     * Get pushText
      *
      * @return string 
      */
-    public function getImage()
+    public function getPushText()
     {
-        return $this->image;
+        return $this->pushText;
     }
 
     /**
-     * Set validated
+     * Set imageUrl
      *
-     * @param boolean $validated
+     * @param string $imageUrl
+     * @return Post
      */
-    public function setValidated($validated)
+    public function setImageUrl($imageUrl)
     {
-        $this->validated = $validated;
+        $this->imageUrl = $imageUrl;
 
         return $this;
     }
 
     /**
-     * Get validated
+     * Get imageUrl
      *
-     * @return boolean
+     * @return string 
      */
-    public function getValidated() {
-        return $this->validated;
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * Set dateStart
+     *
+     * @param \DateTime $dateStart
+     * @return Post
+     */
+    public function setDateStart($dateStart)
+    {
+        $this->dateStart = $dateStart;
+
+        return $this;
+    }
+
+    /**
+     * Get dateStart
+     *
+     * @return \DateTime 
+     */
+    public function getDateStart()
+    {
+        return $this->dateStart;
+    }
+
+    /**
+     * Set dateEnd
+     *
+     * @param \DateTime $dateEnd
+     * @return Post
+     */
+    public function setDateEnd($dateEnd)
+    {
+        $this->dateEnd = $dateEnd;
+
+        return $this;
+    }
+
+    /**
+     * Get dateEnd
+     *
+     * @return \DateTime 
+     */
+    public function getDateEnd()
+    {
+        return $this->dateEnd;
+    }
+
+    /**
+     * Set dateCreate
+     *
+     * @param \DateTime $dateCreate
+     * @return Post
+     */
+    public function setDateCreate($dateCreate)
+    {
+        $this->dateCreate = $dateCreate;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreate
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreate()
+    {
+        return $this->dateCreate;
+    }
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     * @return Post
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return string 
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 }

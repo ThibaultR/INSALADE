@@ -20,10 +20,6 @@ class Builder extends ContainerAware
             ));
         }
         else {
-            $register = $menu->addChild('Register', array(
-                'route' => 'amicale_registration'
-            ));
-
             $login = $menu->addChild('Login', array(
                 'route' => 'fos_user_security_login'
             ));

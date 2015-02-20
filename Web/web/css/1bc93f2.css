@@ -6568,3 +6568,11 @@ button.close {
 body {
     background-color: #EDEBE6;
 }
+
+div.content {
+    margin-top: 50px;
+    padding: 50px;
+}
+
+.insalade-navbar-name {
+}

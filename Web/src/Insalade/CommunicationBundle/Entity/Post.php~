@@ -1,0 +1,79 @@
+<?php
+
+namespace Insalade\CommunicationBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Post
+ *
+ * @ORM\Table(name="event")
+ * @ORM\Entity
+ */
+class Post
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_event", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="association", type="string", length=255)
+     */
+    private $association;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="push_text", type="string", length=255)
+     */
+    private $pushText;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image_url", type="string", length=255)
+     */
+    private $imageUrl;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_start", type="datetime")
+     */
+    private $dateStart;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_end", type="datetime")
+     */
+    private $dateEnd;
+
+    /**
+     * @var \Date
+     *
+     * @ORM\Column(name="date_create", type="date")
+     */
+    private $dateCreate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="state", type="string", length=255)
+     */
+    private $state;
+}

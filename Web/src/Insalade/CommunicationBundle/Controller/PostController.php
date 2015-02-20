@@ -244,35 +244,4 @@ class PostController extends Controller
             ->getForm()
         ;
     }
-
-    /**
-     * Validate / Unvalidate a Post if is_granted ROLE_INSALADE
-     *
-     * @Route("/{id}/validate", name="post_validate")
-     * @Method("GET")
-     * @Template("InsaladeCommunicationBundle:Post:index.html.twig")
-     */
-    public function validateAction($id) {
-        $em = $this->getDoctrine()->getManager();
-
-        if($this->get('security.context')->isGranted('ROLE_INSALADE')) {
-
-            $entity = $em->getRepository('InsaladeCommunicationBundle:Post')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Post entity.');
-            }
-
-            $entity->setValidated(!($entity->getValidated()));
-            $em->flush();
-
-        }
-
-        $entities = $em->getRepository('InsaladeCommunicationBundle:Post')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
-    }
-
 }

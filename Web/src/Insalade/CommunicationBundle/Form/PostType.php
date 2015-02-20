@@ -15,9 +15,14 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('association')
             ->add('title')
-            ->add('publishingDate')
-            ->add('image')
+            ->add('pushText')
+            ->add('imageUrl')
+            ->add('dateStart')
+            ->add('dateEnd')
+            ->add('dateCreate')
+            ->add('state')
         ;
     }
     
