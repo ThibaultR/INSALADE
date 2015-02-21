@@ -52,7 +52,7 @@ class Post
     private $imageUrl;
 
     /**
-     * @Assert\Image(maxSize="50000000", minWidth="200", maxWidth="400", minHeight="200", maxHeight="400")
+     * @Assert\Image(maxSize="50000000", minWidth="200", maxWidth="700", minHeight="200", maxHeight="700")
      *
      */
     public $image;
