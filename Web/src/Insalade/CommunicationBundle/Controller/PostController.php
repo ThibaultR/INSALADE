@@ -74,9 +74,8 @@ class PostController extends Controller
         $form = $this->createForm(new PostType(), $entity, array(
             'action' => $this->generateUrl('post_create'),
             'method' => 'POST',
+            'attr' => array('id' => 'create-form')
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -163,9 +162,8 @@ class PostController extends Controller
         $form = $this->createForm(new PostType(), $entity, array(
             'action' => $this->generateUrl('post_update', array('id' => $entity->getId())),
             'method' => 'PUT',
+            'attr' => array('id' => 'edit-form')
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }

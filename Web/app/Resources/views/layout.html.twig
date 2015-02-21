@@ -3,7 +3,7 @@
 {% block navbar %}
     {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, staticTop: false, inverse: true } %}
         {% block brand %}
-            <a class="navbar-brand insalade-navbar-name" href="#">Insalade</a>
+            <a class="navbar-brand insalade-navbar-name" href="{{ path('homepage') }}">insalade</a>
         {% endblock %}
 
         {% block menu %}

@@ -17,12 +17,11 @@ class PostType extends AbstractType
         $builder
             ->add('association')
             ->add('title')
-            ->add('pushText')
+            ->add('pushText', 'textarea', array())
             ->add('imageUrl')
             ->add('dateStart')
             ->add('dateEnd')
             ->add('dateCreate')
-            ->add('state')
         ;
     }
     

@@ -15,6 +15,10 @@ class Builder extends ContainerAware
 
         if($this->container->get('security.context')->isGranted("ROLE_USER"))
         {
+            $post = $menu->addChild('Posts', array(
+                'route' => 'post'
+            ));
+
             $home = $menu->addChild('Logout', array(
                 'route' => 'fos_user_security_logout',
             ));

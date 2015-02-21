@@ -77,6 +77,11 @@ class Post
      */
     private $state;
 
+    public function __construct()
+    {
+        $this->setState("waiting");
+    }
+
     /**
      * Get id
      *

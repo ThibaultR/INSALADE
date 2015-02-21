@@ -6564,22 +6564,3 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
-
-body {
-    background-color: #e7e9e8;
-}
-
-@font-face {
-    font-family: 'Pacifico';
-    src: url('/bundles/app/fonts/Pacifico.ttf');
-}
-
-div.content {
-    margin-top: 50px;
-    padding: 50px;
-}
-
-.insalade-navbar-name {
-    font-family: 'Pacifico';
-    font-size: 24px;
-}

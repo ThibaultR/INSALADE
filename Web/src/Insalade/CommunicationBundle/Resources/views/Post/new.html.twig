@@ -5,11 +5,26 @@
 
     {{ form(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('post') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <ul class="record_actions list-group col-md-4 center-block float-none">
+        <li class="list-group-item">
+            <button class="btn btn-success center-block" style="width: 100%;" id="btn-create-form">
+                Create
+            </button>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ path('post') }}" class="btn btn-info center-block">
+                Back to the list
+            </a>
+        </li>
+    </ul>
 {% endblock content %}
+
+{% block body_end_before_js %}
+<script type="text/javascript">
+    $(document).ready(function() {
+       $("#btn-create-form").click(function() {
+           $("#create-form").submit();
+       });
+    });
+</script>
+{% endblock body_end_before_js %}
