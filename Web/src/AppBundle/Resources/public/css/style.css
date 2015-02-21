@@ -24,3 +24,7 @@ div.content {
 .hidden {
     visibility: none;
 }
+
+.text-center {
+    text-align: center;
+}

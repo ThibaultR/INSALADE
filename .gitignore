@@ -58,3 +58,7 @@ App/ant.properties
 Web/vendor/*
 Web/app/logs
 Web/app/cache
+
+Web/web/css/*
+Web/web/js/*
+Web/web/bundles/*
