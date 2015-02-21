@@ -17,8 +17,11 @@
 %}
 <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
-
 {% endblock head_style %}
+
+{% block head_bottom %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+{% endblock head_bottom %}
 
 {% block foot_script %}
 {%- javascripts

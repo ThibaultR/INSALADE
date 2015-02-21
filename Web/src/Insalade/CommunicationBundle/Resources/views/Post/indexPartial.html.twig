@@ -5,13 +5,13 @@
     <table class="records_list table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Association</th>
+                <th class="hidden-xs">Id</th>
+                <th class="hidden-xs">Association</th>
                 <th>Title</th>
-                <th>Text</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Creation Date</th>
+                <th class="hidden-xs hidden-sm hidden-md">Text</th>
+                <th class="hidden-xs hidden-sm hidden-md">Start Date</th>
+                <th class="hidden-xs hidden-sm hidden-md">End Date</th>
+                <th class="hidden-xs hidden-sm hidden-md">Creation Date</th>
                 <th class="sortable" data-target="f.state">State</th>
                 <th>Actions</th>
             </tr>
@@ -19,13 +19,13 @@
         <tbody>
         {% for entity in list.pager %}
             <tr>
-                <td><a href="{{ path('post_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.association }}</td>
+                <td class="hidden-xs"><a href="{{ path('post_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td class="hidden-xs">{{ entity.association }}</td>
                 <td>{{ entity.title|length > 20 ? entity.title|striptags|slice(0, 20) ~ '...' : entity.title|raw  }}</td>
-                <td>{{ entity.pushText|length > 25 ? entity.pushText|striptags|slice(0, 25) ~ '...' : entity.pushText|raw  }}</td>
-                <td>{% if entity.dateStart %}{{ entity.dateStart|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.dateEnd %}{{ entity.dateEnd|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.dateCreate %}{{ entity.dateCreate|date('Y-m-d') }}{% endif %}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{{ entity.pushText|length > 25 ? entity.pushText|striptags|slice(0, 25) ~ '...' : entity.pushText|raw  }}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{% if entity.dateStart %}{{ entity.dateStart|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{% if entity.dateEnd %}{{ entity.dateEnd|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{% if entity.dateCreate %}{{ entity.dateCreate|date('Y-m-d') }}{% endif %}</td>
                 <td>
                     {% if entity.state == 'validated' %}
                         <span class="label label-success">Validated</span>
