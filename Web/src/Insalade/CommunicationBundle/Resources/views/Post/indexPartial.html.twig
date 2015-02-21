@@ -9,7 +9,6 @@
                 <th>Association</th>
                 <th>Title</th>
                 <th>Text</th>
-                <th>Image</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Creation Date</th>
@@ -24,16 +23,33 @@
                 <td>{{ entity.association }}</td>
                 <td>{{ entity.title|length > 20 ? entity.title|striptags|slice(0, 20) ~ '...' : entity.title|raw  }}</td>
                 <td>{{ entity.pushText|length > 25 ? entity.pushText|striptags|slice(0, 25) ~ '...' : entity.pushText|raw  }}</td>
-                <td>{{ entity.imageUrl }}</td>
                 <td>{% if entity.dateStart %}{{ entity.dateStart|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.dateEnd %}{{ entity.dateEnd|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.dateCreate %}{{ entity.dateCreate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.state }}</td>
+                <td>{% if entity.dateCreate %}{{ entity.dateCreate|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    {% if entity.state == 'validated' %}
+                        <span class="label label-success">Validated</span>
+                    {% elseif entity.state == 'waiting' %}
+                        <span class="label label-warning">Waiting</span>
+                    {% else %}
+                        <span class="label label-danger">Rejected</span>
+                    {% endif %}
+                </td>
                 <td>
                     <select class="form-control" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
                         <option></option>
                         <option value="{{ path('post_show', { 'id': entity.id }) }}">Show</option>
                         <option value="{{ path('post_edit', { 'id': entity.id }) }}">Edit</option>
+                        {% if is_granted("ROLE_INSALADE") and entity.state == 'waiting' %}
+                        <option value="{{ path('post_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                        <option value="{{ path('post_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                        {% elseif is_granted("ROLE_INSALADE") and entity.state == 'validated' %}
+                        <option value="{{ path('post_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                        <option value="{{ path('post_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                        {% elseif is_granted("ROLE_INSALADE") and entity.state == 'rejected' %}
+                        <option value="{{ path('post_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                        <option value="{{ path('post_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                        {% endif %}
                     </select>
                 </td>
             </tr>
@@ -44,10 +60,13 @@
 <div class="text-center">
     {% include 'AvListBundle:AvList:control.html.twig' with {'list':list}%}
     <br />
-    <a href="{{ path('post_new') }}" class="btn btn-success">
-        Create a new entry
-    </a>
 </div>
 {% else %}
     <p>There is no post yet.</p>
 {% endif %}
+
+<div class="text-center">
+    <a href="{{ path('post_new') }}" class="btn btn-success">
+        Create a new post
+    </a>
+</div>

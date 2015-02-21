@@ -80,6 +80,7 @@ class Post
     public function __construct()
     {
         $this->setState("waiting");
+        $this->setDateCreate(new \DateTime());
     }
 
     /**
@@ -233,7 +234,7 @@ class Post
     /**
      * Set dateCreate
      *
-     * @param \DateTime $dateCreate
+     * @param \Date $dateCreate
      * @return Post
      */
     public function setDateCreate($dateCreate)
@@ -261,7 +262,8 @@ class Post
      */
     public function setState($state)
     {
-        $this->state = $state;
+        if($state == 'validated' OR $state == 'waiting' OR $state == 'rejected')
+            $this->state = $state;
 
         return $this;
     }

@@ -132,11 +132,8 @@ class PostController extends Controller
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'entity'      => $entity
         );
     }
 
@@ -158,12 +155,10 @@ class PostController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -201,34 +196,51 @@ class PostController extends Controller
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $entity->setState('waiting');
             $em->flush();
 
-            return $this->redirect($this->generateUrl('post_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('post_show', array('id' => $id)));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
     /**
      * Deletes a Post entity.
      *
-     * @Route("/{id}", name="post_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="post_delete")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('InsaladeCommunicationBundle:Post')->find($id);
 
-        if ($form->isValid()) {
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Post entity.');
+        }
+
+        $em->remove($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('post'));
+    }
+
+    /**
+     * Update a Post's state
+     *
+     * @Route("/{id}/updatestate/{state}", name="post_update_state")
+     * @Method("GET")
+     */
+    public function updateStateAction($id, $state)
+    {
+        if($this->get('security.context')->isGranted('ROLE_INSALADE')) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('InsaladeCommunicationBundle:Post')->find($id);
 
@@ -236,27 +248,11 @@ class PostController extends Controller
                 throw $this->createNotFoundException('Unable to find Post entity.');
             }
 
-            $em->remove($entity);
+            $entity->setState($state);
             $em->flush();
         }
 
         return $this->redirect($this->generateUrl('post'));
     }
 
-    /**
-     * Creates a form to delete a Post entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('post_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
 }

@@ -16,6 +16,11 @@
                 Back to the list
             </a>
         </li>
+        <li class="list-group-item">
+            <a href="{{ path('post_delete', { 'id': entity.id }) }}" class="btn btn-danger center-block">
+                Delete
+            </a>
+        </li>
     </ul>
 {% endblock content %}
 
