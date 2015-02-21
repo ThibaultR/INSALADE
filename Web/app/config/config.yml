@@ -77,10 +77,8 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
-    host:      "%mailer_host%"
     username:  "%mailer_user%"
     password:  "%mailer_password%"
-    spool:     { type: memory }
 
 fos_user:
     db_driver: orm
@@ -88,6 +86,12 @@ fos_user:
     user_class: Insalade\UserBundle\Entity\User
     service:
         user_manager: pugx_user_manager
+        mailer: fos_user.mailer.default
+    resetting:
+        email:
+            from_email:
+                address:        insalade@gmail.com
+                sender_name:    Insalade
 
 mopa_bootstrap:
     form:  # Adds twig form theme  support
