@@ -24,7 +24,7 @@
                 </tr>
                 <tr>
                     <th>Image</th>
-                    <td>{{ entity.imageUrl }}</td>
+                    <td><img src="{{ asset('uploads/documents/'~ entity.imageUrl) }}" /></td>
                 </tr>
                 <tr>
                     <th>Start Date</th>
@@ -40,7 +40,26 @@
                 </tr>
                 <tr>
                     <th>State</th>
-                    <td>{{ entity.state }}</td>
+                    <td>
+                        {% if entity.state == 'validated' %}
+                            <span class="label label-success">Validated</span>
+                        {% elseif entity.state == 'waiting' %}
+                            <span class="label label-warning">Waiting</span>
+                        {% else %}
+                            <span class="label label-danger">Rejected</span>
+                        {% endif %}
+
+                        {% if is_granted("ROLE_INSALADE") and entity.state == 'waiting' %}
+                        <a href="{{ path('post_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                        <a href="{{ path('post_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                        {% elseif is_granted("ROLE_INSALADE") and entity.state == 'validated' %}
+                        <a href="{{ path('post_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                        <a href="{{ path('post_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                        {% elseif is_granted("ROLE_INSALADE") and entity.state == 'rejected' %}
+                        <a href="{{ path('post_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                        <a href="{{ path('post_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                        {% endif %}
+                    </td>
                 </tr>
             </tbody>
         </table>

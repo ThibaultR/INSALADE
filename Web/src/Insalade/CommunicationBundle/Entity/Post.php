@@ -3,12 +3,14 @@
 namespace Insalade\CommunicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * Post
  *
  * @ORM\Table(name="event")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Post
 {
@@ -48,6 +50,12 @@ class Post
      * @ORM\Column(name="image_url", type="string", length=255)
      */
     private $imageUrl;
+
+    /**
+     * @Assert\Image(maxSize="50000000", minWidth="200", maxWidth="400", minHeight="200", maxHeight="400")
+     *
+     */
+    public $image;
 
     /**
      * @var \DateTime
@@ -185,6 +193,10 @@ class Post
         return $this->imageUrl;
     }
 
+    public function getImage() {
+        return $this->image;
+    }
+
     /**
      * Set dateStart
      *
@@ -276,5 +288,97 @@ class Post
     public function getState()
     {
         return $this->state;
+    }
+
+    public function getAbsolutePath()
+    {
+        return null === $this->imageUrl ? null : $this->getUploadRootDir().'/'.$this->imageUrl;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->imageUrl ? null : $this->getUploadDir().'/'.$this->imageUrl;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
+        // le document/image dans la vue.
+        return 'uploads/documents';
+    }
+
+    private $temp;
+
+    /**
+     * Sets image.
+     *
+     * @param UploadedFile $image
+     */
+    public function setImage(UploadedFile $image = null)
+    {
+        $this->image = $image;
+        // check if we have an old image path
+        if (isset($this->imageUrl)) {
+            // store the old name to delete after the update
+            $this->temp = $this->imageUrl;
+            $this->imageUrl = null;
+        } else {
+            $this->imageUrl = 'initial';
+        }
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->getImage()) {
+            // do whatever you want to generate a unique name
+            $imagename = sha1(uniqid(mt_rand(), true));
+            $this->imageUrl = $imagename.'.'.$this->getImage()->guessExtension();
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getImage()) {
+            return;
+        }
+
+        // if there is an error when moving the image, an exception will
+        // be automatically thrown by move(). This will properly prevent
+        // the entity from being persisted to the database on error
+        $this->getImage()->move($this->getUploadRootDir(), $this->imageUrl);
+
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            unlink($this->getUploadRootDir().'/'.$this->temp);
+            // clear the temp image path
+            $this->temp = null;
+        }
+        $this->image = null;
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        $image = $this->getAbsolutePath();
+        if ($image) {
+            unlink($image);
+        }
     }
 }

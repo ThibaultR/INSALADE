@@ -7,9 +7,6 @@
     <div class="logo">
         <img src="{{ asset('bundles/insaladeuser/images/logo.png') }}" />
     </div>
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
     <form action="{{ path("fos_user_security_check") }}" method="post">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
@@ -22,6 +19,9 @@
 
         <input type="password" id="password" name="_password" required="required" placeholder="Password" />
         <a href="{{ path('fos_user_resetting_request') }}" class="forgot_link">forgot ?</a>
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
         <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
     </form>
 </div>

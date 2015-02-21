@@ -18,7 +18,7 @@ class PostType extends AbstractType
             ->add('association')
             ->add('title')
             ->add('pushText', 'textarea', array('label' => 'Text'))
-            ->add('imageUrl', 'text', array('label' => 'Image'))
+            ->add('image')
             ->add('dateStart', 'datetime', array('label' => 'Start Date'))
             ->add('dateEnd', 'datetime', array('label' => 'End Date'))
         ;

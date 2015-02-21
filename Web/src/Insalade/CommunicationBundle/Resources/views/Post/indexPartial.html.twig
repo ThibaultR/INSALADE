@@ -40,6 +40,7 @@
                         <option></option>
                         <option value="{{ path('post_show', { 'id': entity.id }) }}">Show</option>
                         <option value="{{ path('post_edit', { 'id': entity.id }) }}">Edit</option>
+                        <option value="{{ path('post_delete', { 'id': entity.id }) }}">Delete</option>
                         {% if is_granted("ROLE_INSALADE") and entity.state == 'waiting' %}
                         <option value="{{ path('post_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
                         <option value="{{ path('post_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>

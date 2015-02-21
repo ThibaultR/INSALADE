@@ -3,12 +3,13 @@
 namespace Insalade\CommunicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Post
  *
  * @ORM\Table(name="event")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Post
 {
@@ -50,6 +51,13 @@ class Post
     private $imageUrl;
 
     /**
+     * @Assert\Image(maxSize="50000000", minWidth="200", maxWidth="400", minHeight="200", maxHeight="400")
+     * @Assert\NotBlank()
+     *
+     */
+    public $image;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_start", type="datetime")
@@ -76,4 +84,297 @@ class Post
      * @ORM\Column(name="state", type="string", length=255)
      */
     private $state;
+
+    public function __construct()
+    {
+        $this->setState("waiting");
+        $this->setDateCreate(new \DateTime());
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set association
+     *
+     * @param string $association
+     * @return Post
+     */
+    public function setAssociation($association)
+    {
+        $this->association = $association;
+
+        return $this;
+    }
+
+    /**
+     * Get association
+     *
+     * @return string 
+     */
+    public function getAssociation()
+    {
+        return $this->association;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Post
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set pushText
+     *
+     * @param string $pushText
+     * @return Post
+     */
+    public function setPushText($pushText)
+    {
+        $this->pushText = $pushText;
+
+        return $this;
+    }
+
+    /**
+     * Get pushText
+     *
+     * @return string 
+     */
+    public function getPushText()
+    {
+        return $this->pushText;
+    }
+
+    /**
+     * Set imageUrl
+     *
+     * @param string $imageUrl
+     * @return Post
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get imageUrl
+     *
+     * @return string 
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * Set dateStart
+     *
+     * @param \DateTime $dateStart
+     * @return Post
+     */
+    public function setDateStart($dateStart)
+    {
+        $this->dateStart = $dateStart;
+
+        return $this;
+    }
+
+    /**
+     * Get dateStart
+     *
+     * @return \DateTime 
+     */
+    public function getDateStart()
+    {
+        return $this->dateStart;
+    }
+
+    /**
+     * Set dateEnd
+     *
+     * @param \DateTime $dateEnd
+     * @return Post
+     */
+    public function setDateEnd($dateEnd)
+    {
+        $this->dateEnd = $dateEnd;
+
+        return $this;
+    }
+
+    /**
+     * Get dateEnd
+     *
+     * @return \DateTime 
+     */
+    public function getDateEnd()
+    {
+        return $this->dateEnd;
+    }
+
+    /**
+     * Set dateCreate
+     *
+     * @param \Date $dateCreate
+     * @return Post
+     */
+    public function setDateCreate($dateCreate)
+    {
+        $this->dateCreate = $dateCreate;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreate
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreate()
+    {
+        return $this->dateCreate;
+    }
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     * @return Post
+     */
+    public function setState($state)
+    {
+        if($state == 'validated' OR $state == 'waiting' OR $state == 'rejected')
+            $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return string 
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    public function getAbsolutePath()
+    {
+        return null === $this->imageUrl ? null : $this->getUploadRootDir().'/'.$this->imageUrl;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->imageUrl ? null : $this->getUploadDir().'/'.$this->imageUrl;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
+        // le document/image dans la vue.
+        return 'uploads/documents';
+    }
+
+    private $temp;
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+        // check if we have an old image path
+        if (isset($this->path)) {
+            // store the old name to delete after the update
+            $this->temp = $this->path;
+            $this->path = null;
+        } else {
+            $this->path = 'initial';
+        }
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->getFile()) {
+            // do whatever you want to generate a unique name
+            $filename = sha1(uniqid(mt_rand(), true));
+            $this->path = $filename.'.'.$this->getFile()->guessExtension();
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // if there is an error when moving the file, an exception will
+        // be automatically thrown by move(). This will properly prevent
+        // the entity from being persisted to the database on error
+        $this->getFile()->move($this->getUploadRootDir(), $this->path);
+
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            unlink($this->getUploadRootDir().'/'.$this->temp);
+            // clear the temp image path
+            $this->temp = null;
+        }
+        $this->file = null;
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        $file = $this->getAbsolutePath();
+        if ($file) {
+            unlink($file);
+        }
+    }
 }
