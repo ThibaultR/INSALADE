@@ -18,6 +18,12 @@ class AppController extends Controller
      */
     public function indexAction()
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        } else {
+            return $this->redirect($this->generateUrl('post'));
+        }
+
         return array();
     }
 }

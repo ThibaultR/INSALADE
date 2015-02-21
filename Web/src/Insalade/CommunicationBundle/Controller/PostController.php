@@ -29,10 +29,27 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('InsaladeCommunicationBundle:Post')->findAll();
+        $entities = $em->getRepository('InsaladeCommunicationBundle:Post')->findBy(array(), array('id'=>'desc'));;
+
+        $list = $this->get('av_list')->getList($entities, 'id', 'DESC', 'range', array(
+            'max_per_page' => 10,
+            'prev_message' => '<',
+            'next_message' => '>',
+            'sort' => 'id',
+            'order' => 'DESC'
+        ));
+
+        $list->addColumn('id', null, 'Id', true, 'entity.id');
+        $list->addColumn('association', null, 'Association', false, null);
+        $list->addColumn('title', null, 'Title', false, null);
+        $list->addColumn('dateStart', array(array("name" => "date", "params" => array('Y-m-d H:i:s'))), 'Start Date', false, null);
+        $list->addColumn('dateEnd', array(array("name" => "date", "params" => array('Y-m-d H:i:s'))), 'End Date', false, null);
+        $list->addColumn('dateCreate', array(array("name" => "date", "params" => array('Y-m-d H:i:s'))), 'Creation Date', false, null);
+        $list->addColumn('state', null, 'State', true, 'entity.state');
+
 
         return array(
-            'entities' => $entities,
+            'list' => $list,
         );
     }
     /**

@@ -26,7 +26,9 @@
         "knplabs/knp-paginator-bundle": "dev-master",
         "knplabs/knp-menu-bundle": "dev-master",
         "knplabs/knp-menu": "2.0.*@dev",
-        "craue/formflow-bundle": "~2.0"
+        "craue/formflow-bundle": "~2.0",
+        "appventus/avlist-bundle": "dev-master",
+        "white-october/pagerfanta-bundle": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

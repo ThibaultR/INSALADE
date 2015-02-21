@@ -13,16 +13,23 @@ class Builder extends ContainerAware
             'pull-right' => true,
         ));
 
-        if($this->container->get('security.context')->isGranted("ROLE_USER"))
+        $securityContext = $this->container->get('security.context');
+
+        if($securityContext->isGranted("ROLE_USER"))
         {
             $post = $menu->addChild('Posts', array(
                 'route' => 'post'
             ));
 
-            $home = $menu->addChild('Logout', array(
-                'route' => 'fos_user_security_logout',
+            $userDropdown = $menu->addChild('User', array(
+                'label' => $securityContext->getToken()->getUser()->getUsername(),
+                'dropdown' => true,
+                'caret' => true,
             ));
-        }
+
+            $userDropdown->addChild('Logout', array('route' => 'fos_user_security_logout'));
+            }
+
         else {
             $login = $menu->addChild('Login', array(
                 'route' => 'fos_user_security_login'
