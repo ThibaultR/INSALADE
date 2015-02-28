@@ -155,6 +155,10 @@ class PostController extends Controller
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
+        if($entity->getState() == 'pushed') {
+            return $this->redirect($this->generateUrl('post_show', array('id' => $id)));
+        }
+
         $editForm = $this->createEditForm($entity);
 
         return array(
@@ -195,6 +199,10 @@ class PostController extends Controller
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Post entity.');
+        }
+
+        if($entity->getState() == 'pushed') {
+            return $this->redirect($this->generateUrl('post_show', array('id' => $id)));
         }
 
         $editForm = $this->createEditForm($entity);

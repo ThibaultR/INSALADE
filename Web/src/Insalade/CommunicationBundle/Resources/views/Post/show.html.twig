@@ -23,16 +23,28 @@
                     <td>{{ entity.pushText }}</td>
                 </tr>
                 <tr>
+                    <th>Description</th>
+                    <td>{{ entity.description }}</td>
+                </tr>
+                <tr>
                     <th>Image</th>
                     <td><img class="autoResizeImage" src="{{ asset('uploads/documents/'~ entity.imageUrl) }}" /></td>
                 </tr>
                 <tr>
-                    <th>Start Date</th>
+                    <th>Communication Start Date</th>
                     <td>{{ entity.dateStart|date('Y-m-d H:i:s') }}</td>
                 </tr>
                 <tr>
-                    <th>End Date</th>
+                    <th>Communication End Date</th>
                     <td>{{ entity.dateEnd|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>Event Start Date</th>
+                    <td>{{ entity.eventStart|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>Event End Date</th>
+                    <td>{{ entity.eventEnd|date('Y-m-d H:i:s') }}</td>
                 </tr>
                 <tr>
                     <th>Creation Date</th>
@@ -45,8 +57,10 @@
                             <span class="label label-success">Validated</span>
                         {% elseif entity.state == 'waiting' %}
                             <span class="label label-warning">Waiting</span>
-                        {% else %}
+                        {% elseif entity.state == 'rejected' %}
                             <span class="label label-danger">Rejected</span>
+                        {% elseif entity.state == 'pushed' %}
+                            <span class="label label-default">Pushed</span>
                         {% endif %}
 
                         {% if is_granted("ROLE_INSALADE") and entity.state == 'waiting' %}
@@ -70,11 +84,13 @@
                 Back to the list
             </a>
         </li>
+        {% if entity.state != 'pushed' %}
         <li class="list-group-item">
             <a href="{{ path('post_edit', { 'id': entity.id }) }}" class="btn btn-warning center-block">
                 Edit
             </a>
         </li>
+        {% endif %}
         <li class="list-group-item">
             <a href="{{ path('post_delete', { 'id': entity.id }) }}" class="btn btn-danger center-block">
                 Delete

@@ -4,6 +4,7 @@ namespace Insalade\CommunicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * Post
  *
@@ -46,13 +47,19 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="image_url", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image_url", type="string", length=255, nullable=true)
      */
     private $imageUrl;
 
     /**
-     * @Assert\Image(maxSize="50000000", minWidth="200", maxWidth="400", minHeight="200", maxHeight="400")
-     * @Assert\NotBlank()
+     * @Assert\Image(maxSize="50000000", minWidth="200", maxWidth="700", minHeight="200", maxHeight="700")
      *
      */
     public $image;
@@ -70,6 +77,20 @@ class Post
      * @ORM\Column(name="date_end", type="datetime")
      */
     private $dateEnd;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="event_start", type="datetime")
+     */
+    private $eventStart;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="eventEnd", type="datetime")
+     */
+    private $eventEnd;
 
     /**
      * @var \Date
@@ -171,6 +192,29 @@ class Post
     }
 
     /**
+     * Set description
+     *
+     * @param string $description
+     * @return Post
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * Set imageUrl
      *
      * @param string $imageUrl
@@ -191,6 +235,10 @@ class Post
     public function getImageUrl()
     {
         return $this->imageUrl;
+    }
+
+    public function getImage() {
+        return $this->image;
     }
 
     /**
@@ -312,20 +360,20 @@ class Post
     private $temp;
 
     /**
-     * Sets file.
+     * Sets image.
      *
-     * @param UploadedFile $file
+     * @param UploadedFile $image
      */
-    public function setFile(UploadedFile $file = null)
+    public function setImage(UploadedFile $image = null)
     {
-        $this->file = $file;
+        $this->image = $image;
         // check if we have an old image path
-        if (isset($this->path)) {
+        if (isset($this->imageUrl)) {
             // store the old name to delete after the update
-            $this->temp = $this->path;
-            $this->path = null;
+            $this->temp = $this->imageUrl;
+            $this->imageUrl = null;
         } else {
-            $this->path = 'initial';
+            $this->imageUrl = 'initial';
         }
     }
 
@@ -335,10 +383,10 @@ class Post
      */
     public function preUpload()
     {
-        if (null !== $this->getFile()) {
+        if (null !== $this->getImage()) {
             // do whatever you want to generate a unique name
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename.'.'.$this->getFile()->guessExtension();
+            $imagename = sha1(uniqid(mt_rand(), true));
+            $this->imageUrl = $imagename.'.'.$this->getImage()->guessExtension();
         }
     }
 
@@ -348,14 +396,14 @@ class Post
      */
     public function upload()
     {
-        if (null === $this->getFile()) {
+        if (null === $this->getImage()) {
             return;
         }
 
-        // if there is an error when moving the file, an exception will
+        // if there is an error when moving the image, an exception will
         // be automatically thrown by move(). This will properly prevent
         // the entity from being persisted to the database on error
-        $this->getFile()->move($this->getUploadRootDir(), $this->path);
+        $this->getImage()->move($this->getUploadRootDir(), $this->imageUrl);
 
         // check if we have an old image
         if (isset($this->temp)) {
@@ -364,7 +412,7 @@ class Post
             // clear the temp image path
             $this->temp = null;
         }
-        $this->file = null;
+        $this->image = null;
     }
 
     /**
@@ -372,9 +420,9 @@ class Post
      */
     public function removeUpload()
     {
-        $file = $this->getAbsolutePath();
-        if ($file) {
-            unlink($file);
+        $image = $this->getAbsolutePath();
+        if ($image) {
+            unlink($image);
         }
     }
 }

@@ -17,10 +17,13 @@ class PostType extends AbstractType
         $builder
             ->add('association')
             ->add('title')
-            ->add('pushText', 'textarea', array('label' => 'Text'))
+            ->add('pushText', 'textarea', array('label' => 'Push Text'))
+            ->add('description', 'textarea', array('label' => 'Description'))
             ->add('image')
-            ->add('dateStart', 'datetime', array('label' => 'Start Date'))
-            ->add('dateEnd', 'datetime', array('label' => 'End Date'))
+            ->add('dateStart', 'datetime', array('label' => 'Start Communication Date'))
+            ->add('dateEnd', 'datetime', array('label' => 'End Communication Date'))
+            ->add('eventStart', 'datetime', array('label' => 'Start Event Date'))
+            ->add('eventEnd', 'datetime', array('label' => 'End Event Date'))
         ;
     }
     

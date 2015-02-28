@@ -47,6 +47,13 @@ class Post
     /**
      * @var string
      *
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="image_url", type="string", length=255, nullable=true)
      */
     private $imageUrl;
@@ -70,6 +77,20 @@ class Post
      * @ORM\Column(name="date_end", type="datetime")
      */
     private $dateEnd;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="event_start", type="datetime")
+     */
+    private $eventStart;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="eventEnd", type="datetime")
+     */
+    private $eventEnd;
 
     /**
      * @var \Date
@@ -168,6 +189,29 @@ class Post
     public function getPushText()
     {
         return $this->pushText;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Post
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**
@@ -274,7 +318,7 @@ class Post
      */
     public function setState($state)
     {
-        if($state == 'validated' OR $state == 'waiting' OR $state == 'rejected')
+        if($state == 'validated' OR $state == 'waiting' OR $state == 'rejected' OR $state == 'pushed')
             $this->state = $state;
 
         return $this;
@@ -380,5 +424,51 @@ class Post
         if ($image) {
             unlink($image);
         }
+    }
+
+    /**
+     * Set eventStart
+     *
+     * @param \DateTime $eventStart
+     * @return Post
+     */
+    public function setEventStart($eventStart)
+    {
+        $this->eventStart = $eventStart;
+
+        return $this;
+    }
+
+    /**
+     * Get eventStart
+     *
+     * @return \DateTime 
+     */
+    public function getEventStart()
+    {
+        return $this->eventStart;
+    }
+
+    /**
+     * Set eventEnd
+     *
+     * @param \DateTime $eventEnd
+     * @return Post
+     */
+    public function setEventEnd($eventEnd)
+    {
+        $this->eventEnd = $eventEnd;
+
+        return $this;
+    }
+
+    /**
+     * Get eventEnd
+     *
+     * @return \DateTime 
+     */
+    public function getEventEnd()
+    {
+        return $this->eventEnd;
     }
 }

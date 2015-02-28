@@ -8,10 +8,11 @@
                 <th class="hidden-xs">Id</th>
                 <th class="hidden-xs">Association</th>
                 <th>Title</th>
-                <th class="hidden-xs hidden-sm hidden-md">Text</th>
-                <th class="hidden-xs hidden-sm hidden-md">Start Date</th>
-                <th class="hidden-xs hidden-sm hidden-md">End Date</th>
-                <th class="hidden-xs hidden-sm hidden-md">Creation Date</th>
+                <th class="hidden-xs hidden-sm hidden-md">Push Text</th>
+                <th class="hidden-xs hidden-sm hidden-md">Description</th>
+                <th class="hidden-xs hidden-sm hidden-md">Com' Start Date</th>
+                <th class="hidden-xs hidden-sm hidden-md">Com' End Date</th>
+                <th class="hidden hidden-xs hidden-sm hidden-md">Creation Date</th>
                 <th class="sortable" data-target="f.state">State</th>
                 <th>Actions</th>
             </tr>
@@ -23,23 +24,28 @@
                 <td class="hidden-xs">{{ entity.association }}</td>
                 <td>{{ entity.title|length > 20 ? entity.title|striptags|slice(0, 20) ~ '...' : entity.title|raw  }}</td>
                 <td class="hidden-xs hidden-sm hidden-md">{{ entity.pushText|length > 25 ? entity.pushText|striptags|slice(0, 25) ~ '...' : entity.pushText|raw  }}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{{ entity.description|length > 25 ? entity.description|striptags|slice(0, 25) ~ '...' : entity.description|raw  }}</td>
                 <td class="hidden-xs hidden-sm hidden-md">{% if entity.dateStart %}{{ entity.dateStart|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td class="hidden-xs hidden-sm hidden-md">{% if entity.dateEnd %}{{ entity.dateEnd|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td class="hidden-xs hidden-sm hidden-md">{% if entity.dateCreate %}{{ entity.dateCreate|date('Y-m-d') }}{% endif %}</td>
+                <td class="hidden hidden-xs hidden-sm hidden-md">{% if entity.dateCreate %}{{ entity.dateCreate|date('Y-m-d') }}{% endif %}</td>
                 <td>
                     {% if entity.state == 'validated' %}
                         <span class="label label-success">Validated</span>
                     {% elseif entity.state == 'waiting' %}
                         <span class="label label-warning">Waiting</span>
-                    {% else %}
+                    {% elseif entity.state == 'rejected' %}
                         <span class="label label-danger">Rejected</span>
+                    {% elseif entity.state == 'pushed' %}
+                        <span class="label label-default">Pushed</span>
                     {% endif %}
                 </td>
                 <td>
                     <select class="form-control" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
                         <option></option>
                         <option value="{{ path('post_show', { 'id': entity.id }) }}">Show</option>
+                        {% if entity.state != 'pushed' %}
                         <option value="{{ path('post_edit', { 'id': entity.id }) }}">Edit</option>
+                        {% endif %}
                         <option value="{{ path('post_delete', { 'id': entity.id }) }}">Delete</option>
                         {% if is_granted("ROLE_INSALADE") and entity.state == 'waiting' %}
                         <option value="{{ path('post_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
