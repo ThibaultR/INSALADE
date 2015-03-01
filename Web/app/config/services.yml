@@ -9,3 +9,4 @@ services:
         arguments: [@mailer]
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }

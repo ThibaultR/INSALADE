@@ -3,12 +3,14 @@
 namespace Insalade\CommunicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Push
  *
  * @ORM\Table(name="push")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Push
 {
