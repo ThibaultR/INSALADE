@@ -17,6 +17,10 @@ class Builder extends ContainerAware
 
         if($securityContext->isGranted("ROLE_USER"))
         {
+            $push = $menu->addChild('Pushs', array(
+                'route' => 'push'
+            ));
+
             $post = $menu->addChild('Posts', array(
                 'route' => 'post'
             ));

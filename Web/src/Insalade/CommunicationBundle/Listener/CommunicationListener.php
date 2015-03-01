@@ -5,7 +5,7 @@ namespace Insalade\CommunicationBundle\Listener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Insalade\CommunicationBundle\Entity\Post;
 
-class PostPostPersistListener
+class CommunicationListener
 {
     public function __construct(\Swift_Mailer $mailer)
     {
@@ -23,6 +23,16 @@ class PostPostPersistListener
                 ->setFrom('insalade@gmail.com')
                 ->setTo('hkwon@insa-rennes.fr')
                 ->setBody("http://37.59.123.110/Web/web/post/".$entity->getId())
+            ;
+            $this->mailer->send($message);
+        }
+
+        if ($entity instanceof Push) {
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Un nouveau push à valider !')
+                ->setFrom('insalade@gmail.com')
+                ->setTo('hkwon@insa-rennes.fr')
+                ->setBody("http://37.59.123.110/Web/web/push/".$entity->getId())
             ;
             $this->mailer->send($message);
         }

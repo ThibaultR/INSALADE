@@ -1,0 +1,84 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">Post</div>
+
+        <table class="record_properties table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr>
+                    <th>Association</th>
+                    <td>{{ entity.association }}</td>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <td>{{ entity.title }}</td>
+                </tr>
+                <tr>
+                    <th>Text</th>
+                    <td>{{ entity.pushText }}</td>
+                </tr>
+                <tr>
+                    <th>Communication Start Date</th>
+                    <td>{{ entity.dateStart|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>Communication End Date</th>
+                    <td>{{ entity.dateEnd|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>Creation Date</th>
+                    <td>{{ entity.creationDate|date('Y-m-d') }}</td>
+                </tr>
+                <tr>
+                    <th>State</th>
+                    <td>
+                        {% if entity.state == 'validated' %}
+                            <span class="label label-success">Validated</span>
+                        {% elseif entity.state == 'waiting' %}
+                            <span class="label label-warning">Waiting</span>
+                        {% elseif entity.state == 'rejected' %}
+                            <span class="label label-danger">Rejected</span>
+                        {% elseif entity.state == 'pushed' %}
+                            <span class="label label-default">Pushed</span>
+                        {% endif %}
+
+                        {% if is_granted("ROLE_INSALADE") and entity.state == 'waiting' %}
+                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                        {% elseif is_granted("ROLE_INSALADE") and entity.state == 'validated' %}
+                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                        {% elseif is_granted("ROLE_INSALADE") and entity.state == 'rejected' %}
+                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ul class="record_actions list-group col-md-4 center-block float-none">
+        <li class="list-group-item">
+            <a href="{{ path('push') }}" class="btn btn-info center-block">
+                Back to the list
+            </a>
+        </li>
+        {% if entity.state != 'pushed' %}
+        <li class="list-group-item">
+            <a href="{{ path('push_edit', { 'id': entity.id }) }}" class="btn btn-warning center-block">
+                Edit
+            </a>
+        </li>
+        {% endif %}
+        <li class="list-group-item">
+            <a href="{{ path('push_delete', { 'id': entity.id }) }}" class="btn btn-danger center-block">
+                Delete
+            </a>
+        </li>
+    </ul>
+{% endblock content %}

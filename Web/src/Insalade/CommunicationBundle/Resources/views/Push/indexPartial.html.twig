@@ -1,0 +1,77 @@
+{% if list.pager.nbResults > 0 %}
+<div class="panel panel-default"  id="{{ list.option('id') }}">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Push list</div>
+    <table class="records_list table">
+        <thead>
+            <tr>
+                <th class="hidden-xs">Id</th>
+                <th class="hidden-xs">Association</th>
+                <th>Title</th>
+                <th class="hidden-xs hidden-sm hidden-md">Push Text</th>
+                <th class="hidden-xs hidden-sm hidden-md">Com' Start Date</th>
+                <th class="hidden-xs hidden-sm hidden-md">Com' End Date</th>
+                <th class="hidden hidden-xs hidden-sm hidden-md">Creation Date</th>
+                <th class="sortable" data-target="f.state">State</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in list.pager %}
+            <tr>
+                <td class="hidden-xs"><a href="{{ path('push_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td class="hidden-xs">{{ entity.association }}</td>
+                <td>{{ entity.title|length > 20 ? entity.title|striptags|slice(0, 20) ~ '...' : entity.title|raw  }}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{{ entity.pushText|length > 25 ? entity.pushText|striptags|slice(0, 25) ~ '...' : entity.pushText|raw  }}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{% if entity.dateStart %}{{ entity.dateStart|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{% if entity.dateEnd %}{{ entity.dateEnd|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td class="hidden hidden-xs hidden-sm hidden-md">{% if entity.creationDate %}{{ entity.creationDate|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    {% if entity.state == 'validated' %}
+                        <span class="label label-success">Validated</span>
+                    {% elseif entity.state == 'waiting' %}
+                        <span class="label label-warning">Waiting</span>
+                    {% elseif entity.state == 'rejected' %}
+                        <span class="label label-danger">Rejected</span>
+                    {% elseif entity.state == 'pushed' %}
+                        <span class="label label-default">Pushed</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <select class="form-control" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option value="{{ path('push_show', { 'id': entity.id }) }}">Show</option>
+                        {% if entity.state != 'pushed' %}
+                        <option value="{{ path('push_edit', { 'id': entity.id }) }}">Edit</option>
+                        {% endif %}
+                        <option value="{{ path('push_delete', { 'id': entity.id }) }}">Delete</option>
+                        {% if is_granted("ROLE_INSALADE") and entity.state == 'waiting' %}
+                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                        {% elseif is_granted("ROLE_INSALADE") and entity.state == 'validated' %}
+                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                        {% elseif is_granted("ROLE_INSALADE") and entity.state == 'rejected' %}
+                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                        {% endif %}
+                    </select>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="text-center">
+    {% include 'AvListBundle:AvList:control.html.twig' with {'list':list}%}
+    <br />
+</div>
+{% else %}
+    <p>There is no push yet.</p>
+{% endif %}
+
+<div class="text-center">
+    <a href="{{ path('push_new') }}" class="btn btn-success">
+        Create a new push
+    </a>
+</div>

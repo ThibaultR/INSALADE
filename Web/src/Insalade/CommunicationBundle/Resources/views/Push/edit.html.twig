@@ -1,0 +1,35 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <h1>Push edit</h1>
+
+    {{ form(edit_form) }}
+
+    <ul class="record_actions list-group col-md-4 center-block float-none">
+        <li class="list-group-item">
+            <button class="btn btn-warning center-block" style="width: 100%;" id="btn-edit-form">
+                Update
+            </button>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ path('push') }}" class="btn btn-info center-block">
+                Back to the list
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ path('push_delete', { 'id': entity.id }) }}" class="btn btn-danger center-block">
+                Delete
+            </a>
+        </li>
+    </ul>
+{% endblock content %}
+
+{% block body_end_before_js %}
+<script type="text/javascript">
+    $(document).ready(function() {
+       $("#btn-edit-form").click(function() {
+           $("#edit-form").submit();
+       });
+    });
+</script>
+{% endblock body_end_before_js %}
