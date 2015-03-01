@@ -43,7 +43,6 @@ class PushController extends Controller
         $list->addColumn('association', null, 'Association', false, null);
         $list->addColumn('title', null, 'Title', false, null);
         $list->addColumn('dateStart', array(array("name" => "date", "params" => array('Y-m-d H:i:s'))), 'Start Date', false, null);
-        $list->addColumn('dateEnd', array(array("name" => "date", "params" => array('Y-m-d H:i:s'))), 'End Date', false, null);
         $list->addColumn('dateCreate', array(array("name" => "date", "params" => array('Y-m-d H:i:s'))), 'Creation Date', false, null);
         $list->addColumn('state', null, 'State', true, 'entity.state');
 

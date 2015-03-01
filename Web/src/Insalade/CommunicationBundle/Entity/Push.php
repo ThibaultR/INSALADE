@@ -54,13 +54,6 @@ class Push
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_end", type="datetime")
-     */
-    private $dateEnd;
-
-    /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="date_create", type="datetime")
      */
     private $creationDate;
@@ -178,29 +171,6 @@ class Push
     public function getDateStart()
     {
         return $this->dateStart;
-    }
-
-    /**
-     * Set dateEnd
-     *
-     * @param \DateTime $dateEnd
-     * @return Push
-     */
-    public function setDateEnd($dateEnd)
-    {
-        $this->dateEnd = $dateEnd;
-
-        return $this;
-    }
-
-    /**
-     * Get dateEnd
-     *
-     * @return \DateTime 
-     */
-    public function getDateEnd()
-    {
-        return $this->dateEnd;
     }
 
     /**

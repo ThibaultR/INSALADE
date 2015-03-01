@@ -10,7 +10,6 @@
                 <th>Title</th>
                 <th class="hidden-xs hidden-sm hidden-md">Push Text</th>
                 <th class="hidden-xs hidden-sm hidden-md">Com' Start Date</th>
-                <th class="hidden-xs hidden-sm hidden-md">Com' End Date</th>
                 <th class="hidden hidden-xs hidden-sm hidden-md">Creation Date</th>
                 <th class="sortable" data-target="f.state">State</th>
                 <th>Actions</th>
@@ -24,7 +23,6 @@
                 <td>{{ entity.title|length > 20 ? entity.title|striptags|slice(0, 20) ~ '...' : entity.title|raw  }}</td>
                 <td class="hidden-xs hidden-sm hidden-md">{{ entity.pushText|length > 25 ? entity.pushText|striptags|slice(0, 25) ~ '...' : entity.pushText|raw  }}</td>
                 <td class="hidden-xs hidden-sm hidden-md">{% if entity.dateStart %}{{ entity.dateStart|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td class="hidden-xs hidden-sm hidden-md">{% if entity.dateEnd %}{{ entity.dateEnd|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td class="hidden hidden-xs hidden-sm hidden-md">{% if entity.creationDate %}{{ entity.creationDate|date('Y-m-d') }}{% endif %}</td>
                 <td>
                     {% if entity.state == 'validated' %}

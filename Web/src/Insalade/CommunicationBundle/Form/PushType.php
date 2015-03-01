@@ -19,7 +19,6 @@ class PushType extends AbstractType
             ->add('title')
             ->add('pushText', 'textarea', array('label' => 'Push Text'))
             ->add('dateStart', 'datetime', array('label' => 'Start Communication Date'))
-            ->add('dateEnd', 'datetime', array('label' => 'End Communication Date'))
         ;
     }
     
