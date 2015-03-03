@@ -11,4 +11,14 @@
     <string name="slideMenuActivity">SlideMenuActivity</string>
     <string name="slideMenuFragment">SlideMenuFragment</string>
     <string name="semaine">Semaine</string>
+
+    <string-array name="dayNameList">
+        <item>Lun</item>
+        <item>Mar</item>
+        <item>Mer</item>
+        <item>Jeu</item>
+        <item>Ven</item>
+        <item>Sam</item>
+        <item>Dim</item>
+    </string-array>
 </resources>

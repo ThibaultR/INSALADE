@@ -11,4 +11,7 @@
     <color name="dateMenuFontColor">#FFFFFF</color>
     <color name="mainTextColor">#FFFFFF</color>
     <color name="weekSeparatorFontColor">#FFFFFF</color>
+    <color name="defaultTickmark">#FFFFFF</color>
+    <color name="closedTickMark">#f94e4e</color>
+    <color name="selectedTickMark">#66d441</color>
 </resources>

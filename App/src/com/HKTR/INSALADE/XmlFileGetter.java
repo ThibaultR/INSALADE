@@ -29,7 +29,7 @@ public class XmlFileGetter {
         ArrayList<String> urls = new ArrayList<String>();
         String[]  existingFiles = context.getFilesDir().list();
         ArrayList existingFilesList = new ArrayList(Arrays.asList(existingFiles));
-        String URL = "http://37.59.123.110/INSALADE/XmlMenus/menu";
+        String URL = "http://37.59.123.110/INSALADE/debug/menu";
 
         for(int i = weekNumber; i<weekNumber+2; i++){
             if(!(existingFilesList.contains("menu"+i%52))) {
