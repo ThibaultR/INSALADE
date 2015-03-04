@@ -50,7 +50,7 @@ public class SlideMenuActivity extends FragmentActivity {
         setContentView(R.layout.menu_slide);
 
         //Change header menu title font
-        Typeface fontPacifico = Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf"); //TODO : onclick go to menu
+        Typeface fontPacifico = Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf");
         TextView headerMenuTitle = (TextView) findViewById(R.id.headerMenuTitle);
         headerMenuTitle.setTypeface(fontPacifico);
 
@@ -100,6 +100,7 @@ public class SlideMenuActivity extends FragmentActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(indexPage);
+
         updateCurrentMenuIndicationColor(indexPage, false);
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
