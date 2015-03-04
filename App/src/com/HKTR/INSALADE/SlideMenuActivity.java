@@ -45,6 +45,8 @@ public class SlideMenuActivity extends FragmentActivity {
      */
     private PagerAdapter mPagerAdapter;
 
+    private int oldMenuIndex = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Hide title bar
@@ -104,6 +106,58 @@ public class SlideMenuActivity extends FragmentActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(indexPage);
+        updateCurrentMenuIndicationColor(indexPage);
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                updateCurrentMenuIndicationColor(i);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+
+        });
+    }
+
+    // TODO Factoriser
+    public void updateCurrentMenuIndicationColor(int pageIndex) {
+        RelativeLayout oldNavigationButton = (RelativeLayout) navigationButtons.getChildAt(oldMenuIndex/2);
+        if(oldMenuIndex%2 == 0) {
+            if(WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(oldMenuIndex/2).getLunch().isClosed()) {
+                oldNavigationButton.findViewById(R.id.tickMarkLunch).setBackgroundResource(R.drawable.closed_tickmark);
+            } else {
+                oldNavigationButton.findViewById(R.id.tickMarkLunch).setBackgroundResource(R.drawable.default_tickmark);
+            }
+        } else {
+            if(WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(oldMenuIndex/2).getDinner().isClosed()) {
+                oldNavigationButton.findViewById(R.id.tickMarkDinner).setBackgroundResource(R.drawable.closed_tickmark);
+            } else {
+                oldNavigationButton.findViewById(R.id.tickMarkDinner).setBackgroundResource(R.drawable.default_tickmark);
+            }
+        }
+
+        ((TextView) oldNavigationButton.findViewById(R.id.dayNumber)).setTextColor(getResources().getColor(R.color.mainTextColor));
+        ((TextView) oldNavigationButton.findViewById(R.id.dayName)).setTextColor(getResources().getColor(R.color.mainTextColor));
+
+
+
+        RelativeLayout navigationButton = (RelativeLayout) navigationButtons.getChildAt(pageIndex/2);
+        if(pageIndex%2 == 0) {
+            navigationButton.findViewById(R.id.tickMarkLunch).setBackgroundResource(R.drawable.selected_tickmark);
+        } else {
+            navigationButton.findViewById(R.id.tickMarkDinner).setBackgroundResource(R.drawable.selected_tickmark);
+        }
+        ((TextView) navigationButton.findViewById(R.id.dayNumber)).setTextColor(getResources().getColor(R.color.mainColor));
+        ((TextView) navigationButton.findViewById(R.id.dayName)).setTextColor(getResources().getColor(R.color.mainColor));
+
+        oldMenuIndex = pageIndex;
     }
 
 
@@ -127,10 +181,29 @@ public class SlideMenuActivity extends FragmentActivity {
         }
 
         if(mPager.getCurrentItem() == i*2){
-            mPager.setCurrentItem(i*2 +1);
+            mPager.setCurrentItem(i*2 +1, false);
         }else {
-            mPager.setCurrentItem(i*2);
+            mPager.setCurrentItem(i*2, false);
         }
+    }
+
+    public void onClickHeaderText(View view) {
+        //Sunday = 1, Monday = 2 ...
+        Calendar now = Calendar.getInstance();
+        int today = (now.get(Calendar.DAY_OF_WEEK) - 2)%7;
+        int timeH = now.get(Calendar.HOUR_OF_DAY);
+
+        int menuNumber = 0;
+        //afficher le déjeuner
+        if(timeH < 14) {
+            menuNumber = today * 2;
+        }
+        //afficher le dinner
+        else {
+            menuNumber = today * 2 + 1;
+        }
+
+        mPager.setCurrentItem(menuNumber, false);
     }
 
 
