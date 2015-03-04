@@ -1,9 +1,6 @@
 package com.HKTR.INSALADE;
 
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -20,7 +16,6 @@ import android.widget.TextView;
 import com.HKTR.INSALADE.model.DayModel;
 import com.HKTR.INSALADE.model.WeekModel;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -53,14 +48,13 @@ public class SlideMenuActivity extends FragmentActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_slide);
-        navigationButtons = (LinearLayout) findViewById(R.id.navigationButtons);
 
         //Change header menu title font
         Typeface fontPacifico = Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf"); //TODO : onclick go to menu
         TextView headerMenuTitle = (TextView) findViewById(R.id.headerMenuTitle);
         headerMenuTitle.setTypeface(fontPacifico);
 
-
+        navigationButtons = (LinearLayout) findViewById(R.id.navigationButtons);
 
         //Fill navigationButtons
         String[] dayNameList = getResources().getStringArray(R.array.dayNameList);
@@ -106,7 +100,7 @@ public class SlideMenuActivity extends FragmentActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(indexPage);
-        updateCurrentMenuIndicationColor(indexPage);
+        updateCurrentMenuIndicationColor(indexPage, false);
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -115,7 +109,7 @@ public class SlideMenuActivity extends FragmentActivity {
 
             @Override
             public void onPageSelected(int i) {
-                updateCurrentMenuIndicationColor(i);
+                updateCurrentMenuIndicationColor(i, true);
             }
 
             @Override
@@ -127,25 +121,28 @@ public class SlideMenuActivity extends FragmentActivity {
     }
 
     // TODO Factoriser
-    public void updateCurrentMenuIndicationColor(int pageIndex) {
-        RelativeLayout oldNavigationButton = (RelativeLayout) navigationButtons.getChildAt(oldMenuIndex/2);
-        if(oldMenuIndex%2 == 0) {
-            if(WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(oldMenuIndex/2).getLunch().isClosed()) {
-                oldNavigationButton.findViewById(R.id.tickMarkLunch).setBackgroundResource(R.drawable.closed_tickmark);
+    public void updateCurrentMenuIndicationColor(int pageIndex, boolean updateOldDayButton) {
+        if(updateOldDayButton) {
+            RelativeLayout oldNavigationButton = (RelativeLayout) navigationButtons.getChildAt(oldMenuIndex / 2);
+            if (oldMenuIndex % 2 == 0) {
+                View tickMarkLunch = oldNavigationButton.findViewById(R.id.tickMarkLunch);
+                if (WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(oldMenuIndex / 2).getLunch().isClosed()) {
+                    tickMarkLunch.setBackgroundResource(R.drawable.closed_tickmark);
+                } else {
+                    tickMarkLunch.setBackgroundResource(R.drawable.default_tickmark);
+                }
             } else {
-                oldNavigationButton.findViewById(R.id.tickMarkLunch).setBackgroundResource(R.drawable.default_tickmark);
+                View tickMarkDinner = oldNavigationButton.findViewById(R.id.tickMarkDinner);
+                if (WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(oldMenuIndex / 2).getDinner().isClosed()) {
+                    tickMarkDinner.setBackgroundResource(R.drawable.closed_tickmark);
+                } else {
+                    tickMarkDinner.setBackgroundResource(R.drawable.default_tickmark);
+                }
             }
-        } else {
-            if(WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(oldMenuIndex/2).getDinner().isClosed()) {
-                oldNavigationButton.findViewById(R.id.tickMarkDinner).setBackgroundResource(R.drawable.closed_tickmark);
-            } else {
-                oldNavigationButton.findViewById(R.id.tickMarkDinner).setBackgroundResource(R.drawable.default_tickmark);
-            }
+
+            ((TextView) oldNavigationButton.findViewById(R.id.dayNumber)).setTextColor(getResources().getColor(R.color.mainTextColor));
+            ((TextView) oldNavigationButton.findViewById(R.id.dayName)).setTextColor(getResources().getColor(R.color.mainTextColor));
         }
-
-        ((TextView) oldNavigationButton.findViewById(R.id.dayNumber)).setTextColor(getResources().getColor(R.color.mainTextColor));
-        ((TextView) oldNavigationButton.findViewById(R.id.dayName)).setTextColor(getResources().getColor(R.color.mainTextColor));
-
 
 
         RelativeLayout navigationButton = (RelativeLayout) navigationButtons.getChildAt(pageIndex/2);
