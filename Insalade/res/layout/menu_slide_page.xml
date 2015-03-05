@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@author Hyukchan Kwon (hyukchan.k@gmail.com)
+@author Thibault Rapin (thibault.rapin@gmail.com)
+-->
+
+<!--Start body-->
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:fillViewport="true"
+             android:layout_below="@id/headerMenu" >
+
+    <!--Start Only Element scrollView-->
+    <RelativeLayout android:id="@+id/menuContent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+        <TextView android:id="@+id/starterContent"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+
+        <TextView android:id="@+id/mainCourseContent"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+
+        <TextView android:id="@+id/dessertContent"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+    </RelativeLayout>
+    
+    <!--End Only Element scrollView-->
+</ScrollView>
+        <!--End body-->
