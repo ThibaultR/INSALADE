@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@author Hyukchan Kwon (hyukchan.k@gmail.com)
+@author Thibault Rapin (thibault.rapin@gmail.com)
+-->
+<resources>
+    <color name="defaultTickmark">#FFFFFF</color>
+    <color name="closedTickMark">#f94e4e</color>
+    <color name="selectedTickMark">#66d441</color>
+    <color name="defaultDayButtonColor">#ffffff</color>
+    <color name="activeDayButtonColor">#66d441</color>
+</resources>
