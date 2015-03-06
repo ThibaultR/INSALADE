@@ -38,11 +38,13 @@
                   android:clickable="true"
                   android:gravity="center"/>
 
-        <TextView android:id="@id/eventButton"
-                  android:layout_width="70dp"
-                  android:layout_height="fill_parent"
-                  android:text="MENUev"
-                  android:layout_alignParentRight="true"/>
+        <ImageButton android:id="@id/eventButton"
+                     android:layout_width="60dp"
+                     android:layout_height="fill_parent"
+                     android:text="MENUev"
+                     android:background="@color/defaultTickmark"
+                     android:layout_alignParentRight="true"
+                     android:onClick="onCLickEventButton"/>
     </RelativeLayout>
     <!--End topbar-->
 

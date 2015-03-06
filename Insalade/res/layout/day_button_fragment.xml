@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+@author Hyukchan Kwon (hyukchan.k@gmail.com)
+@author Thibault Rapin (thibault.rapin@gmail.com)
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/navigationButton"
                 android:layout_width="0dp"

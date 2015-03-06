@@ -2,6 +2,7 @@ package com.HKTR.insalade;
 
 import android.app.ActionBar;
 import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -46,7 +47,10 @@ import static com.HKTR.insalade.Tools.getWeekNumberFromPattern;
 import static com.HKTR.insalade.Tools.isOnline;
 import static com.HKTR.insalade.XmlFileGetter.getUrls;
 
-
+/**
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
+ */
 public class MainActivity extends FragmentActivity {
 
     DayModel currentDay;
@@ -242,7 +246,6 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-
     public void getMenus(String file) {
         //Step 1 : getting instance of the class "DocumentBuilderFactory"
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -401,7 +404,7 @@ public class MainActivity extends FragmentActivity {
     public void onClickMenu(View view) {
         Log.e("TestOnClickMenu", "Works");
     }
-
+    
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -472,6 +475,11 @@ public class MainActivity extends FragmentActivity {
 
     public void onClickHeaderText(View view) {
         goToCurrentMenu();
+    }
+
+    public void onCLickEventButton(View view) {
+        Intent intent = new Intent(this, EventActivity.class);
+        startActivity(intent);
     }
 
     public void goToCurrentMenu() {
