@@ -1,6 +1,7 @@
 package com.HKTR.insalade;
 
 import android.app.ActionBar;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,10 +11,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.Xml;
-import android.view.Display;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.view.*;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,8 +51,14 @@ public class MainActivity extends FragmentActivity {
 
     DayModel currentDay;
     WeekModel currentWeek;
-    Integer currentWeekNumber = 0;
-    Integer menuNumber = 0;
+    int currentWeekNumber = 0;
+    int menuNumber = 0;
+
+    int selectedPage;
+    int triangleWidth;
+    int triangleHeight;
+
+    boolean canUpdateTriangle = false;
 
     LinearLayout navigationButtons = null;
     /**
@@ -86,6 +90,33 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.main_activity);
 
         navigationButtons = (LinearLayout) findViewById(R.id.navigationButtonList);
+        setTriangleWidth();
+        changeHeaderFont();
+    }
+
+    private void changeHeaderFont() {
+        Typeface fontPacifico = Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf");
+        TextView headerMenuTitle = (TextView) findViewById(R.id.insalade_logo);
+        headerMenuTitle.setTypeface(fontPacifico);
+    }
+
+    private void setTriangleWidth() {
+        View triangle = findViewById(R.id.triangle);
+        triangle.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                View triangle = findViewById(R.id.triangle);
+                // Ensure you call it only once :
+                triangle.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                triangleWidth = triangle.getWidth();
+                triangleHeight = triangle.getHeight();
+
+                canUpdateTriangle = true;
+                updateTrianglePosition(selectedPage);
+                // Here you can get the size :)
+            }
+        });
     }
 
     private void fillNavigationButtons() {
@@ -108,6 +139,10 @@ public class MainActivity extends FragmentActivity {
             cal.set(Calendar.DAY_OF_WEEK, (i+2)%7);
             dayNumber.setText(""+cal.get(Calendar.DAY_OF_MONTH));
 
+            Typeface fontLatoLight = Typeface.createFromAsset(getAssets(), "fonts/Lato-Light.ttf");
+            dayName.setTypeface(fontLatoLight);
+            dayNumber.setTypeface(fontLatoLight);
+
             // Set tickmarks color if closed
             DayModel currentDay =  WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(i);
             if (currentDay.getLunch().isClosed()){
@@ -117,7 +152,6 @@ public class MainActivity extends FragmentActivity {
             if (currentDay.getDinner().isClosed()){
                 navigationButton.findViewById(R.id.tickMarkDinner).setBackgroundResource(R.drawable.closed_tickmark);
             }
-
 
             navigationButtons.addView(navigationButton);
         }
@@ -156,6 +190,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onPageSelected(int i) {
+                selectedPage = i;
                 updateCurrentMenuIndicationColor(i, true);
                 updateTrianglePosition(i);
             }
@@ -169,16 +204,18 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void updateTrianglePosition(int i) {
-        View triangle = findViewById(R.id.triangle);
+        if(canUpdateTriangle) {
+            View triangle = findViewById(R.id.triangle);
 
-        int day = i/2;
-        Display display = getWindowManager().getDefaultDisplay();
-        int widthTriangle = display.getWidth()/7;
+            int day = i/2;
+            Display display = getWindowManager().getDefaultDisplay();
+            int marginUnit = display.getWidth()/7;
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(widthTriangle, widthTriangle);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(triangleWidth, triangleHeight);
 
-        params.setMargins(widthTriangle*day,0,0,0);
-        triangle.setLayoutParams(params);
+            params.setMargins(marginUnit*day+(marginUnit-triangleWidth)/2,0,0,0);
+            triangle.setLayoutParams(params);
+        }
     }
 
     public boolean initiateFiles() {
@@ -359,6 +396,10 @@ public class MainActivity extends FragmentActivity {
             result = result.substring(0, result.length()-1);
 
         return result;
+    }
+
+    public void onClickMenu(View view) {
+        Log.e("TestOnClickMenu", "Works");
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

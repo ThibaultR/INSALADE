@@ -4,4 +4,6 @@
 @author Thibault Rapin (thibault.rapin@gmail.com)
 -->
 <resources>
+    <dimen name="triangleSize">55dp</dimen>
+    <dimen name="menuPageDate">25dp</dimen>
 </resources>

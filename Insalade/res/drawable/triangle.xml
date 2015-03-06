@@ -10,7 +10,7 @@
                     android:shape="rectangle" >
                 <stroke android:color="@android:color/transparent" android:width="10dp"/>
                 <solid
-                        android:color="@color/defaultTickmark" />
+                        android:color="@color/headerBackground" />
             </shape>
         </rotate>
     </item>

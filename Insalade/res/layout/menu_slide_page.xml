@@ -3,31 +3,85 @@
 @author Hyukchan Kwon (hyukchan.k@gmail.com)
 @author Thibault Rapin (thibault.rapin@gmail.com)
 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/menuContent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/headerMenu" >
+    <TextView android:id="@+id/menuPageDate"
+              android:layout_width="match_parent"
+              android:layout_height="25dp"
+              android:textColor="@color/menuTextColor"
+              android:textSize="@dimen/menuPageDate"
+              android:gravity="center"/>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/menuPageDate"
+                    android:background="@drawable/shadow"
+                    android:layout_margin="20dp"
+                    android:layout_marginTop="-10dp">
 
-<!--Start body-->
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent"
-             android:fillViewport="true"
-             android:layout_below="@id/headerMenu" >
+        <ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+                     android:layout_width="fill_parent"
+                     android:layout_height="fill_parent"
+                     android:fillViewport="true"
+                     android:background="@drawable/menu_page_background">
 
-    <!--Start Only Element scrollView-->
-    <RelativeLayout android:id="@+id/menuContent"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" >
-        <TextView android:id="@+id/starterContent"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content" />
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:padding="20dp">
 
-        <TextView android:id="@+id/mainCourseContent"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content" />
+                <TextView android:id="@+id/starterTitle"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/starterTitle"
+                          android:gravity="center"
+                          android:textColor="@color/menuTitle"
+                          android:textSize="25dp"/>
 
-        <TextView android:id="@+id/dessertContent"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content" />
+                <TextView android:id="@+id/starterContent"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/starterTitle"
+                          android:textColor="@color/menuTextColor"
+                          android:gravity="center"
+                          android:textSize="20dp"/>
+
+                <TextView android:id="@+id/mainCourseTitle"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/mainCourseTitle"
+                          android:layout_below="@id/starterContent"
+                          android:gravity="center"
+                          android:textColor="@color/menuTitle"
+                          android:textSize="25dp"/>
+
+                <TextView android:id="@+id/mainCourseContent"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/mainCourseTitle"
+                          android:textColor="@color/menuTextColor"
+                          android:gravity="center"
+                          android:textSize="20dp"/>
+
+                <TextView android:id="@+id/dessertTitle"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/dessertTitle"
+                          android:layout_below="@id/mainCourseContent"
+                          android:gravity="center"
+                          android:textColor="@color/menuTitle"
+                          android:textSize="25dp"/>
+
+                <TextView android:id="@+id/dessertContent"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/dessertTitle"
+                          android:textColor="@color/menuTextColor"
+                          android:gravity="center"
+                          android:textSize="20dp"/>
+            </RelativeLayout>
+        </ScrollView>
     </RelativeLayout>
-    
-    <!--End Only Element scrollView-->
-</ScrollView>
-        <!--End body-->
+</RelativeLayout>

@@ -9,4 +9,10 @@
     <color name="selectedTickMark">#66d441</color>
     <color name="defaultDayButtonColor">#ffffff</color>
     <color name="activeDayButtonColor">#66d441</color>
+    <color name="headerBackground">#333333</color>
+    <color name="headerFontColor">#ffffff</color>
+    <color name="appBackgroundColor">#e7e9e8</color>
+    <color name="menuTextColor">#333333</color>
+    <color name="menuPageContent">#ffffff</color>
+    <color name="menuTitle">#64cd40</color>
 </resources>

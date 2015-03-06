@@ -12,31 +12,36 @@
     <!--Start topbar-->
     <RelativeLayout android:id="@+id/headerMenu"
                     android:layout_width="fill_parent"
-                    android:layout_height="100dp"
-                    android:background="#222222">
+                    android:layout_height="70dp"
+                    android:background="@color/headerBackground">
 
-        <TextView android:id="@+id/menuButton"
-                  android:layout_width="60dp"
-                  android:layout_height="fill_parent"
-                  android:text="MENUconf"
-                  android:background="@color/activeDayButtonColor"
-                  android:layout_alignParentLeft="true"/>
+        <RelativeLayout android:id="@+id/menuButton"
+                        android:layout_width="70dp"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="center">
+            <ImageView android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:src="@drawable/bouton_config"
+                       android:onClick="onClickMenu"/>
+        </RelativeLayout>
 
         <TextView android:id="@+id/insalade_logo"
                   android:layout_width="fill_parent"
                   android:layout_height="fill_parent"
-                  android:text="MENU"
-                  android:background="@color/closedTickMark"
+                  android:text="insalade"
+                  android:textColor="@color/headerFontColor"
+                  android:textSize="40dp"
                   android:layout_toLeftOf="@+id/eventButton"
                   android:layout_toRightOf="@id/menuButton"
                   android:onClick="onClickHeaderText"
-                  android:clickable="true"/>
+                  android:clickable="true"
+                  android:gravity="center"/>
 
         <TextView android:id="@id/eventButton"
-                  android:layout_width="60dp"
+                  android:layout_width="70dp"
                   android:layout_height="fill_parent"
                   android:text="MENUev"
-                  android:background="@color/defaultTickmark"
                   android:layout_alignParentRight="true"/>
     </RelativeLayout>
     <!--End topbar-->
@@ -45,23 +50,27 @@
                   android:layout_width="fill_parent"
                   android:layout_height="60dp"
                   android:orientation="horizontal"
-                  android:background="#ff0000"/>
+                  android:background="@color/headerBackground"
+                  android:gravity="center"/>
 
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="40dp"
-                  android:orientation="horizontal">
+                  android:orientation="horizontal"
+                  android:background="@color/appBackgroundColor">
 
         <View android:id="@+id/triangle"
-              android:layout_width="55dp"
-              android:layout_height="55dp"
+              android:layout_width="@dimen/triangleSize"
+              android:layout_height="@dimen/triangleSize"
               android:rotation="180"
               android:background="@drawable/triangle" />
+
     </LinearLayout>
 
 
     <android.support.v4.view.ViewPager android:id="@+id/pager"
                                        android:layout_width="match_parent"
                                        android:layout_height="match_parent"
+                                       android:background="@color/appBackgroundColor"
             />
 
 </LinearLayout>

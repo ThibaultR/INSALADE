@@ -5,9 +5,9 @@
 -->
 <resources>
     <string name="app_name">insalade</string>
-    <string name="starter">Entrées</string>
-    <string name="mainCourse">Plats</string>
-    <string name="dessert">Desserts</string>
+    <string name="starterTitle">Entrées</string>
+    <string name="mainCourseTitle">Plats</string>
+    <string name="dessertTitle">Desserts</string>
 
     <string-array name="dayNameList">
         <item>Lun</item>

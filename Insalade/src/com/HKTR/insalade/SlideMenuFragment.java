@@ -1,5 +1,6 @@
 package com.HKTR.insalade;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -52,15 +53,32 @@ public class SlideMenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.menu_slide_page, container, false);
 
+        TextView menuPageDate = (TextView) rootView.findViewById(R.id.menuPageDate);
+        Typeface fontLatoLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Light.ttf");
+        //Change date font
+        menuPageDate.setTypeface(fontLatoLight);
+
         //get currentMenu
         DayModel currentDay = WeekModel.getDayById(getPageNumber());
         MenuModel currentMenu;
 
         if(getPageNumber()%2 == 0) {
             currentMenu = currentDay.getLunch();
+            menuPageDate.setText(currentMenu.getDate() + " midi");
         } else {
             currentMenu = currentDay.getDinner();
+            menuPageDate.setText(currentMenu.getDate() + " soir");
         }
+
+        Typeface fontLatoHeavy = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Heavy.ttf");
+
+        TextView starterTitle = (TextView) rootView.findViewById(R.id.starterTitle);
+        TextView mainCourseTitle = (TextView) rootView.findViewById(R.id.mainCourseTitle);
+        TextView dessertTitle = (TextView) rootView.findViewById(R.id.dessertTitle);
+
+        starterTitle.setTypeface(fontLatoHeavy);
+        mainCourseTitle.setTypeface(fontLatoHeavy);
+        dessertTitle.setTypeface(fontLatoHeavy);
 
         TextView starterContent = (TextView) rootView.findViewById(R.id.starterContent);
         TextView mainCourseContent = (TextView) rootView.findViewById(R.id.mainCourseContent);
@@ -69,6 +87,10 @@ public class SlideMenuFragment extends Fragment {
         starterContent.setText(currentMenu.getStarter());
         mainCourseContent.setText(currentMenu.getMainCourse());
         dessertContent.setText(currentMenu.getDessert());
+
+        starterContent.setTypeface(fontLatoLight);
+        mainCourseContent.setTypeface(fontLatoLight);
+        dessertContent.setTypeface(fontLatoLight);
 
         return rootView;
     }
