@@ -8,7 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Thibault on 17/11/2014.
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
 public class Tools {
     public static int dpToPx(int dp)
