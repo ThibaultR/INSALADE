@@ -1,5 +1,6 @@
 package com.HKTR.insalade;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,7 +10,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.Xml;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -81,6 +84,8 @@ public class MainActivity extends FragmentActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        navigationButtons = (LinearLayout) findViewById(R.id.navigationButtonList);
     }
 
     private void fillNavigationButtons() {
@@ -90,6 +95,7 @@ public class MainActivity extends FragmentActivity {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.WEEK_OF_YEAR, XmlFileGetter.weekNumber);
 
+        navigationButtons.removeAllViews();
         for(int i = 0; i<7; i++){
             RelativeLayout navigationButton = (RelativeLayout) getLayoutInflater().inflate(R.layout.day_button_fragment, navigationButtons, false);
 
@@ -120,13 +126,16 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        menuNumber = 0;
         if(initiateFiles()) {
-            navigationButtons = (LinearLayout) findViewById(R.id.navigationButtonList);
-
+            // If there is a file
             fillNavigationButtons();
             initiateViewPager();
+            goToCurrentMenu();
+            updateTrianglePosition(mPager.getCurrentItem());
         }
     }
+
 
     private void initiateViewPager() {
         numPages = WeekModel.getWeekList().size() * 7 * 2;
@@ -148,6 +157,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onPageSelected(int i) {
                 updateCurrentMenuIndicationColor(i, true);
+                updateTrianglePosition(i);
             }
 
             @Override
@@ -156,6 +166,19 @@ public class MainActivity extends FragmentActivity {
             }
 
         });
+    }
+
+    private void updateTrianglePosition(int i) {
+        View triangle = findViewById(R.id.triangle);
+
+        int day = i/2;
+        Display display = getWindowManager().getDefaultDisplay();
+        int widthTriangle = display.getWidth()/7;
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(widthTriangle, widthTriangle);
+
+        params.setMargins(widthTriangle*day,0,0,0);
+        triangle.setLayoutParams(params);
     }
 
     public boolean initiateFiles() {
@@ -251,6 +274,7 @@ public class MainActivity extends FragmentActivity {
 
                         currentDay.setDinner(dinner);
                         currentWeek.getWeek().add(currentDay);
+
                     }
                 }
             }
@@ -406,12 +430,16 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void onClickHeaderText(View view) {
+        goToCurrentMenu();
+    }
+
+    public void goToCurrentMenu() {
         //Sunday = 1, Monday = 2 ...
         Calendar now = Calendar.getInstance();
         int today = (now.get(Calendar.DAY_OF_WEEK) - 2)%7;
         int timeH = now.get(Calendar.HOUR_OF_DAY);
 
-        int menuNumber = 0;
+        int menuNumber;
         //afficher le déjeuner
         if(timeH < 14) {
             menuNumber = today * 2;
@@ -423,4 +451,5 @@ public class MainActivity extends FragmentActivity {
 
         mPager.setCurrentItem(menuNumber, false);
     }
+
 }
