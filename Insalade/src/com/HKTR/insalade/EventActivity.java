@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,7 +56,8 @@ public class EventActivity extends Activity {
     public void onClickPreviousButton(View view) {onBackPressed();}
 
     public void onClickEventImage(View view) {
-        TextView eventDescription = (TextView) findViewById(R.id.eventDescription);//TODO don't know if recognize the good one maybe use view and put onclick in upperview containing image and description
+        FrameLayout imageGroup = (FrameLayout) view.getParent();
+        TextView eventDescription = (TextView) imageGroup.findViewById(R.id.eventDescription);
 
         if(eventDescription.getVisibility() == View.VISIBLE) {
             eventDescription.setVisibility(View.GONE);

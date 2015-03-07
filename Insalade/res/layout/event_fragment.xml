@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
     <TextView
             android:id="@+id/eventTitle"
             android:layout_width="fill_parent"
             android:layout_height="30dp"/>
 
-    <ImageButton
-            android:id="@+id/eventImage"
+    <FrameLayout
+            android:id="@+id/eventImageGroup"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@id/eventTitle"
-            android:onClick="onClickEventImage"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventTitle">
 
-    <TextView
-            android:id="@+id/eventDescription"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@id/eventTitle"
-            android:visibility="gone"/>
+        <ImageButton
+                android:id="@+id/eventImage"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:onClick="onClickEventImage"/>
+
+        <TextView
+                android:id="@+id/eventDescription"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:visibility="gone"/>
+    </FrameLayout>
 
     <TextView
             android:id="@+id/eventDate"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
-            android:layout_below="@id/eventImage"/>
+            android:layout_below="@id/eventImageGroup"/>
 </RelativeLayout>
