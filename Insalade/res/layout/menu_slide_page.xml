@@ -21,14 +21,14 @@
                     android:layout_margin="20dp"
                     android:layout_marginTop="-10dp">
 
-        <ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-                     android:layout_width="fill_parent"
-                     android:layout_height="fill_parent"
-                     android:fillViewport="true"
-                     android:background="@drawable/menu_page_background"
-                     android:paddingTop="3dp">
+        <ScrollView android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fillViewport="true"
+                    android:background="@drawable/menu_page_background"
+                    android:paddingTop="3dp">
 
-            <RelativeLayout android:layout_width="match_parent"
+            <RelativeLayout android:id="@+id/MenuScrollView"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_horizontal"
                             android:padding="20dp">

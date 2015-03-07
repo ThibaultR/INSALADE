@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import com.HKTR.insalade.model.DayModel;
 import com.HKTR.insalade.model.MenuModel;
@@ -92,7 +95,34 @@ public class SlideMenuFragment extends Fragment {
         mainCourseContent.setTypeface(fontLatoLight);
         dessertContent.setTypeface(fontLatoLight);
 
+        handleNestedScrollProblem(rootView);
+
         return rootView;
+    }
+
+    private void handleNestedScrollProblem(ViewGroup rootView) {
+        RelativeLayout menuScrollView = (RelativeLayout) rootView.findViewById(R.id.MenuScrollView);
+        menuScrollView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                com.baoyz.widget.PullRefreshLayout pullRefreshLayout = (com.baoyz.widget.PullRefreshLayout) v.getParent().getParent().getParent().getParent().getParent().getParent();
+
+
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (((ScrollView) v.getParent()).getScrollY() > 0) {
+                        pullRefreshLayout.requestDisallowInterceptTouchEvent(true);
+                        return false;
+                    }
+                }
+
+                if(event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    if (((ScrollView) v.getParent()).getScrollY() == 0) {
+                        pullRefreshLayout.requestDisallowInterceptTouchEvent(false);
+                    }
+                }
+
+                return true;
+            }
+        });
     }
 
 
