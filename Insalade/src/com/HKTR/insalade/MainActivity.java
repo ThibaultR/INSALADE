@@ -14,10 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.Xml;
 import android.view.*;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.HKTR.insalade.model.MenuModel;
 import com.baoyz.widget.PullRefreshLayout;
 import org.w3c.dom.Document;
@@ -67,6 +64,9 @@ public class MainActivity extends FragmentActivity {
     boolean canUpdateTriangle = false;
 
     PullRefreshLayout refreshLayout;
+    PullRefreshLayout noMenuRefreshView;
+
+    View triangle;
 
     LinearLayout navigationButtons = null;
     /**
@@ -105,10 +105,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void initiateScrollRefresh() {
-        refreshLayout = (PullRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-
-        // listen refresh event
-        refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        PullRefreshLayout.OnRefreshListener onRefreshListener = new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
@@ -121,18 +118,22 @@ public class MainActivity extends FragmentActivity {
                             }
 
                             onResume();
-                            Toast.makeText(getApplicationContext(), "Menu mis à jour", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "Connexion internet non disponible", Toast.LENGTH_LONG).show();
                         }
 
                         refreshLayout.setRefreshing(false);
+                        noMenuRefreshView.setRefreshing(false);
                     }
                 }, 5000);
             }
-        });
+        };
+        refreshLayout = (PullRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        noMenuRefreshView = (PullRefreshLayout) findViewById(R.id.noMenuRefreshView);
 
-
+        // listen refresh event
+        refreshLayout.setOnRefreshListener(onRefreshListener);
+        noMenuRefreshView.setOnRefreshListener(onRefreshListener);
     }
 
     private void changeHeaderFont() {
@@ -142,12 +143,11 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void setTriangleWidth() {
-        View triangle = findViewById(R.id.triangle);
+        triangle = findViewById(R.id.triangle);
         triangle.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @Override
             public void onGlobalLayout() {
-                View triangle = findViewById(R.id.triangle);
                 // Ensure you call it only once :
                 triangle.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 triangleWidth = triangle.getWidth();
@@ -204,13 +204,32 @@ public class MainActivity extends FragmentActivity {
         menuNumber = 0;
         if(initiateFiles()) {
             // If there is a file
+            toggleRefreshView(true);
+            showNavigationButtonList();
             fillNavigationButtons();
             initiateViewPager();
             goToCurrentMenu();
             updateTrianglePosition(mPager.getCurrentItem());
+        } else {
+            toggleRefreshView(false);
         }
     }
 
+    private void toggleRefreshView(boolean isMenuAvailable) {
+        View noMenuRefreshView = findViewById(R.id.noMenuRefreshView);
+        View swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        if(isMenuAvailable) {
+            noMenuRefreshView.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+        } else {
+            noMenuRefreshView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void showNavigationButtonList() {
+        navigationButtons.setVisibility(View.VISIBLE);
+    }
 
     private void initiateViewPager() {
         numPages = WeekModel.getWeekList().size() * 7 * 2;
@@ -246,8 +265,6 @@ public class MainActivity extends FragmentActivity {
 
     private void updateTrianglePosition(int i) {
         if(canUpdateTriangle) {
-            View triangle = findViewById(R.id.triangle);
-
             int day = i/2;
             Display display = getWindowManager().getDefaultDisplay();
             int marginUnit = display.getWidth()/7;

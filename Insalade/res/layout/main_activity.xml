@@ -57,7 +57,8 @@
                   android:layout_height="60dp"
                   android:orientation="horizontal"
                   android:background="@color/headerBackground"
-                  android:gravity="center"/>
+                  android:gravity="center"
+                  android:visibility="gone"/>
 
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="30dp"
@@ -72,11 +73,10 @@
 
     </LinearLayout>
 
-    <com.baoyz.widget.PullRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/appBackgroundColor">
+    <com.baoyz.widget.PullRefreshLayout android:id="@+id/swipeRefreshLayout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/appBackgroundColor">
         <android.support.v4.view.ViewPager android:id="@+id/pager"
                                            android:layout_width="match_parent"
                                            android:layout_height="match_parent"
@@ -84,4 +84,14 @@
                 />
     </com.baoyz.widget.PullRefreshLayout>
 
+    <com.baoyz.widget.PullRefreshLayout android:id="@+id/noMenuRefreshView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/appBackgroundColor"
+                                        android:visibility="gone">
+        <ScrollView android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"></LinearLayout>
+        </ScrollView>
+    </com.baoyz.widget.PullRefreshLayout>
 </LinearLayout>
