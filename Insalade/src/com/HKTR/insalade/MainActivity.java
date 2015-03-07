@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.graphics.Typeface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.HKTR.insalade.model.MenuModel;
+import com.baoyz.widget.PullRefreshLayout;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -64,6 +66,8 @@ public class MainActivity extends FragmentActivity {
 
     boolean canUpdateTriangle = false;
 
+    PullRefreshLayout refreshLayout;
+
     LinearLayout navigationButtons = null;
     /**
      * The number of pages (Number of week times seven days times two menus by day).
@@ -96,6 +100,39 @@ public class MainActivity extends FragmentActivity {
         navigationButtons = (LinearLayout) findViewById(R.id.navigationButtonList);
         setTriangleWidth();
         changeHeaderFont();
+
+        initiateScrollRefresh();
+    }
+
+    private void initiateScrollRefresh() {
+        refreshLayout = (PullRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+
+        // listen refresh event
+        refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isOnline(getApplicationContext())) {
+                            File[] listFiles = getFilesDir().listFiles();
+                            for (File f : listFiles) {
+                                f.delete();
+                            }
+
+                            onResume();
+                            Toast.makeText(getApplicationContext(), "Menu mis à jour", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Connexion internet non disponible", Toast.LENGTH_LONG).show();
+                        }
+
+                        refreshLayout.setRefreshing(false);
+                    }
+                }, 5000);
+            }
+        });
+
+
     }
 
     private void changeHeaderFont() {

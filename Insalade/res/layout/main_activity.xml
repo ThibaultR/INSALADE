@@ -38,13 +38,17 @@
                   android:clickable="true"
                   android:gravity="center"/>
 
-        <ImageButton android:id="@id/eventButton"
-                     android:layout_width="60dp"
-                     android:layout_height="fill_parent"
-                     android:text="MENUev"
-                     android:background="@color/defaultTickmark"
-                     android:layout_alignParentRight="true"
-                     android:onClick="onCLickEventButton"/>
+        <RelativeLayout android:id="@id/eventButton"
+                        android:layout_width="70dp"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center">
+
+            <ImageView android:layout_width="35dp"
+                       android:layout_height="35dp"
+                       android:src="@drawable/event_active"
+                       android:onClick="onCLickEventButton"/>
+        </RelativeLayout>
     </RelativeLayout>
     <!--End topbar-->
 
@@ -56,7 +60,7 @@
                   android:gravity="center"/>
 
     <LinearLayout android:layout_width="fill_parent"
-                  android:layout_height="40dp"
+                  android:layout_height="30dp"
                   android:orientation="horizontal"
                   android:background="@color/appBackgroundColor">
 
@@ -64,15 +68,20 @@
               android:layout_width="@dimen/triangleSize"
               android:layout_height="@dimen/triangleSize"
               android:rotation="180"
-              android:background="@drawable/triangle" />
+              android:background="@drawable/triangle"/>
 
     </LinearLayout>
 
-
-    <android.support.v4.view.ViewPager android:id="@+id/pager"
-                                       android:layout_width="match_parent"
-                                       android:layout_height="match_parent"
-                                       android:background="@color/appBackgroundColor"
-            />
+    <com.baoyz.widget.PullRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/appBackgroundColor">
+        <android.support.v4.view.ViewPager android:id="@+id/pager"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="match_parent"
+                                           android:background="@color/appBackgroundColor"
+                />
+    </com.baoyz.widget.PullRefreshLayout>
 
 </LinearLayout>
