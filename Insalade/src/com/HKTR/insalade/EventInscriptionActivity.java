@@ -89,13 +89,15 @@ public class EventInscriptionActivity extends Activity {
         params.put("mail", email);
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.PUT, url, params, new Response.Listener<JSONObject>() {
+                (Request.Method.PUT,
+                 url,
+                 params,
+                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
 
                     }
                 }, new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         shakeModal(modal);

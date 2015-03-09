@@ -8,6 +8,7 @@
     <string name="starterTitle">Entrées</string>
     <string name="mainCourseTitle">Plats</string>
     <string name="dessertTitle">Desserts</string>
+    <string name="preference_file_key">com.HKTR.insalade.PREFERENCE_FILE_KEY</string>
 
     <string-array name="dayNameList">
         <item>Lun</item>
