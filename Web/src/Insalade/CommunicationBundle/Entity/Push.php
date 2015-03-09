@@ -31,6 +31,13 @@ class Push
     private $association;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="creator_id", type="integer")
+     */
+    private $creatorId;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -218,5 +225,28 @@ class Push
     public function getCreationDate()
     {
         return $this->creationDate;
+    }
+
+    /**
+     * Set creatorId
+     *
+     * @param integer $creatorId
+     * @return Push
+     */
+    public function setCreatorId($creatorId)
+    {
+        $this->creatorId = $creatorId;
+
+        return $this;
+    }
+
+    /**
+     * Get creatorId
+     *
+     * @return integer 
+     */
+    public function getCreatorId()
+    {
+        return $this->creatorId;
     }
 }

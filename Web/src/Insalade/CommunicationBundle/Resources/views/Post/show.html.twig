@@ -84,17 +84,21 @@
                 Back to the list
             </a>
         </li>
-        {% if entity.state != 'pushed' %}
+        {% if (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) and entity.state != 'pushed' %}
         <li class="list-group-item">
             <a href="{{ path('post_edit', { 'id': entity.id }) }}" class="btn btn-warning center-block">
                 Edit
             </a>
         </li>
         {% endif %}
+
+        {% if (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) %}
         <li class="list-group-item">
             <a href="{{ path('post_delete', { 'id': entity.id }) }}" class="btn btn-danger center-block">
                 Delete
             </a>
         </li>
+
+        {% endif %}
     </ul>
 {% endblock content %}
