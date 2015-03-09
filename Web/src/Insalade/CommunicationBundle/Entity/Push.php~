@@ -3,19 +3,21 @@
 namespace Insalade\CommunicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Push
  *
- * @ORM\Table()
+ * @ORM\Table(name="push")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Push
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id_push", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -29,6 +31,13 @@ class Push
     private $association;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="creator_id", type="integer")
+     */
+    private $creatorId;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -38,28 +47,21 @@ class Push
     /**
      * @var string
      *
-     * @ORM\Column(name="pushText", type="string", length=255)
+     * @ORM\Column(name="push_text", type="string", length=255)
      */
     private $pushText;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateStart", type="datetime")
+     * @ORM\Column(name="date_start", type="datetime")
      */
     private $dateStart;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateEnd", type="datetime")
-     */
-    private $dateEnd;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="creationDate", type="datetime")
+     * @ORM\Column(name="date_create", type="datetime")
      */
     private $creationDate;
 
@@ -70,6 +72,11 @@ class Push
      */
     private $state;
 
+    public function __construct()
+    {
+        $this->setState("waiting");
+        $this->setCreationDate(new \DateTime());
+    }
 
     /**
      * Get id
@@ -174,29 +181,6 @@ class Push
     }
 
     /**
-     * Set dateEnd
-     *
-     * @param \DateTime $dateEnd
-     * @return Push
-     */
-    public function setDateEnd($dateEnd)
-    {
-        $this->dateEnd = $dateEnd;
-
-        return $this;
-    }
-
-    /**
-     * Get dateEnd
-     *
-     * @return \DateTime 
-     */
-    public function getDateEnd()
-    {
-        return $this->dateEnd;
-    }
-
-    /**
      * Set state
      *
      * @param string $state
@@ -204,7 +188,8 @@ class Push
      */
     public function setState($state)
     {
-        $this->state = $state;
+        if($state == 'validated' OR $state == 'waiting' OR $state == 'rejected' OR $state == 'pushed')
+            $this->state = $state;
 
         return $this;
     }
@@ -217,5 +202,51 @@ class Push
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     * @return Push
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * Set postCreatorId
+     *
+     * @param integer $postCreatorId
+     * @return Push
+     */
+    public function setPostCreatorId($postCreatorId)
+    {
+        $this->postCreatorId = $postCreatorId;
+
+        return $this;
+    }
+
+    /**
+     * Get postCreatorId
+     *
+     * @return integer 
+     */
+    public function getPostCreatorId()
+    {
+        return $this->postCreatorId;
     }
 }

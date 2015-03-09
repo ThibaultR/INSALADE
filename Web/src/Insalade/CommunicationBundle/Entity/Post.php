@@ -31,6 +31,13 @@ class Post
     private $association;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="creator_id", type="integer")
+     */
+    private $creatorId;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -470,5 +477,28 @@ class Post
     public function getEventEnd()
     {
         return $this->eventEnd;
+    }
+
+    /**
+     * Set creatorId
+     *
+     * @param integer $creatorId
+     * @return Post
+     */
+    public function setCreatorId($creatorId)
+    {
+        $this->creatorId = $creatorId;
+
+        return $this;
+    }
+
+    /**
+     * Get creatorId
+     *
+     * @return integer 
+     */
+    public function getCreatorId()
+    {
+        return $this->creatorId;
     }
 }

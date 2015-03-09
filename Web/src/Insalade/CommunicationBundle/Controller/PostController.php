@@ -68,6 +68,9 @@ class PostController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $entity->setCreatorId($user->getId());
+
             $em->persist($entity);
             $em->flush();
 
@@ -157,6 +160,12 @@ class PostController extends Controller
 
         if($entity->getState() == 'pushed') {
             return $this->redirect($this->generateUrl('post_show', array('id' => $id)));
+        }
+
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        if($entity->getCreatorId() != $user->getId() && !$this->get('security.context')->isGranted('ROLE_INSALADE')) {
+            return $this->redirect($this->generateUrl('push_show', array('id' => $id)));
         }
 
         $editForm = $this->createEditForm($entity);
