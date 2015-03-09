@@ -19,6 +19,7 @@
     <color name="blue">#FF375BF1</color>
     <color name="yellow">#FFF7D23E</color>
     <color name="green">#FF34A350</color>
+    <color name="white">#ffffff</color>
     <integer-array name="google_colors">
         <item>@color/red</item>
         <item>@color/blue</item>

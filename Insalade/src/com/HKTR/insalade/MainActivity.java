@@ -102,6 +102,10 @@ public class MainActivity extends FragmentActivity {
         changeHeaderFont();
 
         initiateScrollRefresh();
+
+        //test to remove
+        Intent intent = new Intent(this, EventInscriptionActivity.class);
+        startActivity(intent);
     }
 
     private void initiateScrollRefresh() {

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/appBackgroundColor">
+    <!--Start topbar-->
+    <RelativeLayout android:id="@+id/headerMenu"
+                    android:layout_width="fill_parent"
+                    android:layout_height="70dp"
+                    android:background="@color/headerBackground">
+
+        <RelativeLayout android:id="@+id/menuButton"
+                        android:layout_width="70dp"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="center">
+            <ImageView android:layout_width="35dp"
+                       android:layout_height="35dp"
+                       android:src="@drawable/previous_white"
+                       android:onClick="onClickMenu"/>
+        </RelativeLayout>
+
+        <TextView android:id="@+id/insalade_logo"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:text="insalade"
+                  android:textColor="@color/headerFontColor"
+                  android:textSize="40dp"
+                  android:layout_toLeftOf="@+id/eventButton"
+                  android:layout_toRightOf="@id/menuButton"
+                  android:onClick="onClickHeaderText"
+                  android:clickable="true"
+                  android:gravity="center"/>
+
+        <RelativeLayout android:id="@id/eventButton"
+                        android:layout_width="70dp"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center">
+        </RelativeLayout>
+    </RelativeLayout>
+    <!--End topbar-->
+
+    <TextView android:id="@+id/eventInscriptionTitle"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/headerMenu"
+              android:text="Soit notifié des évènements importants de l'INSA"
+              android:textSize="25dp"
+              android:textColor="#2d2f2e"
+              android:gravity="center"
+              android:layout_margin="25dp"/>
+
+    <TextView android:id="@+id/eventInscriptionSubTitle"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/eventInscriptionTitle"
+              android:text="Demande ton code par mail"
+              android:textSize="20dp"
+              android:textColor="#909291"
+              android:gravity="center"
+              android:layout_marginTop="30dp"
+              android:layout_marginBottom="10dp"/>
+
+    <RelativeLayout android:id="@+id/eventInscriptionModal"
+                    android:layout_below="@id/eventInscriptionSubTitle"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/event_inscription_modal"
+                    android:layout_centerInParent="true"
+                    android:padding="25dp"
+            >
+        <EditText android:id="@+id/eventInscriptionEmailInput"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="20dp"
+                  android:textColor="#333333"
+                  android:padding="10dp"
+                  android:background="#e7e9e8"
+                  android:textColorHint="#b4b6b5"
+                  android:hint="E-mail"
+                  android:textCursorDrawable="@drawable/event_inscription_color_cursor"
+                  android:inputType="textVisiblePassword"
+                  android:imeOptions="actionDone"/>
+
+        <ImageButton android:id="@+id/button_send"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:src="@drawable/bouton_demander_code"
+                     android:layout_below="@id/eventInscriptionEmailInput"
+                     android:onClick="onSubmitEventInscription"
+                     android:layout_centerInParent="true"
+                     android:background="@android:color/transparent"
+                     android:layout_marginTop="15dp"/>
+    </RelativeLayout>
+</RelativeLayout>
