@@ -2,7 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/appBackgroundColor">
+                android:background="@color/appBackgroundColor"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
     <!--Start topbar-->
     <RelativeLayout android:id="@+id/headerMenu"
                     android:layout_width="fill_parent"
@@ -17,7 +20,7 @@
             <ImageView android:layout_width="35dp"
                        android:layout_height="35dp"
                        android:src="@drawable/previous_white"
-                       android:onClick="onClickMenu"/>
+                       android:onClick="onClickPreviousButton"/>
         </RelativeLayout>
 
         <TextView android:id="@+id/insalade_logo"
@@ -45,32 +48,33 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_below="@id/headerMenu"
-              android:text="Soit notifié des évènements importants de l'INSA"
+              android:text="@string/eventInscriptionTitle"
               android:textSize="25dp"
               android:textColor="#2d2f2e"
               android:gravity="center"
-              android:layout_margin="25dp"/>
+              android:layout_marginTop="25dp"/>
 
     <TextView android:id="@+id/eventInscriptionSubTitle"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_below="@id/eventInscriptionTitle"
-              android:text="Demande ton code par mail"
+              android:text="@string/eventInscriptionEmailSubtitle"
               android:textSize="20dp"
               android:textColor="#909291"
               android:gravity="center"
-              android:layout_marginTop="30dp"
+              android:layout_marginTop="50dp"
               android:layout_marginBottom="10dp"/>
 
     <RelativeLayout android:id="@+id/eventInscriptionModal"
                     android:layout_below="@id/eventInscriptionSubTitle"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/event_inscription_modal"
+                    android:background="@drawable/event_inscription_email_modal"
                     android:layout_centerInParent="true"
                     android:padding="25dp"
+                    android:focusableInTouchMode="true"
             >
-        <EditText android:id="@+id/eventInscriptionEmailInput"
+        <EditText android:id="@+id/eventInscriptionInput"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:textSize="20dp"
@@ -87,7 +91,7 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:src="@drawable/bouton_demander_code"
-                     android:layout_below="@id/eventInscriptionEmailInput"
+                     android:layout_below="@id/eventInscriptionInput"
                      android:onClick="onSubmitEventInscription"
                      android:layout_centerInParent="true"
                      android:background="@android:color/transparent"

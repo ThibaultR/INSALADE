@@ -6,9 +6,9 @@
 <resources>
     <color name="defaultTickmark">#FFFFFF</color>
     <color name="closedTickMark">#f94e4e</color>
-    <color name="selectedTickMark">#66d441</color>
+    <color name="selectedTickMark">#64cd40</color>
     <color name="defaultDayButtonColor">#ffffff</color>
-    <color name="activeDayButtonColor">#66d441</color>
+    <color name="activeDayButtonColor">#64cd40</color>
     <color name="headerBackground">#333333</color>
     <color name="headerFontColor">#ffffff</color>
     <color name="appBackgroundColor">#e7e9e8</color>

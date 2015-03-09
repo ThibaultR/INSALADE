@@ -11,9 +11,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -31,29 +34,79 @@ import android.provider.Settings.Secure;
 /**
  * Created by Hyukchan on 08/03/2015.
  */
-public class EventInscriptionActivity extends Activity {
+public class EventInscriptionActivity extends BaseActivity {
 
     RelativeLayout modal;
     ImageButton submitButton;
 
+    TextView eventInscriptionTitle;
+    TextView eventInscriptionSubTitle;
+    EditText eventInscriptionInput;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_inscription_activity);
-        changeHeaderFont();
+        changeTextViewFont((TextView) findViewById(R.id.insalade_logo), fontPacifico);
+
+        eventInscriptionInput = (EditText) findViewById(R.id.eventInscriptionInput);
+
+        eventInscriptionTitle = (TextView) findViewById(R.id.eventInscriptionTitle);
+        eventInscriptionSubTitle = (TextView) findViewById(R.id.eventInscriptionSubTitle);
+
+        changeTextViewFont(eventInscriptionTitle, fontLatoLight);
+        changeTextViewFont(eventInscriptionSubTitle, fontLatoLight);
+
         modal = (RelativeLayout) findViewById(R.id.eventInscriptionModal);
-        changeTitlesFont();
-        handleOnSubmitEmailInput();
+        submitButton = (ImageButton) findViewById(R.id.button_send);
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        handleOnFocusInput();
+        handleOnSubmitInput();
+    }
+
+    protected void shakeModal(RelativeLayout modal) {
+        Animation shakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
+        modal.startAnimation(shakeAnimation);
+    }
+
+    /*
+     * Method used to hide the title and to translate to the top the modal to make some space when the keyboard shows up
+     */
+    protected void handleOnFocusInput() {
+        eventInscriptionInput.setSelected(false);
+        modal.requestFocus();
+        eventInscriptionInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    TranslateAnimation animate = new TranslateAnimation(0,-eventInscriptionTitle.getWidth(),0,0);
+                    animate.setDuration(500);
+                    animate.setFillAfter(true);
+                    eventInscriptionTitle.startAnimation(animate);
+                    eventInscriptionTitle.setVisibility(View.GONE);
+                } else {
+
+                    TranslateAnimation animate = new TranslateAnimation(-eventInscriptionTitle.getWidth(),0,0,0);
+                    animate.setDuration(500);
+                    animate.setFillAfter(true);
+                    eventInscriptionTitle.startAnimation(animate);
+                    eventInscriptionTitle.setVisibility(View.VISIBLE);
+
+                    //hide keyboard
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(eventInscriptionInput.getWindowToken(), 0);
+                }
+            }
+        });
     }
 
     /*
      * When you validate the EditText, nothing happens. Thus, we need this method to activate a submit action
      */
-    private void handleOnSubmitEmailInput() {
-        EditText emailEditText = (EditText) findViewById(R.id.eventInscriptionEmailInput);
-        submitButton = (ImageButton) findViewById(R.id.button_send);
+    private void handleOnSubmitInput() {
+        EditText emailEditText = (EditText) findViewById(R.id.eventInscriptionInput);
+
         emailEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -64,58 +117,5 @@ public class EventInscriptionActivity extends Activity {
                 return false;
             }
         });
-    }
-
-    private void changeTitlesFont() {
-        Typeface fontLatoLight = Typeface.createFromAsset(getAssets(), "fonts/Lato-Light.ttf");
-        TextView eventInscriptionTitle = (TextView) findViewById(R.id.eventInscriptionTitle);
-        TextView eventInscriptionSubTitle = (TextView) findViewById(R.id.eventInscriptionSubTitle);
-        eventInscriptionTitle.setTypeface(fontLatoLight);
-        eventInscriptionSubTitle.setTypeface(fontLatoLight);
-    }
-
-    public void onSubmitEventInscription(View view) throws JSONException {
-        EditText eventInscriptionEmailInput = (EditText) findViewById(R.id.eventInscriptionEmailInput);
-        final String email = eventInscriptionEmailInput.getText().toString();
-
-        String url = "http://37.59.123.110:443/users/";
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        String android_id = Secure.getString(getContentResolver(),
-                Secure.ANDROID_ID);
-
-        JSONObject params = new JSONObject();
-        params.put("id_device", android_id);
-        params.put("mail", email);
-
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.PUT,
-                 url,
-                 params,
-                 new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        shakeModal(modal);
-                    }
-                });
-
-        queue.add(jsObjRequest);
-    }
-
-    private void shakeModal(RelativeLayout modal) {
-        Animation shakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
-        modal.startAnimation(shakeAnimation);
-        Log.e("haha", "shake babe");
-    }
-
-    private void changeHeaderFont() {
-        Typeface fontPacifico = Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf");
-        TextView headerMenuTitle = (TextView) findViewById(R.id.insalade_logo);
-        headerMenuTitle.setTypeface(fontPacifico);
     }
 }

@@ -24,7 +24,7 @@ public class XmlFileGetter {
         ArrayList<String> urls = new ArrayList<String>();
         String[]  existingFiles = context.getFilesDir().list();
         ArrayList existingFilesList = new ArrayList(Arrays.asList(existingFiles));
-        String URL = "http://37.59.123.110/INSALADE/debug/menu";
+        String URL = "http://37.59.123.110/INSALADE/XmlMenus/menu";
 
         if(!(existingFilesList.contains("menu"+weekNumber%52))) {
             urls.add(URL + weekNumber%52 + ".xml");

@@ -25,5 +25,8 @@
         </activity>
         <activity android:name=".EventActivity"/>
         <activity android:name=".EventInscriptionActivity"/>
+        <activity android:name=".BaseActivity"/>
+        <activity android:name=".EventInscriptionEmailActivity"/>
+        <activity android:name=".EventInscriptionCodeActivity"/>
     </application>
 </manifest>
