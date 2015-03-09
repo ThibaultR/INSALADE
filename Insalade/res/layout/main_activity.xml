@@ -23,7 +23,7 @@
             <ImageView android:layout_width="25dp"
                        android:layout_height="25dp"
                        android:src="@drawable/bouton_config"
-                       android:onClick="onClickMenu"/>
+                       android:onClick="onClickEventInscription"/>
         </RelativeLayout>
 
         <TextView android:id="@+id/insalade_logo"

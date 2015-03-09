@@ -9,19 +9,15 @@ import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,7 +43,7 @@ public class EventActivity extends Activity {
         //Fetch event list and display them
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://37.59.123.110:443/events/";
+        String url = "http://37.59.123.110:443/events/";
 
         // Request a string response from the provided URL.
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
@@ -59,9 +55,10 @@ public class EventActivity extends Activity {
                      public void onResponse(JSONObject response) {
                          Log.e("GET : ", response.toString());
                          eventsArray = response.optJSONArray("events"); //TODO save last json for offline purpose
-                         if(eventsArray == null){
+                         if (eventsArray == null) {
                              Log.e("Array : ", "Pas d'event");
-                         } else {
+                         }
+                         else {
                              displayEventFragment(eventsArray);
                          }
                      }
@@ -72,23 +69,21 @@ public class EventActivity extends Activity {
                          Log.e("GETError : ", "Marche pas");
                      }
                  }
-                )
-                {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("Authorization", "a37541a6-4b80-487d-88c2-c0b4bce927bf");
+                ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "9b1fb4f6-3c08-47f9-88ac-463008521b7a");
 
-                        return params;
-                    }
-                };
+                return params;
+            }
+        };
 
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
     }
 
-
-    public EventFragment createEventFragment(String eventTitle, String eventDescription, String eventImageUrl, String eventStartTime, String eventEndTime){
+    public EventFragment createEventFragment(String eventTitle, String eventDescription, String eventImageUrl, String eventStartTime, String eventEndTime) {
         EventFragment fragment = new EventFragment();
         Bundle args = new Bundle();
         args.putString("Title", eventTitle);
@@ -101,18 +96,18 @@ public class EventActivity extends Activity {
         return fragment;
     }
 
-    public void displayEventFragment(JSONArray jsonArray){
+    public void displayEventFragment(JSONArray jsonArray) {
         LinearLayout eventContainer = (LinearLayout) findViewById(R.id.eventContainer);
         eventContainer.removeAllViews();
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        for(int i = 0; i < jsonArray.length(); i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject event = jsonArray.getJSONObject(i);
-                Log.e("event"+i+" : ", event.getString("title"));//TODO remove
-                fragmentTransaction.add(R.id.eventContainer, createEventFragment(event.getString("title"), event.getString("description"),event.getString("image_url"), event.getString("event_start"), event.getString("event_end")));
+                Log.e("event" + i + " : ", event.getString("title"));//TODO remove
+                fragmentTransaction.add(R.id.eventContainer, createEventFragment(event.getString("title"), event.getString("description"), event.getString("image_url"), event.getString("event_start"), event.getString("event_end")));
             }
             catch (JSONException e) {
                 e.printStackTrace();
@@ -121,15 +116,18 @@ public class EventActivity extends Activity {
         fragmentTransaction.commit();
     }
 
-    public void onClickPreviousButton(View view) {onBackPressed();}
+    public void onClickPreviousButton(View view) {
+        onBackPressed();
+    }
 
     public void onClickEventImage(View view) {
         FrameLayout imageGroup = (FrameLayout) view.getParent();
         TextView eventDescription = (TextView) imageGroup.findViewById(R.id.eventDescription);
 
-        if(eventDescription.getVisibility() == View.VISIBLE) {
+        if (eventDescription.getVisibility() == View.VISIBLE) {
             eventDescription.setVisibility(View.GONE);
-        } else {
+        }
+        else {
             eventDescription.setVisibility(View.VISIBLE);
         }
     }

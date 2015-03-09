@@ -1,8 +1,7 @@
 package com.HKTR.insalade;
 
-import android.app.ActionBar;
-import android.graphics.Typeface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -12,15 +11,24 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.util.Xml;
-import android.view.*;
-import android.widget.*;
+import android.view.Display;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.HKTR.insalade.XmlFileGetter.DownloadTask;
+import com.HKTR.insalade.model.DayModel;
 import com.HKTR.insalade.model.MenuModel;
+import com.HKTR.insalade.model.WeekModel;
 import com.baoyz.widget.PullRefreshLayout;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,11 +44,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.HKTR.insalade.XmlFileGetter.DownloadTask;
-import com.HKTR.insalade.model.DayModel;
-import com.HKTR.insalade.model.WeekModel;
-import org.xml.sax.SAXException;
 
 import static com.HKTR.insalade.Tools.getWeekNumberFromPattern;
 import static com.HKTR.insalade.Tools.isOnline;
@@ -104,8 +107,8 @@ public class MainActivity extends FragmentActivity {
         initiateScrollRefresh();
 
         //test to remove
-        Intent intent = new Intent(this, EventInscriptionActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, EventInscriptionActivity.class);
+        //startActivity(intent);
     }
 
     private void initiateScrollRefresh() {
@@ -122,7 +125,8 @@ public class MainActivity extends FragmentActivity {
                             }
 
                             onResume();
-                        } else {
+                        }
+                        else {
                             Toast.makeText(getApplicationContext(), "Connexion internet non disponible", Toast.LENGTH_LONG).show();
                         }
 
@@ -172,7 +176,7 @@ public class MainActivity extends FragmentActivity {
         cal.set(Calendar.WEEK_OF_YEAR, XmlFileGetter.weekNumber);
 
         navigationButtons.removeAllViews();
-        for(int i = 0; i<7; i++){
+        for (int i = 0; i < 7; i++) {
             RelativeLayout navigationButton = (RelativeLayout) getLayoutInflater().inflate(R.layout.day_button_fragment, navigationButtons, false);
 
             // Set Day name (Lun, Mar...)
@@ -181,20 +185,20 @@ public class MainActivity extends FragmentActivity {
 
             // Set Day number
             TextView dayNumber = (TextView) navigationButton.findViewById(R.id.dayNumber);
-            cal.set(Calendar.DAY_OF_WEEK, (i+2)%7);
-            dayNumber.setText(""+cal.get(Calendar.DAY_OF_MONTH));
+            cal.set(Calendar.DAY_OF_WEEK, (i + 2) % 7);
+            dayNumber.setText("" + cal.get(Calendar.DAY_OF_MONTH));
 
             Typeface fontLatoLight = Typeface.createFromAsset(getAssets(), "fonts/Lato-Light.ttf");
             dayName.setTypeface(fontLatoLight);
             dayNumber.setTypeface(fontLatoLight);
 
             // Set tickmarks color if closed
-            DayModel currentDay =  WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(i);
-            if (currentDay.getLunch().isClosed()){
+            DayModel currentDay = WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(i);
+            if (currentDay.getLunch().isClosed()) {
                 navigationButton.findViewById(R.id.tickMarkLunch).setBackgroundResource(R.drawable.closed_tickmark);
             }
 
-            if (currentDay.getDinner().isClosed()){
+            if (currentDay.getDinner().isClosed()) {
                 navigationButton.findViewById(R.id.tickMarkDinner).setBackgroundResource(R.drawable.closed_tickmark);
             }
 
@@ -206,7 +210,7 @@ public class MainActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         menuNumber = 0;
-        if(initiateFiles()) {
+        if (initiateFiles()) {
             // If there is a file
             toggleRefreshView(true);
             showNavigationButtonList();
@@ -214,7 +218,8 @@ public class MainActivity extends FragmentActivity {
             initiateViewPager();
             goToCurrentMenu();
             updateTrianglePosition(mPager.getCurrentItem());
-        } else {
+        }
+        else {
             toggleRefreshView(false);
         }
     }
@@ -222,10 +227,11 @@ public class MainActivity extends FragmentActivity {
     private void toggleRefreshView(boolean isMenuAvailable) {
         View noMenuRefreshView = findViewById(R.id.noMenuRefreshView);
         View swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        if(isMenuAvailable) {
+        if (isMenuAvailable) {
             noMenuRefreshView.setVisibility(View.GONE);
             swipeRefreshLayout.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else {
             noMenuRefreshView.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setVisibility(View.GONE);
         }
@@ -237,7 +243,7 @@ public class MainActivity extends FragmentActivity {
 
     private void initiateViewPager() {
         numPages = WeekModel.getWeekList().size() * 7 * 2;
-        int indexPage = getIntent().getIntExtra("idPage",0);
+        int indexPage = getIntent().getIntExtra("idPage", 0);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -268,14 +274,14 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void updateTrianglePosition(int i) {
-        if(canUpdateTriangle) {
-            int day = i/2;
+        if (canUpdateTriangle) {
+            int day = i / 2;
             Display display = getWindowManager().getDefaultDisplay();
-            int marginUnit = display.getWidth()/7;
+            int marginUnit = display.getWidth() / 7;
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(triangleWidth, triangleHeight);
 
-            params.setMargins(marginUnit*day+(marginUnit-triangleWidth)/2,0,0,0);
+            params.setMargins(marginUnit * day + (marginUnit - triangleWidth) / 2, 0, 0, 0);
             triangle.setLayoutParams(params);
         }
     }
@@ -289,7 +295,7 @@ public class MainActivity extends FragmentActivity {
         Arrays.sort(menus);
 
         // Loop on all files to get content
-        for(File f : menus) {
+        for (File f : menus) {
             String menuFileName = f.getName();
             // Get week number from the name of the xml file (ex : menu42 return 42)
             String weekNumString = getWeekNumberFromPattern(menuFileName, "([\\d]+)");
@@ -302,7 +308,6 @@ public class MainActivity extends FragmentActivity {
 
         return result;
     }
-
 
     public void getMenus(String file) {
         //Step 1 : getting instance of the class "DocumentBuilderFactory"
@@ -327,8 +332,8 @@ public class MainActivity extends FragmentActivity {
 
             WeekModel.getWeekList().put(currentWeekNumber, currentWeek);
 
-            for (int i = 0; i<nbRacineNoeuds; i++) {
-                if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
+            for (int i = 0; i < nbRacineNoeuds; i++) {
+                if (racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
                     final Element menu = (Element) racineNoeuds.item(i);
 
                     String date = menu.getAttribute("date");
@@ -363,7 +368,8 @@ public class MainActivity extends FragmentActivity {
 
                         MenuModel lunch = new MenuModel(menu.getAttribute("date"), starterContent, mainCourseContent, dessertContent);
                         currentDay.setLunch(lunch);
-                    } else {
+                    }
+                    else {
                         String starterContent = removeWhiteSpaces(starter.getTextContent());
                         String mainCourseContent = removeWhiteSpaces(mainCourse.getTextContent());
                         String dessertContent = removeWhiteSpaces(dessert.getTextContent());
@@ -388,7 +394,7 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public boolean getXmlFiles(){
+    public boolean getXmlFiles() {
         String[] urls = getUrls(getApplicationContext());
 
         // Execute File Downloader
@@ -396,14 +402,17 @@ public class MainActivity extends FragmentActivity {
         downloadTask.execute(urls);
 
         int k = 0;
-        while(! (new ArrayList(Arrays.asList(getFilesDir().list()))).contains("menu"+ XmlFileGetter.weekNumber) && k<10){
+        while (!(new ArrayList(Arrays.asList(getFilesDir().list()))).contains("menu" + XmlFileGetter.weekNumber) && k < 10) {
             try {
                 downloadTask.get(1000, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 e.printStackTrace();
-            } catch (ExecutionException e) {
+            }
+            catch (ExecutionException e) {
                 e.printStackTrace();
-            } catch (TimeoutException e) {
+            }
+            catch (TimeoutException e) {
                 e.printStackTrace();
             }
 
@@ -412,17 +421,17 @@ public class MainActivity extends FragmentActivity {
 
         // Remove old files
         File[] listFiles = getFilesDir().listFiles();
-        for(int i = 0; i<listFiles.length;i++) {
+        for (int i = 0; i < listFiles.length; i++) {
 
             String number = getWeekNumberFromPattern(listFiles[i].getName(), "([\\d]+)");
 
-            if(number.length() > 0){
+            if (number.length() > 0) {
                 // if it's not the current week or the next week, we delete
-                if(XmlFileGetter.weekNumber != Integer.valueOf(number) && (XmlFileGetter.weekNumber + 1)%52 != Integer.valueOf(number)) {
+                if (XmlFileGetter.weekNumber != Integer.valueOf(number) && (XmlFileGetter.weekNumber + 1) % 52 != Integer.valueOf(number)) {
                     listFiles[i].delete();
                 }
                 // is currentWeekMenu present
-                if(Integer.valueOf(number) == XmlFileGetter.weekNumber) {
+                if (Integer.valueOf(number) == XmlFileGetter.weekNumber) {
                     XmlFileGetter.currentWeekMenu = true;
                 }
             }
@@ -430,15 +439,17 @@ public class MainActivity extends FragmentActivity {
 
 
         // Toast if current Week Menu hasn't been downloaded
-        if(!XmlFileGetter.currentWeekMenu){
-            if(isOnline(getApplicationContext())){
+        if (!XmlFileGetter.currentWeekMenu) {
+            if (isOnline(getApplicationContext())) {
                 Toast.makeText(getApplicationContext(), "Menu de la semaine non disponible sur l'intranet...", Toast.LENGTH_LONG).show();
-            } else {
+            }
+            else {
                 Toast.makeText(getApplicationContext(), "Menu de la semaine non disponible, vérifiez votre connexion", Toast.LENGTH_LONG).show();
             }
 
             return false;
-        } else {
+        }
+        else {
             return true;
         }
     }
@@ -447,14 +458,15 @@ public class MainActivity extends FragmentActivity {
         String result = "";
         String[] lines = input.split("\\n");
         for (String line : lines) {
-            if(line.trim().length() > 1) {
+            if (line.trim().length() > 1) {
                 result += (line.trim() + "\n");
             }
         }
 
         //removes the last '\n'
-        if(result.length() > 0)
-            result = result.substring(0, result.length()-1);
+        if (result.length() > 0) {
+            result = result.substring(0, result.length() - 1);
+        }
 
         return result;
     }
@@ -462,7 +474,12 @@ public class MainActivity extends FragmentActivity {
     public void onClickMenu(View view) {
         Log.e("TestOnClickMenu", "Works");
     }
-    
+
+    public void onClickEventInscription(View view) {
+        Intent intent = new Intent(this, EventInscriptionActivity.class);
+        startActivity(intent);
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -481,20 +498,23 @@ public class MainActivity extends FragmentActivity {
 
     // TODO Factoriser
     public void updateCurrentMenuIndicationColor(int pageIndex, boolean updateOldDayButton) {
-        if(updateOldDayButton) {
+        if (updateOldDayButton) {
             RelativeLayout oldNavigationButton = (RelativeLayout) navigationButtons.getChildAt(oldMenuIndex / 2);
             if (oldMenuIndex % 2 == 0) {
                 View tickMarkLunch = oldNavigationButton.findViewById(R.id.tickMarkLunch);
                 if (WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(oldMenuIndex / 2).getLunch().isClosed()) {
                     tickMarkLunch.setBackgroundResource(R.drawable.closed_tickmark);
-                } else {
+                }
+                else {
                     tickMarkLunch.setBackgroundResource(R.drawable.default_tickmark);
                 }
-            } else {
+            }
+            else {
                 View tickMarkDinner = oldNavigationButton.findViewById(R.id.tickMarkDinner);
                 if (WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(oldMenuIndex / 2).getDinner().isClosed()) {
                     tickMarkDinner.setBackgroundResource(R.drawable.closed_tickmark);
-                } else {
+                }
+                else {
                     tickMarkDinner.setBackgroundResource(R.drawable.default_tickmark);
                 }
             }
@@ -503,10 +523,11 @@ public class MainActivity extends FragmentActivity {
             ((TextView) oldNavigationButton.findViewById(R.id.dayName)).setTextColor(getResources().getColor(R.color.defaultDayButtonColor));
         }
 
-        RelativeLayout navigationButton = (RelativeLayout) navigationButtons.getChildAt(pageIndex/2);
-        if(pageIndex%2 == 0) {
+        RelativeLayout navigationButton = (RelativeLayout) navigationButtons.getChildAt(pageIndex / 2);
+        if (pageIndex % 2 == 0) {
             navigationButton.findViewById(R.id.tickMarkLunch).setBackgroundResource(R.drawable.selected_tickmark);
-        } else {
+        }
+        else {
             navigationButton.findViewById(R.id.tickMarkDinner).setBackgroundResource(R.drawable.selected_tickmark);
         }
         ((TextView) navigationButton.findViewById(R.id.dayNumber)).setTextColor(getResources().getColor(R.color.activeDayButtonColor));
@@ -517,17 +538,18 @@ public class MainActivity extends FragmentActivity {
 
     public void onClickNavigationButton(View view) {
         int i;
-        for(i = 0; i < navigationButtons.getChildCount(); i++){
+        for (i = 0; i < navigationButtons.getChildCount(); i++) {
             RelativeLayout navigationButton = (RelativeLayout) navigationButtons.getChildAt(i);
-            if(view.equals(navigationButton)){
+            if (view.equals(navigationButton)) {
                 break;
             }
         }
 
-        if(mPager.getCurrentItem() == i*2){
-            mPager.setCurrentItem(i*2 +1, false);
-        }else {
-            mPager.setCurrentItem(i*2, false);
+        if (mPager.getCurrentItem() == i * 2) {
+            mPager.setCurrentItem(i * 2 + 1, false);
+        }
+        else {
+            mPager.setCurrentItem(i * 2, false);
         }
     }
 
@@ -535,6 +557,7 @@ public class MainActivity extends FragmentActivity {
         goToCurrentMenu();
     }
 
+    //TODO TO REMOVE
     public void onCLickEventButton(View view) {
         Intent intent = new Intent(this, EventActivity.class);
         startActivity(intent);
@@ -543,12 +566,12 @@ public class MainActivity extends FragmentActivity {
     public void goToCurrentMenu() {
         //Sunday = 1, Monday = 2 ...
         Calendar now = Calendar.getInstance();
-        int today = (now.get(Calendar.DAY_OF_WEEK) - 2)%7;
+        int today = (now.get(Calendar.DAY_OF_WEEK) - 2) % 7;
         int timeH = now.get(Calendar.HOUR_OF_DAY);
 
         int menuNumber;
         //afficher le déjeuner
-        if(timeH < 14) {
+        if (timeH < 14) {
             menuNumber = today * 2;
         }
         //afficher le dinner
