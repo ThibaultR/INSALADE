@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,10 +23,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.HKTR.insalade.Tools.isOnline;
 
@@ -88,7 +92,7 @@ public class EventActivity extends Activity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("Authorization", "334eb0b3-3b6a-4c64-b475-2a3ef09cd069");
+                    params.put("Authorization", "6f79dedc-5726-4510-938f-81206fbcb2e8");
 
                     return params;
                 }
@@ -155,7 +159,18 @@ public class EventActivity extends Activity {
             try {
                 JSONObject event = jsonArray.getJSONObject(i);
                 Log.e("event" + i + " : ", event.getString("title"));//TODO remove
-                fragmentTransaction.add(R.id.eventContainer, createEventFragment(event.getString("title"), event.getString("description"), event.getString("image_url"), event.getString("event_start"), event.getString("event_end")));
+                String imageUrl = event.getString("image_url");
+                fragmentTransaction.add(R.id.eventContainer, createEventFragment(event.getString("title"), event.getString("description"), imageUrl, event.getString("event_start"), event.getString("event_end")));
+
+                // Download image if not already on storage
+                String[]  existingImageFiles = getApplicationContext().getDir("eventImageDir", Context.MODE_PRIVATE).list();
+                ArrayList existingImageFilesList = new ArrayList(Arrays.asList(existingImageFiles));
+
+                if(!existingImageFilesList.contains(imageUrl))
+                {
+                    Log.e("DL image : ", "start");
+                    new DownloadImageTask(imageUrl).execute("http://37.59.123.110/Web/web/uploads/documents/" + imageUrl);
+                }
             }
             catch (JSONException e) {
                 e.printStackTrace();
@@ -178,5 +193,49 @@ public class EventActivity extends Activity {
         else {
             eventDescription.setVisibility(View.VISIBLE);
         }
+    }
+
+    // Fetch image from url
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        String ImageName;
+
+        public DownloadImageTask(String eventImageName) { ImageName = eventImageName;}
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap bitmapImage = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                bitmapImage = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return bitmapImage;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            saveToInternalStorage(result, ImageName);
+        }
+    }
+
+    private String saveToInternalStorage(Bitmap bitmapImage, String eventImageName){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/eventImageDir
+        File directory = cw.getDir("eventImageDir", Context.MODE_PRIVATE);
+        // Create eventImageDir
+        File mypath = new File(directory,eventImageName);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return directory.getAbsolutePath();
     }
 }
