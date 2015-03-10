@@ -41,6 +41,12 @@ class Post
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\Length(
+     *      min = "2",
+     *      max = "21",
+     *      minMessage = "Min {{ limit }} caractères",
+     *      maxMessage = "Max {{ limit }} caractères"
+     * )
      */
     private $title;
 
@@ -48,6 +54,12 @@ class Post
      * @var string
      *
      * @ORM\Column(name="push_text", type="string", length=255)
+     * @Assert\Length(
+     *      min = "2",
+     *      max = "60",
+     *      minMessage = "Min {{ limit }} caractères",
+     *      maxMessage = "Max {{ limit }} caractères"
+     * )
      */
     private $pushText;
 
@@ -66,7 +78,7 @@ class Post
     private $imageUrl;
 
     /**
-     * @Assert\Image(maxSize="50000000", minWidth="200", maxWidth="700", minHeight="200", maxHeight="700")
+     * @Assert\Image(maxSize="50000000", minWidth="200", maxWidth="1500", minHeight="200", maxHeight="1500")
      *
      */
     public $image;
@@ -95,7 +107,7 @@ class Post
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="eventEnd", type="datetime")
+     * @ORM\Column(name="event_end", type="datetime")
      */
     private $eventEnd;
 
@@ -411,6 +423,7 @@ class Post
         // be automatically thrown by move(). This will properly prevent
         // the entity from being persisted to the database on error
         $this->getImage()->move($this->getUploadRootDir(), $this->imageUrl);
+        Post::resize_crop_image(600, 600, $this->getUploadDir().'/'.$this->imageUrl, $this->getUploadDir().'/'.$this->imageUrl);
 
         // check if we have an old image
         if (isset($this->temp)) {
@@ -420,6 +433,58 @@ class Post
             $this->temp = null;
         }
         $this->image = null;
+    }
+
+    function resize_crop_image($max_width, $max_height, $source_file, $dst_dir, $quality = 80){
+        $imgsize = getimagesize($source_file);
+        $width = $imgsize[0];
+        $height = $imgsize[1];
+        $mime = $imgsize['mime'];
+     
+        switch($mime){
+            case 'image/gif':
+                $image_create = "imagecreatefromgif";
+                $image = "imagegif";
+                break;
+     
+            case 'image/png':
+                $image_create = "imagecreatefrompng";
+                $image = "imagepng";
+                $quality = 7;
+                break;
+     
+            case 'image/jpeg':
+                $image_create = "imagecreatefromjpeg";
+                $image = "imagejpeg";
+                $quality = 80;
+                break;
+     
+            default:
+                return false;
+                break;
+        }
+         
+        $dst_img = imagecreatetruecolor($max_width, $max_height);
+        $src_img = $image_create($source_file);
+         
+        $width_new = $height * $max_width / $max_height;
+        $height_new = $width * $max_height / $max_width;
+        //if the new width is greater than the actual width of the image, then the height is too large and the rest cut off, or vice versa
+        if($width_new > $width){
+            //cut point by height
+            $h_point = (($height - $height_new) / 2);
+            //copy image
+            imagecopyresampled($dst_img, $src_img, 0, 0, 0, $h_point, $max_width, $max_height, $width, $height_new);
+        }else{
+            //cut point by width
+            $w_point = (($width - $width_new) / 2);
+            imagecopyresampled($dst_img, $src_img, 0, 0, $w_point, 0, $max_width, $max_height, $width_new, $height);
+        }
+         
+        $image($dst_img, $dst_dir, $quality);
+     
+        if($dst_img)imagedestroy($dst_img);
+        if($src_img)imagedestroy($src_img);
     }
 
     /**
