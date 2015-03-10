@@ -13,7 +13,7 @@
             android:id="@+id/headerEvent"
             android:layout_width="fill_parent"
             android:layout_height="100dp"
-            android:background="#222222"
+            android:background="@color/headerBackground"
             >
 
         <TextView
@@ -22,7 +22,7 @@
                 android:layout_height="fill_parent"
                 android:text="Event"
                 android:textSize="50dp"
-                android:textColor="#00FF00"
+                android:textColor="@color/headerFontColor"
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 />
@@ -47,6 +47,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
+                android:background="@color/appBackgroundColor"
                 />
     </ScrollView>
 

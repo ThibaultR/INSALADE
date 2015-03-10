@@ -51,7 +51,7 @@ public class EventFragment extends Fragment {
 
 
         File filePath = getActivity().getDir("eventImageDir", Context.MODE_PRIVATE);
-        
+
         if (android.os.Build.VERSION.SDK_INT < 16) {
             eventImage.setBackgroundDrawable(Drawable.createFromPath(filePath.toString()+File.separatorChar+ImageUrl));
         } else {
