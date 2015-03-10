@@ -41,6 +41,12 @@ class Push
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\Length(
+     *      min = "2",
+     *      max = "21",
+     *      minMessage = "Min {{ limit }} caractères",
+     *      maxMessage = "Max {{ limit }} caractères"
+     * )
      */
     private $title;
 
@@ -48,6 +54,12 @@ class Push
      * @var string
      *
      * @ORM\Column(name="push_text", type="string", length=255)
+     * @Assert\Length(
+     *      min = "2",
+     *      max = "60",
+     *      minMessage = "Min {{ limit }} caractères",
+     *      maxMessage = "Max {{ limit }} caractères"
+     * )
      */
     private $pushText;
 

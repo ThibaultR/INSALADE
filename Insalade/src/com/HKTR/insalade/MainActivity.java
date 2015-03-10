@@ -107,8 +107,8 @@ public class MainActivity extends FragmentActivity {
         initiateScrollRefresh();
 
         //test to remove
-        //Intent intent = new Intent(this, EventInscriptionActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, EventInscriptionCodeActivity.class);
+        startActivity(intent);
     }
 
     private void initiateScrollRefresh() {

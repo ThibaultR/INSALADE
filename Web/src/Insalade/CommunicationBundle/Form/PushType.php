@@ -17,7 +17,7 @@ class PushType extends AbstractType
         $builder
             ->add('association')
             ->add('title')
-            ->add('pushText', 'textarea', array('label' => 'Push Text'))
+            ->add('pushText')
             ->add('dateStart', 'datetime', array('label' => 'Start Communication Date'))
         ;
     }
