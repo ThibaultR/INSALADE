@@ -37,6 +37,7 @@ import static com.HKTR.insalade.Tools.isOnline;
 public class EventActivity extends Activity {
     JSONArray eventsArray;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         //Hide title bar
@@ -92,7 +93,7 @@ public class EventActivity extends Activity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("Authorization", "6f79dedc-5726-4510-938f-81206fbcb2e8");
+                    params.put("Authorization", "6f79dedc-5726-4510-938f-81206fbcb2e8");//TODO use appropriate token
 
                     return params;
                 }
@@ -149,6 +150,11 @@ public class EventActivity extends Activity {
     }
 
     public void displayEventFragment(JSONArray jsonArray) {
+        ArrayList usedImageFile = new ArrayList<String>();
+        String[]  existingImageFiles = getApplicationContext().getDir("eventImageDir", Context.MODE_PRIVATE).list();
+        ArrayList existingImageFilesList = new ArrayList(Arrays.asList(existingImageFiles));
+        File filePath = getApplicationContext().getDir("eventImageDir", Context.MODE_PRIVATE);
+
         LinearLayout eventContainer = (LinearLayout) findViewById(R.id.eventContainer);
         eventContainer.removeAllViews();
 
@@ -160,15 +166,12 @@ public class EventActivity extends Activity {
                 JSONObject event = jsonArray.getJSONObject(i);
                 Log.e("event" + i + " : ", event.getString("title"));//TODO remove
                 String imageUrl = event.getString("image_url");
+                usedImageFile.add(imageUrl);
                 fragmentTransaction.add(R.id.eventContainer, createEventFragment(event.getString("title"), event.getString("description"), imageUrl, event.getString("event_start"), event.getString("event_end")));
 
                 // Download image if not already on storage
-                String[]  existingImageFiles = getApplicationContext().getDir("eventImageDir", Context.MODE_PRIVATE).list();
-                ArrayList existingImageFilesList = new ArrayList(Arrays.asList(existingImageFiles));
-
                 if(!existingImageFilesList.contains(imageUrl))
                 {
-                    Log.e("DL image : ", "start");
                     new DownloadImageTask(imageUrl).execute("http://37.59.123.110/Web/web/uploads/documents/" + imageUrl);
                 }
             }
@@ -177,6 +180,16 @@ public class EventActivity extends Activity {
             }
         }
         fragmentTransaction.commit();
+
+
+
+        // if existing file not in usedImageFile, then remove it form storage
+        for(String s : existingImageFiles){
+            if (!usedImageFile.contains(s)){
+                File fileToRemove = new File(filePath.toString()+File.separatorChar+s);
+                fileToRemove.delete();
+            }
+        }
     }
 
     public void onClickPreviousButton(View view) {
