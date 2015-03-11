@@ -43,10 +43,10 @@ public class GcmIntentService extends IntentService {
              */
             if (GoogleCloudMessaging.
                     MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-                sendNotification("Send error: " + extras.toString());
+                sendNotification("Send error", extras.toString());
             } else if (GoogleCloudMessaging.
                     MESSAGE_TYPE_DELETED.equals(messageType)) {
-                sendNotification("Deleted messages on server: " +
+                sendNotification("Deleted messages on server",
                         extras.toString());
                 // If it's a regular GCM message, do some work.
             } else if (GoogleCloudMessaging.
@@ -62,7 +62,7 @@ public class GcmIntentService extends IntentService {
                 }
                 Log.i("GcmIntentService", "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                sendNotification("Received: " + extras.getString("message"));
+                sendNotification(extras.getString("title"), extras.getString("push_text"));
                 Log.i("GcmIntentService", "Received: " + extras.toString());
             }
         }
@@ -73,7 +73,7 @@ public class GcmIntentService extends IntentService {
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
-    private void sendNotification(String msg) {
+    private void sendNotification(String title, String pushText) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -82,11 +82,11 @@ public class GcmIntentService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setContentTitle("Insalade")
+                        .setContentTitle(title)
                         .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(msg))
+                                .bigText(pushText))
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentText(msg);
+                        .setContentText(pushText);
 
         mBuilder.setContentIntent(contentIntent);
         Notification notification = mBuilder.build();
@@ -97,17 +97,6 @@ public class GcmIntentService extends IntentService {
         notification.ledARGB = 0x64cd40; // Green
         notification.ledOnMS = 200;
         notification.ledOffMS = 200;
-
-        PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
-
-        boolean isScreenOn = pm.isScreenOn();
-        if(isScreenOn==false)
-        {
-            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP |PowerManager.ON_AFTER_RELEASE,"MyLock");
-            wl.acquire(10000);
-            PowerManager.WakeLock wl_cpu = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"MyCpuLock");
-            wl_cpu.acquire(10000);
-        }
 
         mNotificationManager.notify(NOTIFICATION_ID, notification);
     }
