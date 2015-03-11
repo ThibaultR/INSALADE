@@ -31,7 +31,6 @@
                   android:textSize="40dp"
                   android:layout_toLeftOf="@+id/eventButton"
                   android:layout_toRightOf="@id/menuButton"
-                  android:onClick="onClickHeaderText"
                   android:clickable="true"
                   android:gravity="center"/>
 
