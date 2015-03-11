@@ -91,7 +91,7 @@
                      android:layout_height="wrap_content"
                      android:src="@drawable/bouton_demander_code"
                      android:layout_below="@id/eventInscriptionInput"
-                     android:onClick="onSubmitEventInscription"
+                     android:onClick="onSubmitEventInscriptionEmail"
                      android:layout_centerInParent="true"
                      android:background="@android:color/transparent"
                      android:layout_marginTop="15dp"/>

@@ -2,18 +2,20 @@ package com.HKTR.insalade;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Hyukchan on 10/03/2015.
@@ -29,34 +31,55 @@ public class EventInscriptionCodeActivity extends EventInscriptionActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                try {
+                    onSubmitEventCodeInscription(v);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         eventInscriptionInput.setHint("Code");
         eventInscriptionInput.setInputType(InputType.TYPE_CLASS_NUMBER);
     }
 
-    public void onSubmitEventInscription(View view) throws JSONException {
-        final String email = eventInscriptionInput.getText().toString();
+    public void onSubmitEventCodeInscription(View view) throws JSONException {
+        final String password = eventInscriptionInput.getText().toString();
 
-        String url = "http://37.59.123.110:443/users/";
+        String url = "http://37.59.123.110:443/sessions/";
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String android_id = Settings.Secure.getString(getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+        String device_id = sharedPref.getString(getString(R.string.device_id), "");
 
         JSONObject params = new JSONObject();
-        params.put("id_device", android_id);
+        params.put("id_device", device_id);
+
+        String email = sharedPref.getString(getString(R.string.saved_email), "");
+
         params.put("mail", email);
+        params.put("password", password);
+        params.put("os", "android");
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.PUT,
+                (Request.Method.POST,
                         url,
                         params,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
+                                try {
+                                    //save password and token
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString(getString(R.string.server_auth_token), response.getString("token"));
+                                    editor.putString(getString(R.string.server_password), password);
+                                    editor.commit();
 
+                                    changeUserPushConfig(1,1);
+
+                                    Intent intent = new Intent(getApplicationContext(), EventActivity.class);
+                                    startActivity(intent);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }, new Response.ErrorListener() {
                     @Override

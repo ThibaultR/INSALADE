@@ -12,6 +12,10 @@
     <string name="eventInscriptionTitle">Soit notifié des évènements importants de l\'INSA</string>
     <string name="eventInscriptionEmailSubtitle">Demande ton code par mail</string>
     <string name="eventInscriptionCodeSubtitle">Entre le code que tu as reçu</string>
+    <string name="saved_email">saved_email</string>
+    <string name="server_auth_token">server_auth_token</string>
+    <string name="server_password">server_password</string>
+    <string name="device_id">device_id</string>
 
     <string-array name="dayNameList">
         <item>Lun</item>

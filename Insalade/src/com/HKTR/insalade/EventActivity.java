@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -61,6 +62,81 @@ public class EventActivity extends BaseActivity {
         getEvents();
     }
 
+    @Override
+    public void onClickPreviousButton(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            changeUserPushConfig(1,1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            refreshServerToken();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String token = sharedPref.getString(getString(R.string.server_auth_token), "");
+        if(token.length() == 0) {
+            Intent intent = new Intent(this, EventInscriptionEmailActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    /*
+     * To get from the server a new token for events
+     */
+    private void refreshServerToken() throws JSONException {
+        String url = "http://37.59.123.110:443/sessions/";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        String device_id = sharedPref.getString(getString(R.string.device_id), "");
+
+        JSONObject params = new JSONObject();
+        params.put("id_device", device_id);
+
+        String email = sharedPref.getString(getString(R.string.saved_email), "");
+        final String password = sharedPref.getString(getString(R.string.server_password), "");
+
+        params.put("mail", email);
+        params.put("password", password);
+        params.put("os", "android");
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.POST,
+                        url,
+                        params,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    SharedPreferences.Editor editor = BaseActivity.sharedPref.edit();
+                                    editor.putString(getString(R.string.server_auth_token), response.getString("token"));
+                                    editor.commit();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        SharedPreferences.Editor editor = BaseActivity.sharedPref.edit();
+                        editor.putString(getString(R.string.server_auth_token), "");
+                        editor.commit();
+                    }
+                });
+
+        queue.add(jsObjRequest);
+    }
+
     protected void getEvents() {
         // Fetch new event list if internet
         if (isOnline(context)) {
@@ -96,7 +172,8 @@ public class EventActivity extends BaseActivity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("Authorization", "a6eae857-f627-4e5b-a5bd-cbffa9e04bae");//TODO use appropriate token
+                    String token = sharedPref.getString(getString(R.string.server_auth_token), "");
+                    params.put("Authorization", token);
 
                     return params;
                 }

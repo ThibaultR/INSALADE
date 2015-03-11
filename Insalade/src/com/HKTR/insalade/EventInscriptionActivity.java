@@ -1,7 +1,11 @@
 package com.HKTR.insalade;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,6 +18,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Hyukchan on 08/03/2015.
@@ -48,6 +60,14 @@ public class EventInscriptionActivity extends BaseActivity {
         handleOnFocusInput();
         handleOnSubmitInput();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        submitButton.setClickable(true);
+    }
+
 
     protected void shakeModal(RelativeLayout modal) {
         Animation shakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
@@ -101,5 +121,56 @@ public class EventInscriptionActivity extends BaseActivity {
                 return false;
             }
         });
+    }
+
+    public void onSubmitEventInscriptionEmail(View view) throws JSONException {
+        submitButton.setClickable(false);
+        final String email = eventInscriptionInput.getText().toString();
+
+        String url = "http://37.59.123.110:443/users/";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        String android_id = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.device_id), android_id);
+        editor.commit();
+
+        JSONObject params = new JSONObject();
+        params.put("id_device", android_id);
+        params.put("mail", email);
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.PUT,
+                        url,
+                        params,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(getString(R.string.saved_email), email);
+                                editor.commit();
+
+                                Intent intent = new Intent(getApplicationContext(), EventInscriptionCodeActivity.class);
+                                startActivity(intent);
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        shakeModal(modal);
+                        submitButton.setClickable(true);
+                    }
+                });
+
+        queue.add(jsObjRequest);
+
+        Handler handler = new Handler();
+        Runnable r = new Runnable() {
+            public void run() {
+
+            }
+        };
+        handler.postDelayed(r, 5000);
     }
 }
