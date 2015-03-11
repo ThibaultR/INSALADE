@@ -5,13 +5,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:background="@color/menuPageContent">
-
-
     <TextView
             android:id="@+id/eventTitle"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:gravity="center"/>
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="#333333"
+            android:padding="8dp"
+            android:textSize="20dp"/>
 
     <FrameLayout
             android:id="@+id/eventImageGroup"
@@ -20,13 +21,14 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/eventTitle">
 
-        <ImageButton
+        <com.HKTR.insalade.SquareImageView
                 android:id="@+id/eventImage"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:scaleType="center"
                 android:layout_gravity="center"
-                android:onClick="onClickEventImage"/>
+                android:onClick="onClickEventImage"
+                android:clickable="true"/>
 
         <TextView
                 android:id="@+id/eventDescription"
@@ -35,13 +37,17 @@
                 android:visibility="gone"
                 android:textColor="@color/white"
                 android:background="#99000000"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:padding="15dp"/>
     </FrameLayout>
 
     <TextView
             android:id="@+id/eventDate"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
+            android:layout_height="45dp"
             android:layout_below="@id/eventImageGroup"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textColor="#7e7e7e"
+            android:padding="8dp"
+            android:textSize="15dp"/>
 </RelativeLayout>
