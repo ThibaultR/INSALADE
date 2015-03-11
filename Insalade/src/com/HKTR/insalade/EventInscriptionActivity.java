@@ -1,17 +1,10 @@
 package com.HKTR.insalade;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
-import android.media.Image;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
@@ -21,15 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.provider.Settings.Secure;
 
 /**
  * Created by Hyukchan on 08/03/2015.
@@ -54,8 +38,8 @@ public class EventInscriptionActivity extends BaseActivity {
         eventInscriptionTitle = (TextView) findViewById(R.id.eventInscriptionTitle);
         eventInscriptionSubTitle = (TextView) findViewById(R.id.eventInscriptionSubTitle);
 
-        changeTextViewFont(eventInscriptionTitle, fontLatoLight);
-        changeTextViewFont(eventInscriptionSubTitle, fontLatoLight);
+        changeTextViewFont(eventInscriptionTitle, fontRobotoLight);
+        changeTextViewFont(eventInscriptionSubTitle, fontRobotoLight);
 
         modal = (RelativeLayout) findViewById(R.id.eventInscriptionModal);
         submitButton = (ImageButton) findViewById(R.id.button_send);

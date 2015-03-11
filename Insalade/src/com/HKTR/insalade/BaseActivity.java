@@ -13,8 +13,9 @@ import android.widget.TextView;
 public class BaseActivity extends Activity {
 
     /* FONTS */
-    protected Typeface fontPacifico;
-    protected Typeface fontLatoLight;
+    public static Typeface fontPacifico;
+    public static Typeface fontRobotoLight;
+    public static Typeface fontRobotoRegular;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,13 +23,14 @@ public class BaseActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         fontPacifico = Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf");
-        fontLatoLight = Typeface.createFromAsset(getAssets(), "fonts/Lato-Light.ttf");
+        fontRobotoLight = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+        fontRobotoRegular = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
     }
 
     /*
      * change font of a TextView
      */
-    public void changeTextViewFont(TextView textView, Typeface font) {
+    public static void changeTextViewFont(TextView textView, Typeface font) {
         textView.setTypeface(font);
     }
 

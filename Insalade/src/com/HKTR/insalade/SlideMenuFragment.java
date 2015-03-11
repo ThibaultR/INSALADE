@@ -57,9 +57,9 @@ public class SlideMenuFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.menu_slide_page, container, false);
 
         TextView menuPageDate = (TextView) rootView.findViewById(R.id.menuPageDate);
-        Typeface fontLatoLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Light.ttf");
+        Typeface fontRobotoLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
         //Change date font
-        menuPageDate.setTypeface(fontLatoLight);
+        menuPageDate.setTypeface(fontRobotoLight);
 
         //get currentMenu
         DayModel currentDay = WeekModel.getDayById(getPageNumber());
@@ -73,15 +73,15 @@ public class SlideMenuFragment extends Fragment {
             menuPageDate.setText(currentMenu.getDate() + " soir");
         }
 
-        Typeface fontLatoHeavy = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Heavy.ttf");
+        Typeface fontRobotoBold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Bold.ttf");
 
         TextView starterTitle = (TextView) rootView.findViewById(R.id.starterTitle);
         TextView mainCourseTitle = (TextView) rootView.findViewById(R.id.mainCourseTitle);
         TextView dessertTitle = (TextView) rootView.findViewById(R.id.dessertTitle);
 
-        starterTitle.setTypeface(fontLatoHeavy);
-        mainCourseTitle.setTypeface(fontLatoHeavy);
-        dessertTitle.setTypeface(fontLatoHeavy);
+        starterTitle.setTypeface(fontRobotoBold);
+        mainCourseTitle.setTypeface(fontRobotoBold);
+        dessertTitle.setTypeface(fontRobotoBold);
 
         TextView starterContent = (TextView) rootView.findViewById(R.id.starterContent);
         TextView mainCourseContent = (TextView) rootView.findViewById(R.id.mainCourseContent);
@@ -91,9 +91,9 @@ public class SlideMenuFragment extends Fragment {
         mainCourseContent.setText(currentMenu.getMainCourse());
         dessertContent.setText(currentMenu.getDessert());
 
-        starterContent.setTypeface(fontLatoLight);
-        mainCourseContent.setTypeface(fontLatoLight);
-        dessertContent.setTypeface(fontLatoLight);
+        starterContent.setTypeface(fontRobotoLight);
+        mainCourseContent.setTypeface(fontRobotoLight);
+        dessertContent.setTypeface(fontRobotoLight);
 
         handleNestedScrollProblem(rootView);
 
