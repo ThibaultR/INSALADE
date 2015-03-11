@@ -41,14 +41,25 @@
                 />
     </RelativeLayout>
     <!--End topbar-->
-    <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent">
-        <LinearLayout
-                android:id="@+id/eventContainer"
+
+    <com.baoyz.widget.PullRefreshLayout android:id="@+id/swipeRefreshLayout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/appBackgroundColor">
+
+
+        <ScrollView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:orientation="vertical"
-                android:background="@color/appBackgroundColor"
-                />
-    </ScrollView>
+                android:fillViewport="true">
+            <LinearLayout
+                    android:id="@+id/eventContainer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:background="@color/appBackgroundColor"
+                    />
+        </ScrollView>
 
+    </com.baoyz.widget.PullRefreshLayout>
 </LinearLayout>

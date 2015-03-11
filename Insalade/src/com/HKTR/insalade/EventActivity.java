@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +19,7 @@ import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.baoyz.widget.PullRefreshLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +31,7 @@ import java.sql.Date;
 import java.util.*;
 
 import static com.HKTR.insalade.Tools.isOnline;
+import static java.lang.Thread.sleep;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
@@ -36,6 +39,9 @@ import static com.HKTR.insalade.Tools.isOnline;
  */
 public class EventActivity extends Activity {
     JSONArray eventsArray;
+    Context context;
+    SharedPreferences sharedPref;
+    PullRefreshLayout refreshLayout;
 
 
     @Override
@@ -44,15 +50,19 @@ public class EventActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_activity);
+
+        initiateScrollRefresh();
+        Log.e("","");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        context = getApplicationContext();
+        sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        //TODO if not internet acces look on memory
-        //Fetch event list and display them
-        if (isOnline(getApplicationContext())) {
+        // Fetch new event list if internet
+        if (isOnline(context)) {
             // Instantiate the RequestQueue.
             RequestQueue queue = Volley.newRequestQueue(this);
             String url = "http://37.59.123.110:443/events/";
@@ -68,32 +78,24 @@ public class EventActivity extends Activity {
                              Log.e("GET : ", response.toString());//TODO remove
 
                              // Save last Json for offline purpose
-                             Context context = getApplicationContext();
-                             SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                              SharedPreferences.Editor editor = sharedPref.edit();
                              editor.putString("lastJSONEvent", response.toString());
                              editor.commit();
-
-                             eventsArray = response.optJSONArray("events"); //TODO save last json for offline purpose
-                             if (eventsArray == null) {
-                                 Log.e("Array : ", "Pas d'event");
-                             }
-                             else {
-                                 displayEventFragment(eventsArray);
-                             }
+                             useJsonEventList();
                          }
                      },
                      new Response.ErrorListener() {
                          @Override
                          public void onErrorResponse(VolleyError error) {
                              Log.e("GETError : ", "Marche pas");
+                             useJsonEventList();
                          }
                      }
                     ) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("Authorization", "6f79dedc-5726-4510-938f-81206fbcb2e8");//TODO use appropriate token
+                    params.put("Authorization", "a6eae857-f627-4e5b-a5bd-cbffa9e04bae");//TODO use appropriate token
 
                     return params;
                 }
@@ -104,34 +106,37 @@ public class EventActivity extends Activity {
         }
         else //If no internet connexion
         {
-            Toast.makeText(getApplicationContext(), "Connexion internet non disponible", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Connexion internet non disponible", Toast.LENGTH_LONG).show();
+            useJsonEventList();
+        }
+    }
 
-            Context context = getApplicationContext();
-            SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-            String defaultValue = "{\"status\":\"201\",\"events\":[{\"id_event\":-1,\"title\":\"Titre\",\"event_end\":\"Date de fin\",\"image_url\":\"random.jpg\",\"association\":\"Nom de l'association\",\"event_start\":\"Date de debut\",\"description\":\"Description\"}]}\"";
-            String stringJSONEvent = sharedPref.getString("lastJSONEvent", defaultValue);
 
-            if(stringJSONEvent.equals(defaultValue)){
-                Toast.makeText(getApplicationContext(), "Pas de données à afficher", Toast.LENGTH_LONG).show();
+    public void useJsonEventList(){
+        // Get last Json from storage
+        String defaultValue = "{\"status\":\"201\",\"events\":[{\"id_event\":-1,\"title\":\"Titre\",\"event_end\":\"Date de fin\",\"image_url\":\"random.jpg\",\"association\":\"Nom de l'association\",\"event_start\":\"Date de debut\",\"description\":\"Description\"}]}\"";
+        String stringJSONEvent = sharedPref.getString("lastJSONEvent", defaultValue);
+
+        // Display eventFragment if possible
+        if(stringJSONEvent.equals(defaultValue)){
+            Toast.makeText(context, "Pas d'évenement à afficher", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            JSONObject response = null;
+            try {
+                response = new JSONObject(stringJSONEvent);
             }
-            else
-            {
-                JSONObject response = null;
-                try {
-                    response = new JSONObject(stringJSONEvent);
-                }
-                catch (JSONException e) {
-                    Log.e("Get saved JSONEvent : ", "Problem");
-                    e.printStackTrace();
-                }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-                eventsArray = response.optJSONArray("events");
-                if (eventsArray == null) {
-                    Log.e("Array : ", "Pas d'event");
-                }
-                else {
-                    displayEventFragment(eventsArray);
-                }
+            eventsArray = response.optJSONArray("events");
+            if (eventsArray == null) {
+                Log.e("Array : ", "Pas d'event");
+            }
+            else {
+                displayEventFragment(eventsArray);
             }
         }
     }
@@ -151,9 +156,9 @@ public class EventActivity extends Activity {
 
     public void displayEventFragment(JSONArray jsonArray) {
         ArrayList usedImageFile = new ArrayList<String>();
-        String[]  existingImageFiles = getApplicationContext().getDir("eventImageDir", Context.MODE_PRIVATE).list();
+        String[]  existingImageFiles = context.getDir("eventImageDir", Context.MODE_PRIVATE).list();
         ArrayList existingImageFilesList = new ArrayList(Arrays.asList(existingImageFiles));
-        File filePath = getApplicationContext().getDir("eventImageDir", Context.MODE_PRIVATE);
+        File filePath = context.getDir("eventImageDir", Context.MODE_PRIVATE);
 
         LinearLayout eventContainer = (LinearLayout) findViewById(R.id.eventContainer);
         eventContainer.removeAllViews();
@@ -165,15 +170,19 @@ public class EventActivity extends Activity {
             try {
                 JSONObject event = jsonArray.getJSONObject(i);
                 Log.e("event" + i + " : ", event.getString("title"));//TODO remove
-                String imageUrl = event.getString("image_url");
-                usedImageFile.add(imageUrl);
-                fragmentTransaction.add(R.id.eventContainer, createEventFragment(event.getString("title"), event.getString("description"), imageUrl, event.getString("event_start"), event.getString("event_end")));
 
+                String imageUrl = event.getString("image_url");
                 // Download image if not already on storage
-                if(!existingImageFilesList.contains(imageUrl))
+                if(!existingImageFilesList.contains(imageUrl) && isOnline(context))
                 {
-                    new DownloadImageTask(imageUrl).execute("http://37.59.123.110/Web/web/uploads/documents/" + imageUrl);
+                    new DownloadImageTask(event).execute("http://37.59.123.110/Web/web/uploads/documents/" + imageUrl);
                 }
+                else
+                {
+                    fragmentTransaction.add(R.id.eventContainer, createEventFragment(event.getString("title"), event.getString("description"), imageUrl, event.getString("event_start"), event.getString("event_end")));
+                }
+
+                usedImageFile.add(imageUrl);
             }
             catch (JSONException e) {
                 e.printStackTrace();
@@ -211,8 +220,17 @@ public class EventActivity extends Activity {
     // Fetch image from url
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         String ImageName;
+        JSONObject event;
 
-        public DownloadImageTask(String eventImageName) { ImageName = eventImageName;}
+        public DownloadImageTask(JSONObject JSONevent) {
+            try {
+                event = JSONevent;
+                ImageName = event.getString("image_url");
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
@@ -229,11 +247,22 @@ public class EventActivity extends Activity {
 
         protected void onPostExecute(Bitmap result) {
             saveToInternalStorage(result, ImageName);
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            try {
+                fragmentTransaction.add(R.id.eventContainer, createEventFragment(event.getString("title"), event.getString("description"), ImageName, event.getString("event_start"), event.getString("event_end")));
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            fragmentTransaction.commit();
         }
     }
 
     private String saveToInternalStorage(Bitmap bitmapImage, String eventImageName){
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        ContextWrapper cw = new ContextWrapper(context);
         // path to /data/data/yourapp/app_data/eventImageDir
         File directory = cw.getDir("eventImageDir", Context.MODE_PRIVATE);
         // Create eventImageDir
@@ -251,4 +280,44 @@ public class EventActivity extends Activity {
         }
         return directory.getAbsolutePath();
     }
+
+    private void initiateScrollRefresh() {
+        PullRefreshLayout.OnRefreshListener onRefreshListener = new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isOnline(context)) {
+                            // Delete imageFiles on internal Storage
+                            String[]  existingImageFiles = context.getDir("eventImageDir", Context.MODE_PRIVATE).list();
+                            File filePath = context.getDir("eventImageDir", Context.MODE_PRIVATE);
+                            for(String s : existingImageFiles){
+                                File fileToRemove = new File(filePath.toString()+File.separatorChar+s);
+                                fileToRemove.delete();
+                            }
+
+                            // Delete saved Json
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.remove("lastJSONEvent");
+                            editor.commit();
+
+
+                            onResume();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Connexion internet non disponible pour mettre à jour", Toast.LENGTH_LONG).show();
+                        }
+
+                        refreshLayout.setRefreshing(false);
+                    }
+                }, 5000);
+            }
+        };
+
+        refreshLayout = (PullRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        // listen refresh event
+        refreshLayout.setOnRefreshListener(onRefreshListener);
+    }
+
 }
