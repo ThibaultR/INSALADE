@@ -37,7 +37,7 @@ import static java.lang.Thread.sleep;
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
  * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
-public class EventActivity extends Activity {
+public class EventActivity extends BaseActivity {
     JSONArray eventsArray;
     Context context;
     SharedPreferences sharedPref;
@@ -51,16 +51,17 @@ public class EventActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_activity);
 
+        changeTextViewFont((TextView) findViewById(R.id.headerEventTitle), fontPacifico);
+
         initiateScrollRefresh();
         Log.e("","");
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
         context = getApplicationContext();
         sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        getEvents();
+    }
 
+    protected void getEvents() {
         // Fetch new event list if internet
         if (isOnline(context)) {
             // Instantiate the RequestQueue.
@@ -70,27 +71,27 @@ public class EventActivity extends Activity {
             // Request a string response from the provided URL.
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
                     (Request.Method.GET,
-                     url,
-                     null,
-                     new Response.Listener<JSONObject>() {
-                         @Override
-                         public void onResponse(JSONObject response) {
-                             Log.e("GET : ", response.toString());//TODO remove
+                            url,
+                            null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.e("GET : ", response.toString());//TODO remove
 
-                             // Save last Json for offline purpose
-                             SharedPreferences.Editor editor = sharedPref.edit();
-                             editor.putString("lastJSONEvent", response.toString());
-                             editor.commit();
-                             useJsonEventList();
-                         }
-                     },
-                     new Response.ErrorListener() {
-                         @Override
-                         public void onErrorResponse(VolleyError error) {
-                             Log.e("GETError : ", "Marche pas");
-                             useJsonEventList();
-                         }
-                     }
+                                    // Save last Json for offline purpose
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString("lastJSONEvent", response.toString());
+                                    editor.commit();
+                                    useJsonEventList();
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.e("GETError : ", "Marche pas");
+                                    useJsonEventList();
+                                }
+                            }
                     ) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
@@ -201,10 +202,6 @@ public class EventActivity extends Activity {
         }
     }
 
-    public void onClickPreviousButton(View view) {
-        onBackPressed();
-    }
-
     public void onClickEventImage(View view) {
         FrameLayout imageGroup = (FrameLayout) view.getParent();
         TextView eventDescription = (TextView) imageGroup.findViewById(R.id.eventDescription);
@@ -303,7 +300,7 @@ public class EventActivity extends Activity {
                             editor.commit();
 
 
-                            onResume();
+                            getEvents();
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Connexion internet non disponible pour mettre à jour", Toast.LENGTH_LONG).show();

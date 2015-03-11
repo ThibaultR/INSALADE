@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="7dp">
+            android:layout_marginBottom="3dp">
 
         <View
                 android:id="@+id/tickMarkLunch"
@@ -54,8 +54,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/dayName"
             android:layout_centerHorizontal="true"
-            android:textSize="19dp"
+            android:textSize="17dp"
             android:textColor="@color/headerFontColor"
+            android:layout_marginTop="-7dp"
             />
 
 </RelativeLayout>

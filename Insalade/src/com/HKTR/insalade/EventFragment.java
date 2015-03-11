@@ -2,27 +2,15 @@ package com.HKTR.insalade;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FilePermission;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
@@ -46,9 +34,11 @@ public class EventFragment extends Fragment {
         eventDescription.setText(Description);
         TextView eventDate = (TextView) eventFragment.findViewById(R.id.eventDate);
         eventDate.setText(Date);
-        ImageButton eventImage = (ImageButton) eventFragment.findViewById(R.id.eventImage);
+        SquareImageView eventImage = (SquareImageView) eventFragment.findViewById(R.id.eventImage);
 
-
+        BaseActivity.changeTextViewFont(eventTitle, BaseActivity.fontRobotoRegular);
+        BaseActivity.changeTextViewFont(eventDescription, BaseActivity.fontRobotoLight);
+        BaseActivity.changeTextViewFont(eventDate, BaseActivity.fontRobotoLight);
 
         File filePath = getActivity().getDir("eventImageDir", Context.MODE_PRIVATE);
 

@@ -39,6 +39,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -105,10 +106,6 @@ public class MainActivity extends FragmentActivity {
         changeHeaderFont();
 
         initiateScrollRefresh();
-
-        //test to remove
-        Intent intent = new Intent(this, EventInscriptionCodeActivity.class);
-        startActivity(intent);
     }
 
     private void initiateScrollRefresh() {
@@ -174,7 +171,8 @@ public class MainActivity extends FragmentActivity {
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.WEEK_OF_YEAR, XmlFileGetter.weekNumber);
-
+        cal.set(Calendar.DAY_OF_WEEK, 2);
+        int mondayDayNumber = cal.get(Calendar.DAY_OF_MONTH);
         navigationButtons.removeAllViews();
         for (int i = 0; i < 7; i++) {
             RelativeLayout navigationButton = (RelativeLayout) getLayoutInflater().inflate(R.layout.day_button_fragment, navigationButtons, false);
@@ -185,14 +183,16 @@ public class MainActivity extends FragmentActivity {
 
             // Set Day number
             TextView dayNumber = (TextView) navigationButton.findViewById(R.id.dayNumber);
-            cal.set(Calendar.DAY_OF_WEEK, (i + 2) % 7);
-            dayNumber.setText("" + cal.get(Calendar.DAY_OF_MONTH));
 
-            Typeface fontLatoLight = Typeface.createFromAsset(getAssets(), "fonts/Lato-Light.ttf");
-            dayName.setTypeface(fontLatoLight);
-            dayNumber.setTypeface(fontLatoLight);
+            int actualDayNumber = mondayDayNumber + i;
+            dayNumber.setText("" + actualDayNumber);
+
+            Typeface fontRobotoLight = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+            dayName.setTypeface(fontRobotoLight);
+            dayNumber.setTypeface(fontRobotoLight);
 
             // Set tickmarks color if closed
+            HashMap<Integer, WeekModel> test = WeekModel.getWeekList();
             DayModel currentDay = WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(i);
             if (currentDay.getLunch().isClosed()) {
                 navigationButton.findViewById(R.id.tickMarkLunch).setBackgroundResource(R.drawable.closed_tickmark);

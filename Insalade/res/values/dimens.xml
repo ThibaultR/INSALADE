@@ -5,5 +5,5 @@
 -->
 <resources>
     <dimen name="triangleSize">55dp</dimen>
-    <dimen name="menuPageDate">25dp</dimen>
+    <dimen name="menuPageDate">22dp</dimen>
 </resources>
