@@ -73,12 +73,6 @@ public class EventActivity extends BaseActivity {
         super.onResume();
 
         try {
-            changeUserPushConfig(1,1);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
             refreshServerToken();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -266,7 +260,7 @@ public class EventActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
 
 
 
@@ -331,7 +325,7 @@ public class EventActivity extends BaseActivity {
                 e.printStackTrace();
             }
 
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();;
         }
     }
 

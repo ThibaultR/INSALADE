@@ -70,8 +70,8 @@ public class BaseActivity extends Activity {
 
         params.put("token", token);
         params.put("os", "android");
-        params.put("event", event);
-        params.put("other", other);
+        params.put("push_event", event);
+        params.put("push_other", other);
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.POST,
