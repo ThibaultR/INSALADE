@@ -4,10 +4,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -71,6 +68,26 @@ public class SlideMenuFragment extends Fragment {
         } else {
             currentMenu = currentDay.getDinner();
             menuPageDate.setText(currentMenu.getDate() + " soir");
+        }
+
+        if(currentMenu.isClosed()){
+            TextView noMenu = new TextView(getActivity());
+            noMenu.setText("Restaurant fermé");
+            noMenu.setTextSize(30);
+            noMenu.setTextColor(getResources().getColor(R.color.menuTextColor));
+            BaseActivity.changeTextViewFont(noMenu, fontRobotoLight);
+            noMenu.setGravity(Gravity.CENTER);
+
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+            lp.setMargins(0, Tools.dpToPx(-50), 0, 0);
+            noMenu.setLayoutParams(lp);
+
+            rootView.removeAllViews();
+            rootView.addView(noMenu);
+            return rootView;
         }
 
         Typeface fontRobotoBold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Bold.ttf");
