@@ -71,9 +71,13 @@ public class EventInscriptionCodeActivity extends EventInscriptionActivity {
                                     SharedPreferences.Editor editor = sharedPref.edit();
                                     editor.putString(getString(R.string.server_auth_token), response.getString("token"));
                                     editor.putString(getString(R.string.server_password), password);
+                                    editor.putInt(getString(R.string.push_menu), 1);
+                                    editor.putInt(getString(R.string.push_event), 1);
+                                    editor.putInt(getString(R.string.push_other), 1);
                                     editor.commit();
 
                                     changeUserPushConfig(1,1);
+                                    changeMenuPushConfig(1);
 
                                     Intent intent = new Intent(getApplicationContext(), EventActivity.class);
                                     startActivity(intent);

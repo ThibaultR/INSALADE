@@ -23,7 +23,7 @@
             <ImageView android:layout_width="25dp"
                        android:layout_height="25dp"
                        android:src="@drawable/menu"
-                       android:onClick="onClickEventInscription"/>
+                       android:onClick="onClickMenu"/>
         </RelativeLayout>
 
         <TextView android:id="@+id/insalade_logo"
@@ -47,7 +47,7 @@
             <ImageView android:layout_width="35dp"
                        android:layout_height="35dp"
                        android:src="@drawable/event_active"
-                       android:onClick="onCLickEventButton"/>
+                       android:onClick="onClickEventButton"/>
         </RelativeLayout>
     </RelativeLayout>
     <!--End topbar-->

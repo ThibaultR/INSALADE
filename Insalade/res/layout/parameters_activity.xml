@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/appBackgroundColor">
+    <!--Start topbar-->
+    <RelativeLayout android:id="@+id/headerMenu"
+                    android:layout_width="fill_parent"
+                    android:layout_height="70dp"
+                    android:background="@color/headerBackground">
+
+        <RelativeLayout android:id="@+id/menuButton"
+                        android:layout_width="70dp"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="center">
+            <ImageView android:layout_width="35dp"
+                       android:layout_height="35dp"
+                       android:src="@drawable/previous_white"
+                       android:onClick="onClickPreviousButton"/>
+        </RelativeLayout>
+
+        <TextView android:id="@+id/layoutTitle"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:text="Réglages"
+                  android:textColor="@color/headerFontColor"
+                  android:textSize="37dp"
+                  android:layout_toLeftOf="@+id/eventButton"
+                  android:layout_toRightOf="@id/menuButton"
+                  android:clickable="true"
+                  android:gravity="center"/>
+
+        <RelativeLayout android:id="@id/eventButton"
+                        android:layout_width="70dp"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center">
+        </RelativeLayout>
+    </RelativeLayout>
+    <!--End topbar-->
+
+    <!-- Start Parameters -->
+    <RelativeLayout android:id="@+id/parametersPanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/headerMenu"
+                    android:layout_margin="50dp"
+                    android:background="@drawable/shadow"
+                    android:layout_centerInParent="true">
+        <RelativeLayout android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:padding="30dp"
+                        android:gravity="center">
+            <TextView android:id="@+id/notificationMenuLabel"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="20dp"
+                      android:textColor="#333333"
+                      android:text="Notifications menu disponible"
+                      android:layout_alignBaseline="@+id/notificationMenuInput"/>
+            <ToggleButton android:id="@+id/notificationMenuInput"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textOn="On"
+                          android:textOff="Off"
+                          android:layout_toRightOf="@id/notificationMenuLabel"
+                          android:layout_marginLeft="20dp"
+                          android:onClick="onToggleNotificationMenuClicked"/>
+
+            <TextView android:id="@+id/notificationEventLabel"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="20dp"
+                      android:textColor="#333333"
+                      android:text="Notifications Events"
+                      android:layout_below="@id/notificationMenuLabel"
+                      android:layout_alignLeft="@id/notificationMenuLabel"
+                      android:layout_alignBaseline="@+id/notificationEventInput"
+                      />
+            <ToggleButton android:id="@+id/notificationEventInput"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textOn="On"
+                          android:textOff="Off"
+                          android:layout_below="@id/notificationMenuInput"
+                          android:layout_alignLeft="@id/notificationMenuInput"
+                          android:onClick="onToggleNotificationUserClicked"/>
+
+            <TextView android:id="@+id/notificationOtherLabel"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="20dp"
+                      android:textColor="#333333"
+                      android:text="Autres notifications"
+                      android:layout_below="@id/notificationEventLabel"
+                      android:layout_alignLeft="@id/notificationMenuLabel"
+                      android:layout_alignBaseline="@+id/notificationOtherInput"
+                    />
+            <ToggleButton android:id="@+id/notificationOtherInput"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textOn="On"
+                          android:textOff="Off"
+                          android:layout_below="@id/notificationEventInput"
+                          android:layout_alignLeft="@id/notificationMenuInput"
+                          android:onClick="onToggleNotificationUserClicked"/>
+            <RelativeLayout
+                    android:id="@+id/loadingPanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone">
+
+                <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+    <!-- End Parameters -->
+    <ImageButton android:id="@+id/button_deleteAccount"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/bouton_desactiver_le_compte"
+                 android:layout_below="@id/parametersPanel"
+                 android:layout_centerInParent="true"
+                 android:background="@android:color/transparent"/>
+</RelativeLayout>

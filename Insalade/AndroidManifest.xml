@@ -33,6 +33,7 @@
         <activity android:name=".BaseActivity"/>
         <activity android:name=".EventInscriptionEmailActivity"/>
         <activity android:name=".EventInscriptionCodeActivity"/>
+        <activity android:name=".ParametersActivity"/>
         <meta-data android:name="com.google.android.gms.version"
                    android:value="@integer/google_play_services_version" />
 

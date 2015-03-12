@@ -16,6 +16,9 @@
     <string name="server_auth_token">server_auth_token</string>
     <string name="server_password">server_password</string>
     <string name="device_id">device_id</string>
+    <string name="push_menu">parameters_push_menu</string>
+    <string name="push_event">parameters_push_event</string>
+    <string name="push_other">parameters_push_other</string>
 
     <string-array name="dayNameList">
         <item>Lun</item>

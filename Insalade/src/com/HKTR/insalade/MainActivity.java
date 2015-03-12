@@ -529,10 +529,6 @@ public class MainActivity extends FragmentActivity {
         return result;
     }
 
-    public void onClickMenu(View view) {
-        Log.e("TestOnClickMenu", "Works");
-    }
-
     public void onClickEventInscription(View view) {
         Intent intent = new Intent(this, EventInscriptionActivity.class);
         startActivity(intent);
@@ -615,9 +611,13 @@ public class MainActivity extends FragmentActivity {
         goToCurrentMenu();
     }
 
-    //TODO TO REMOVE
-    public void onCLickEventButton(View view) {
+    public void onClickEventButton(View view) {
         Intent intent = new Intent(this, EventActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickMenu(View view) {
+        Intent intent = new Intent(this, ParametersActivity.class);
         startActivity(intent);
     }
 
