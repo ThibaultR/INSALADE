@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.widget.*;
 import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -73,14 +70,16 @@ public class ParametersActivity extends BaseActivity {
 
         boolean on = ((ToggleButton) view).isChecked();
 
+        int notificationMenu;
+
         if (on) {
-            push_menu = 1;
+            notificationMenu = 1;
         } else {
-            push_menu = 0;
+            notificationMenu = 0;
         }
 
         try {
-            changeMenuPushConfig(push_menu);
+            changeMenuPushConfig(notificationMenu);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -92,20 +91,24 @@ public class ParametersActivity extends BaseActivity {
         boolean onEvent = ((ToggleButton) findViewById(R.id.notificationEventInput)).isChecked();
         boolean onOther = ((ToggleButton) findViewById(R.id.notificationOtherInput)).isChecked();
 
+        int notificationEvent;
+
+        int notificationOther;
+
         if (onEvent) {
-            push_event = 1;
+            notificationEvent = 1;
         } else {
-            push_event = 0;
+            notificationEvent = 0;
         }
 
         if (onOther) {
-            push_other = 1;
+            notificationOther = 1;
         } else {
-            push_other = 0;
+            notificationOther = 0;
         }
 
         try {
-            changeUserPushConfig(push_event, push_event);
+            changeUserPushConfig(notificationEvent, notificationOther);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -168,6 +171,7 @@ public class ParametersActivity extends BaseActivity {
                     public void onErrorResponse(VolleyError error) {
                         enableParametersPanel();
                         toggleBack();
+                        Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_SHORT).show();
                     }
                 })
         {
@@ -186,7 +190,19 @@ public class ParametersActivity extends BaseActivity {
     }
 
     private void toggleBack() {
+        if(getIntFromBoolean(notificationMenuInput.isChecked()) != push_menu) {
+            notificationMenuInput.toggle();
+        }
+        if(getIntFromBoolean(notificationEventInput.isChecked()) != push_event) {
+            notificationEventInput.toggle();
+        }
+        if(getIntFromBoolean(notificationOtherInput.isChecked()) != push_other) {
+            notificationOtherInput.toggle();
+        }
+    }
 
+    public int getIntFromBoolean(boolean b) {
+        return b ? 1 : 0;
     }
 
     @Override
@@ -201,8 +217,11 @@ public class ParametersActivity extends BaseActivity {
 
         params.put("token", token);
         params.put("os", "android");
-        params.put("event", event);
-        params.put("other", other);
+        params.put("push_event", event);
+        params.put("push_other", other);
+
+        final int _push_event = event;
+        final int _push_other = other;
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.POST,
@@ -212,11 +231,17 @@ public class ParametersActivity extends BaseActivity {
                             @Override
                             public void onResponse(JSONObject response) {
                                 enableParametersPanel();
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putInt(getString(R.string.push_event), _push_event);
+                                editor.putInt(getString(R.string.push_other), _push_other);
+                                editor.commit();
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         enableParametersPanel();
+                        toggleBack();
+                        Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_SHORT).show();
                     }
                 })
         {
