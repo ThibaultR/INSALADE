@@ -7,7 +7,8 @@ import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
 /**
- * Created by Hyukchan on 10/03/2015.
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     @Override

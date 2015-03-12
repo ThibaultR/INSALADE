@@ -9,9 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -30,6 +32,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.sql.Date;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import static com.HKTR.insalade.Tools.isOnline;
 import static java.lang.Thread.sleep;
@@ -55,11 +60,9 @@ public class EventActivity extends BaseActivity {
         changeTextViewFont((TextView) findViewById(R.id.headerEventTitle), fontPacifico);
 
         initiateScrollRefresh();
-        Log.e("","");
 
         context = getApplicationContext();
         sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        getEvents();
     }
 
     @Override
@@ -83,6 +86,8 @@ public class EventActivity extends BaseActivity {
             Intent intent = new Intent(this, EventInscriptionEmailActivity.class);
             startActivity(intent);
         }
+
+        getEvents();
     }
 
     /*
@@ -283,6 +288,56 @@ public class EventActivity extends BaseActivity {
         else {
             eventDescription.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void onClickAddDateToCalendar(View view) {
+        if (android.os.Build.VERSION.SDK_INT >= 14) {
+            RelativeLayout parentView = (RelativeLayout) view.getParent();
+            String title = ((TextView) parentView.findViewById(R.id.eventTitle)).getText().toString();
+            String description = ((TextView) parentView.findViewById(R.id.eventDescription)).getText().toString();
+
+            String ligne, beginDate, beginTimeHour, endDate, endTimeHour;
+            int beginDay = 0, beginMonth = 0, beginHour = 0, beginMinute = 0, endDay = 0, endMonth = 0, endHour = 0, endMinute = 0;
+
+            try{
+                Pattern p = Pattern .compile(".*(([0-9]{2})/([0-9]{2})).*(([0-9]{2}):([0-9]{2})).*(([0-9]{2})/([0-9]{2})).*(([0-9]{2}):([0-9]{2}))");
+                String entree = ((TextView) view).getText().toString();
+                Matcher m = p.matcher(entree);
+                while (m.find()) {
+
+                    ligne = m.group(0);
+                    beginDate = m.group(1);
+                    beginDay = Integer.decode(m.group(2));
+                    beginMonth = Integer.decode(m.group(3));
+                    beginTimeHour = m.group(4);
+                    beginHour = Integer.decode(m.group(5));
+                    beginMinute = Integer.decode(m.group(6));
+                    endDate = m.group(7);
+                    endDay = Integer.decode(m.group(8));
+                    endMonth = Integer.decode(m.group(9));
+                    endTimeHour = m.group(10);
+                    endHour = Integer.decode(m.group(11));
+                    endMinute = Integer.decode(m.group(12));
+                }
+            }catch(PatternSyntaxException ignored){
+            }
+
+            Calendar beginTime = Calendar.getInstance();
+            beginTime.set(beginTime.get(Calendar.YEAR), beginMonth, beginDay, beginHour, beginMinute);
+            Calendar endTime = Calendar.getInstance();
+            endTime.set(endTime.get(Calendar.YEAR), endMonth, endDay, endHour, endMinute);
+            Intent intent = new Intent(Intent.ACTION_INSERT)
+                    .setData(CalendarContract.Events.CONTENT_URI)
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                    .putExtra(CalendarContract.Events.TITLE, title)
+                    .putExtra(CalendarContract.Events.DESCRIPTION, description);
+            startActivity(intent);
+        }
+    }
+
+    public void onClickHeaderText(View view) {
+        ((ScrollView) findViewById(R.id.EventScrollView)).fullScroll(ScrollView.FOCUS_UP);
     }
 
     // Fetch image from url

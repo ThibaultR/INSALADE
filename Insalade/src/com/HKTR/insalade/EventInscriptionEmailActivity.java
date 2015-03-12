@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 
 /**
- * Created by Hyukchan on 09/03/2015.
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
 public class EventInscriptionEmailActivity extends EventInscriptionActivity {
     @Override

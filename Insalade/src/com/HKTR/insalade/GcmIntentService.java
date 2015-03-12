@@ -14,7 +14,8 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 /**
- * Created by Hyukchan on 10/03/2015.
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;

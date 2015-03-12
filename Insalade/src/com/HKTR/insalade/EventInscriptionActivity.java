@@ -28,7 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by Hyukchan on 08/03/2015.
+ * @author Hyukchan Kwon (hyukchan.k@gmail.com)
+ * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
 public class EventInscriptionActivity extends BaseActivity {
 

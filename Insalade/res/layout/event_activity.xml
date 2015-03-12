@@ -19,6 +19,7 @@
                         android:layout_height="fill_parent"
                         android:layout_alignParentLeft="true"
                         android:gravity="center">
+
             <ImageView android:layout_width="35dp"
                        android:layout_height="35dp"
                        android:src="@drawable/previous_white"
@@ -53,6 +54,7 @@
 
 
         <ScrollView
+                android:id="@+id/EventScrollView"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:fillViewport="true">
