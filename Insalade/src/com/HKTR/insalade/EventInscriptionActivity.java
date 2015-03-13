@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.View;
@@ -152,7 +151,6 @@ public class EventInscriptionActivity extends BaseActivity {
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putString(getString(R.string.saved_email), email);
                                 editor.commit();
-
                                 Intent intent = new Intent(getApplicationContext(), EventInscriptionCodeActivity.class);
                                 startActivity(intent);
                             }

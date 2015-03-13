@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -294,7 +295,7 @@ public class ParametersActivity extends BaseActivity {
                                 notificationOtherInput.setChecked(false);
                                 notificationEventInput.setEnabled(false);
                                 notificationOtherInput.setEnabled(false);
-                                Toast.makeText(getApplicationContext(), "Compte supprimé avec succès", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Compte désactivé avec succès", Toast.LENGTH_SHORT).show();
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -318,10 +319,27 @@ public class ParametersActivity extends BaseActivity {
     }
 
     public void onClickDeleteAccount(View view) {
-        try {
-            deleteUser();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Etes-vous sûr ?")
+                .setConfirmText("Oui")
+                .setCancelText("Non")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                        try {
+                            deleteUser();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
     }
 }

@@ -29,4 +29,11 @@
         <item>Sam</item>
         <item>Dim</item>
     </string-array>
+
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="LOADING">Loading...</string>
+    <string name="dialog_default_title">Here\'s a message!</string>
+
+    <string name="default_progressbar">Default Progressbar:</string>
 </resources>
