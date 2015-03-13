@@ -266,9 +266,9 @@ public class EventActivity extends BaseActivity {
             }
 
             Calendar beginTime = Calendar.getInstance();
-            beginTime.set(beginTime.get(Calendar.YEAR), beginMonth, beginDay, beginHour, beginMinute);
+            beginTime.set(beginTime.get(Calendar.YEAR), beginMonth - 1, beginDay, beginHour, beginMinute);
             Calendar endTime = Calendar.getInstance();
-            endTime.set(endTime.get(Calendar.YEAR), endMonth, endDay, endHour, endMinute);
+            endTime.set(endTime.get(Calendar.YEAR), endMonth - 1, endDay, endHour, endMinute);
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
