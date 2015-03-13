@@ -165,13 +165,5 @@ public class EventInscriptionActivity extends BaseActivity {
                 });
 
         queue.add(jsObjRequest);
-
-        Handler handler = new Handler();
-        Runnable r = new Runnable() {
-            public void run() {
-
-            }
-        };
-        handler.postDelayed(r, 5000);
     }
 }

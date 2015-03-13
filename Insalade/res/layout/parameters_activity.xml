@@ -127,5 +127,6 @@
                  android:src="@drawable/bouton_desactiver_le_compte"
                  android:layout_below="@id/parametersPanel"
                  android:layout_centerInParent="true"
-                 android:background="@android:color/transparent"/>
+                 android:background="@android:color/transparent"
+                 android:onClick="onClickDeleteAccount"/>
 </RelativeLayout>

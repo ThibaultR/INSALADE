@@ -75,12 +75,6 @@ public class EventActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        try {
-            refreshServerToken();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         String token = sharedPref.getString(getString(R.string.server_auth_token), "");
         if(token.length() == 0) {
             Intent intent = new Intent(this, EventInscriptionEmailActivity.class);
@@ -88,52 +82,6 @@ public class EventActivity extends BaseActivity {
         }
 
         getEvents();
-    }
-
-    /*
-     * To get from the server a new token for events
-     */
-    private void refreshServerToken() throws JSONException {
-        String url = "http://37.59.123.110:443/sessions/";
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        String device_id = sharedPref.getString(getString(R.string.device_id), "");
-
-        JSONObject params = new JSONObject();
-        params.put("id_device", device_id);
-
-        String email = sharedPref.getString(getString(R.string.saved_email), "");
-        final String password = sharedPref.getString(getString(R.string.server_password), "");
-
-        params.put("mail", email);
-        params.put("password", password);
-        params.put("os", "android");
-
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.POST,
-                        url,
-                        params,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    SharedPreferences.Editor editor = BaseActivity.sharedPref.edit();
-                                    editor.putString(getString(R.string.server_auth_token), response.getString("token"));
-                                    editor.commit();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        SharedPreferences.Editor editor = BaseActivity.sharedPref.edit();
-                        editor.putString(getString(R.string.server_auth_token), "");
-                        editor.commit();
-                    }
-                });
-
-        queue.add(jsObjRequest);
     }
 
     protected void getEvents() {

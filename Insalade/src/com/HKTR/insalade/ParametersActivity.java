@@ -22,6 +22,8 @@ public class ParametersActivity extends BaseActivity {
     ToggleButton notificationEventInput;
     ToggleButton notificationOtherInput;
 
+    ImageButton deleteAccountButton;
+
     RelativeLayout loadingPanel;
 
     int push_event;
@@ -43,6 +45,7 @@ public class ParametersActivity extends BaseActivity {
         notificationOtherInput = (ToggleButton) findViewById(R.id.notificationOtherInput);
 
         loadingPanel = (RelativeLayout) findViewById(R.id.loadingPanel);
+        deleteAccountButton = (ImageButton) findViewById(R.id.button_deleteAccount);
     }
 
     @Override
@@ -51,6 +54,8 @@ public class ParametersActivity extends BaseActivity {
         push_event = sharedPref.getInt(getString(R.string.push_event), 0);
         push_menu = sharedPref.getInt(getString(R.string.push_menu), 0);
         push_other = sharedPref.getInt(getString(R.string.push_other), 0);
+
+        String token = sharedPref.getString(getString(R.string.server_auth_token), "");
 
         if(push_event == 1) {
             notificationEventInput.toggle();
@@ -62,6 +67,14 @@ public class ParametersActivity extends BaseActivity {
 
         if(push_other == 1) {
             notificationOtherInput.toggle();
+        }
+
+        if (token.length() == 0) {
+            deleteAccountButton.setVisibility(View.GONE);
+            notificationEventInput.setEnabled(false);
+            notificationOtherInput.setEnabled(false);
+            notificationEventInput.setChecked(false);
+            notificationOtherInput.setChecked(false);
         }
     }
 
@@ -206,7 +219,7 @@ public class ParametersActivity extends BaseActivity {
     }
 
     @Override
-    public void changeUserPushConfig(int event, int other) throws JSONException {
+     public void changeUserPushConfig(int event, int other) throws JSONException {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://37.59.123.110:443/users/pushs/";
@@ -257,5 +270,58 @@ public class ParametersActivity extends BaseActivity {
 
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
+    }
+
+    public void deleteUser() throws JSONException {
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://37.59.123.110:443/users/";
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.DELETE,
+                        url,
+                        null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(getString(R.string.server_auth_token), "");
+                                editor.putInt(getString(R.string.push_event), 0);
+                                editor.putInt(getString(R.string.push_other), 0);
+                                editor.commit();
+                                deleteAccountButton.setVisibility(View.GONE);
+                                notificationEventInput.setChecked(false);
+                                notificationOtherInput.setChecked(false);
+                                notificationEventInput.setEnabled(false);
+                                notificationOtherInput.setEnabled(false);
+                                Toast.makeText(getApplicationContext(), "Compte supprimé avec succès", Toast.LENGTH_SHORT).show();
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_SHORT).show();
+                    }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                String auth_token = sharedPref.getString(getString(R.string.server_auth_token), "");
+                params.put("Authorization", auth_token);
+
+                return params;
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(jsObjRequest);
+    }
+
+    public void onClickDeleteAccount(View view) {
+        try {
+            deleteUser();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
