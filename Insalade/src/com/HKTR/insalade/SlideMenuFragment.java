@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.*;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -29,6 +30,9 @@ public class SlideMenuFragment extends Fragment {
     /**
      * Factory method for this fragment class. Constructs a new fragment for the given page number.
      */
+
+    RelativeLayout menuScrollView;
+
     public static SlideMenuFragment create(int pageNumber) {
         SlideMenuFragment fragment = new SlideMenuFragment();
         Bundle args = new Bundle();
@@ -51,6 +55,7 @@ public class SlideMenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.menu_slide_page, container, false);
+        menuScrollView = (RelativeLayout) rootView.findViewById(R.id.MenuScrollView);
 
         TextView menuPageDate = (TextView) rootView.findViewById(R.id.menuPageDate);
         Typeface fontRobotoLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
@@ -70,22 +75,20 @@ public class SlideMenuFragment extends Fragment {
         }
 
         if(currentMenu.isClosed()){
+            menuScrollView.removeAllViewsInLayout();
             TextView noMenu = new TextView(getActivity());
             noMenu.setText("Restaurant fermé");
             noMenu.setTextSize(30);
             noMenu.setTextColor(getResources().getColor(R.color.menuTextColor));
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT);
+            noMenu.setLayoutParams(lp);
             BaseActivity.changeTextViewFont(noMenu, fontRobotoLight);
             noMenu.setGravity(Gravity.CENTER);
 
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            lp.addRule(RelativeLayout.CENTER_IN_PARENT);
-            lp.setMargins(0, Tools.dpToPx(-50), 0, 0);
-            noMenu.setLayoutParams(lp);
-
-            rootView.removeAllViews();
-            rootView.addView(noMenu);
+            menuScrollView.setLayoutParams(lp);
+            menuScrollView.addView(noMenu);
             return rootView;
         }
 
@@ -117,7 +120,6 @@ public class SlideMenuFragment extends Fragment {
     }
 
     private void handleNestedScrollProblem(ViewGroup rootView) {
-        RelativeLayout menuScrollView = (RelativeLayout) rootView.findViewById(R.id.MenuScrollView);
         menuScrollView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 com.baoyz.widget.PullRefreshLayout pullRefreshLayout = (com.baoyz.widget.PullRefreshLayout) v.getParent().getParent().getParent().getParent().getParent().getParent();
