@@ -59,15 +59,15 @@ public class ParametersActivity extends BaseActivity {
         String token = sharedPref.getString(getString(R.string.server_auth_token), "");
 
         if(push_event == 1) {
-            notificationEventInput.toggle();
+            notificationEventInput.setChecked(true);
         }
 
         if(push_menu == 1) {
-            notificationMenuInput.toggle();
+            notificationMenuInput.setChecked(true);
         }
 
         if(push_other == 1) {
-            notificationOtherInput.toggle();
+            notificationOtherInput.setChecked(true);
         }
 
         if (token.length() == 0) {
