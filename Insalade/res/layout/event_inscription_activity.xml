@@ -16,34 +16,27 @@
                     android:layout_height="70dp"
                     android:background="@color/headerBackground">
 
-        <RelativeLayout android:id="@+id/menuButton"
-                        android:layout_width="70dp"
-                        android:layout_height="fill_parent"
-                        android:layout_alignParentLeft="true"
-                        android:gravity="center">
-            <ImageView android:layout_width="35dp"
-                       android:layout_height="35dp"
-                       android:src="@drawable/previous_white"
-                       android:onClick="onClickPreviousButton"/>
-        </RelativeLayout>
-
         <TextView android:id="@+id/insalade_logo"
                   android:layout_width="fill_parent"
                   android:layout_height="fill_parent"
                   android:text="insalade"
                   android:textColor="@color/headerFontColor"
                   android:textSize="40dp"
-                  android:layout_toLeftOf="@+id/eventButton"
-                  android:layout_toRightOf="@id/menuButton"
                   android:clickable="true"
                   android:gravity="center"/>
 
-        <RelativeLayout android:id="@id/eventButton"
+        <RelativeLayout android:id="@+id/menuButton"
                         android:layout_width="70dp"
                         android:layout_height="fill_parent"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentLeft="true"
                         android:gravity="center">
+
+            <ImageView android:layout_width="35dp"
+                       android:layout_height="35dp"
+                       android:src="@drawable/previous_white"
+                       android:onClick="onClickPreviousButton"/>
         </RelativeLayout>
+
     </RelativeLayout>
     <!--End topbar-->
 
