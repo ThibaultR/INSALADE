@@ -74,9 +74,9 @@ public class EventActivity extends BaseActivity {
         if(token.length() == 0) {
             Intent intent = new Intent(this, EventInscriptionEmailActivity.class);
             startActivity(intent);
+        } else {
+            getEvents();
         }
-
-        getEvents();
     }
 
     protected void getEvents() {
