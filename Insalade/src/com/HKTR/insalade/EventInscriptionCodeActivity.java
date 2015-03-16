@@ -24,7 +24,14 @@ public class EventInscriptionCodeActivity extends EventInscriptionActivity {
         super.onCreate(savedInstanceState);
         
         eventInscriptionSubTitle.setText(R.string.eventInscriptionCodeSubtitle);
+
+        int bottom = modal.getPaddingBottom();
+        int top = modal.getPaddingTop();
+        int right = modal.getPaddingRight();
+        int left = modal.getPaddingLeft();
         modal.setBackgroundResource(R.drawable.event_inscription_code_modal);
+        modal.setPadding(left, top, right, bottom);
+
         submitButton.setImageResource(R.drawable.bouton_valider_code);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
