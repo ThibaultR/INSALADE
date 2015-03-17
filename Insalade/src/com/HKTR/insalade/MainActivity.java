@@ -267,7 +267,9 @@ public class MainActivity extends FragmentActivity {
         checkPlayServices();
 
         try {
-            refreshServerToken();
+            if(isOnline(context)){
+                refreshServerToken();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

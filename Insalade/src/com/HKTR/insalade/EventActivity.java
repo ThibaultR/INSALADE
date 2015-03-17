@@ -70,8 +70,11 @@ public class EventActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
+        //TODO refresh token
         String token = sharedPref.getString(getString(R.string.server_auth_token), "");
-        if(token.length() == 0) {
+        if(!isOnline(context)){
+            getEvents();
+        } else if(token.length() == 0) {
             Intent intent = new Intent(this, EventInscriptionEmailActivity.class);
             startActivity(intent);
         } else {
