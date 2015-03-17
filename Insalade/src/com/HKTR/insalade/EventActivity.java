@@ -1,7 +1,7 @@
 package com.HKTR.insalade;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+//import android.app.FragmentManager;
+//import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -12,10 +12,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.CalendarContract;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
+import android.support.v4.app.*;
 import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -38,7 +40,7 @@ import static com.HKTR.insalade.Tools.isOnline;
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
  * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
-public class EventActivity extends BaseActivity {
+public class EventActivity extends FragmentActivity {
     JSONArray eventsArray;
     Context context;
     SharedPreferences sharedPref;
@@ -52,7 +54,7 @@ public class EventActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_activity);
 
-        changeTextViewFont((TextView) findViewById(R.id.headerEventTitle), fontPacifico);
+        //changeTextViewFont((TextView) findViewById(R.id.headerEventTitle), fontPacifico);
 
         initiateScrollRefresh();
 
@@ -60,7 +62,7 @@ public class EventActivity extends BaseActivity {
         sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
     }
 
-    @Override
+    //@Override
     public void onClickPreviousButton(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -186,7 +188,7 @@ public class EventActivity extends BaseActivity {
         LinearLayout eventContainer = (LinearLayout) findViewById(R.id.eventContainer);
         eventContainer.removeAllViews();
 
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -316,7 +318,7 @@ public class EventActivity extends BaseActivity {
 
         protected void onPostExecute(Bitmap result) {
             saveToInternalStorage(result, ImageName);
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             try {

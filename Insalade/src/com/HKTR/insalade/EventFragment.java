@@ -16,14 +16,14 @@ import java.io.File;
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
  * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
-public class EventFragment extends Fragment {
+public class EventFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
-        String Title = args.getString("Title", "DefaultTitle");
-        String Description = args.getString("Description", "DefaultDescription");
-        String ImageUrl = args.getString("ImageUrl", "DefaultImageUrl");//TODO defaultimage
-        String Date = args.getString("Date", "Aujourd'hui maybe");
+        String Title = args.getString("Title");
+        String Description = args.getString("Description");
+        String ImageUrl = args.getString("ImageUrl");
+        String Date = args.getString("Date");//Default values dropped to support older android version
 
         // Inflate the layout for this fragment
         RelativeLayout eventFragment = (RelativeLayout) inflater.inflate(R.layout.event_fragment, container, false);
