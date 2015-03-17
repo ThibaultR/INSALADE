@@ -42,10 +42,10 @@
 
     <TextView android:id="@+id/eventInscriptionTitle"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="25dp"
               android:layout_below="@id/headerMenu"
               android:text="@string/eventInscriptionTitle"
-              android:textSize="25dp"
+              android:textSize="22dp"
               android:textColor="#2d2f2e"
               android:gravity="center"
               android:layout_marginTop="25dp"/>
@@ -58,7 +58,7 @@
               android:textSize="20dp"
               android:textColor="#909291"
               android:gravity="center"
-              android:layout_marginTop="50dp"
+              android:layout_marginTop="30dp"
               android:layout_marginBottom="10dp"/>
 
     <RelativeLayout android:id="@+id/eventInscriptionModal"
@@ -68,8 +68,8 @@
                     android:background="@drawable/event_inscription_email_modal"
                     android:layout_centerInParent="true"
                     android:padding="25dp"
-                    android:focusableInTouchMode="true"
-            >
+                    android:focusableInTouchMode="true">
+
         <EditText android:id="@+id/eventInscriptionInput"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -89,8 +89,22 @@
                      android:src="@drawable/bouton_demander_code"
                      android:layout_below="@id/eventInscriptionInput"
                      android:onClick="onSubmitEventInscriptionEmail"
-                     android:layout_centerInParent="true"
                      android:background="@android:color/transparent"
-                     android:layout_marginTop="15dp"/>
+                     android:layout_marginTop="15dp"
+                     android:layout_centerHorizontal="true"/>
+
+        <RelativeLayout
+                android:id="@+id/loadingPanel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone">
+
+            <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"/>
+
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

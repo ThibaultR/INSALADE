@@ -39,6 +39,8 @@ public class EventInscriptionActivity extends BaseActivity {
     TextView eventInscriptionSubTitle;
     EditText eventInscriptionInput;
 
+    boolean inputFocus = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,7 @@ public class EventInscriptionActivity extends BaseActivity {
         submitButton = (ImageButton) findViewById(R.id.button_send);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         handleOnFocusInput();
         handleOnSubmitInput();
     }
@@ -83,23 +86,57 @@ public class EventInscriptionActivity extends BaseActivity {
         eventInscriptionInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    TranslateAnimation animate = new TranslateAnimation(0,-eventInscriptionTitle.getWidth(),0,0);
-                    animate.setDuration(500);
-                    animate.setFillAfter(true);
-                    eventInscriptionTitle.startAnimation(animate);
-                    eventInscriptionTitle.setVisibility(View.GONE);
-                } else {
+                /* inputFocus : so the animation is done only once when we focus on the input */
+                if (hasFocus && !inputFocus) {
+                    inputFocus = true;
 
-                    TranslateAnimation animate = new TranslateAnimation(-eventInscriptionTitle.getWidth(),0,0,0);
-                    animate.setDuration(500);
-                    animate.setFillAfter(true);
-                    eventInscriptionTitle.startAnimation(animate);
-                    eventInscriptionTitle.setVisibility(View.VISIBLE);
+                    TranslateAnimation onInputFocusTitleAnimation = new TranslateAnimation(0,-eventInscriptionTitle.getWidth(),0,0);
+                    onInputFocusTitleAnimation.setDuration(300);
+                    onInputFocusTitleAnimation.setFillAfter(true);
+                    onInputFocusTitleAnimation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
 
-                    //hide keyboard
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(eventInscriptionInput.getWindowToken(), 0);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            eventInscriptionTitle.setVisibility(View.GONE);
+                            eventInscriptionTitle.clearAnimation();
+                            eventInscriptionSubTitle.clearAnimation();
+                            modal.clearAnimation();
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    eventInscriptionTitle.startAnimation(onInputFocusTitleAnimation);
+                    int animationDelta = Tools.dpToPx(50);
+
+                    TranslateAnimation onInputFocusModalAnimation = new TranslateAnimation(0,0,0,-animationDelta);
+                    onInputFocusModalAnimation.setDuration(300);
+                    onInputFocusModalAnimation.setFillEnabled(false);
+                    onInputFocusModalAnimation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            eventInscriptionSubTitle.clearAnimation();
+                            eventInscriptionTitle.clearAnimation();
+                            modal.clearAnimation();
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    modal.startAnimation(onInputFocusModalAnimation);
+                    eventInscriptionSubTitle.startAnimation(onInputFocusModalAnimation);
                 }
             }
         });
@@ -124,6 +161,9 @@ public class EventInscriptionActivity extends BaseActivity {
     }
 
     public void onSubmitEventInscriptionEmail(View view) throws JSONException {
+        final RelativeLayout loadingView = (RelativeLayout) findViewById(R.id.loadingPanel);
+        loadingView.setVisibility(View.VISIBLE);
+
         submitButton.setClickable(false);
         final String email = eventInscriptionInput.getText().toString();
 
@@ -151,6 +191,7 @@ public class EventInscriptionActivity extends BaseActivity {
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putString(getString(R.string.saved_email), email);
                                 editor.commit();
+                                loadingView.setVisibility(View.GONE);
                                 Intent intent = new Intent(getApplicationContext(), EventInscriptionCodeActivity.class);
                                 startActivity(intent);
                             }
@@ -159,6 +200,7 @@ public class EventInscriptionActivity extends BaseActivity {
                     public void onErrorResponse(VolleyError error) {
                         shakeModal(modal);
                         submitButton.setClickable(true);
+                        loadingView.setVisibility(View.GONE);
                     }
                 });
 
