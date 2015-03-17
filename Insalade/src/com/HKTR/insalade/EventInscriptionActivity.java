@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -41,6 +42,8 @@ public class EventInscriptionActivity extends BaseActivity {
 
     boolean inputFocus = false;
 
+    int eventInscriptionTitleHeight;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +65,16 @@ public class EventInscriptionActivity extends BaseActivity {
 
         handleOnFocusInput();
         handleOnSubmitInput();
+
+        eventInscriptionTitle.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                // Ensure you call it only once :
+                eventInscriptionTitle.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                eventInscriptionTitleHeight = eventInscriptionTitle.getHeight();
+            }
+        });
     }
 
     @Override
@@ -113,7 +126,8 @@ public class EventInscriptionActivity extends BaseActivity {
                         }
                     });
                     eventInscriptionTitle.startAnimation(onInputFocusTitleAnimation);
-                    int animationDelta = Tools.dpToPx(50);
+
+                    int animationDelta = Tools.dpToPx(eventInscriptionTitleHeight);
 
                     TranslateAnimation onInputFocusModalAnimation = new TranslateAnimation(0,0,0,-animationDelta);
                     onInputFocusModalAnimation.setDuration(300);
