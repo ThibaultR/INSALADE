@@ -5,10 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
@@ -96,6 +93,12 @@ public class EventInscriptionCodeActivity extends EventInscriptionActivity {
                         shakeModal(modal);
                     }
                 });
+
+        jsObjRequest.setRetryPolicy(
+                new DefaultRetryPolicy(
+                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                        0,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(jsObjRequest);
     }

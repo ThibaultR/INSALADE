@@ -28,10 +28,7 @@ import com.HKTR.insalade.XmlFileGetter.DownloadTask;
 import com.HKTR.insalade.model.DayModel;
 import com.HKTR.insalade.model.MenuModel;
 import com.HKTR.insalade.model.WeekModel;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.baoyz.widget.PullRefreshLayout;
@@ -829,6 +826,12 @@ public class MainActivity extends FragmentActivity {
                         editor.commit();
                     }
                 });
+
+        jsObjRequest.setRetryPolicy(
+                new DefaultRetryPolicy(
+                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                        0,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(jsObjRequest);
     }

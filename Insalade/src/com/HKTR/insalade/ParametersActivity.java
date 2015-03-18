@@ -200,6 +200,12 @@ public class ParametersActivity extends BaseActivity {
             }
         };
 
+        jsObjRequest.setRetryPolicy(
+                new DefaultRetryPolicy(
+                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                        0,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
     }
@@ -270,6 +276,12 @@ public class ParametersActivity extends BaseActivity {
             }
         };
 
+        jsObjRequest.setRetryPolicy(
+                new DefaultRetryPolicy(
+                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                        0,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
     }
@@ -314,6 +326,12 @@ public class ParametersActivity extends BaseActivity {
                 return params;
             }
         };
+
+        jsObjRequest.setRetryPolicy(
+                new DefaultRetryPolicy(
+                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                        0,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
