@@ -28,12 +28,12 @@
                         android:layout_width="70dp"
                         android:layout_height="fill_parent"
                         android:layout_alignParentLeft="true"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:onClick="onClickPreviousButton">
 
             <ImageView android:layout_width="35dp"
                        android:layout_height="35dp"
-                       android:src="@drawable/previous_white"
-                       android:onClick="onClickPreviousButton"/>
+                       android:src="@drawable/previous_white"/>
         </RelativeLayout>
 
     </RelativeLayout>

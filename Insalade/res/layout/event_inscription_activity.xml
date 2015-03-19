@@ -27,21 +27,32 @@
                         android:layout_width="70dp"
                         android:layout_height="fill_parent"
                         android:layout_alignParentLeft="true"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:onClick="onClickPreviousButton">
 
             <ImageView android:layout_width="35dp"
                        android:layout_height="35dp"
-                       android:src="@drawable/previous_white"
-                       android:onClick="onClickPreviousButton"/>
+                       android:src="@drawable/previous_white"/>
+
         </RelativeLayout>
 
     </RelativeLayout>
     <!--End topbar-->
 
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fillViewport="true"
+            android:layout_below="@id/headerMenu"
+            >
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                >
+
     <TextView android:id="@+id/eventInscriptionTitle"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_below="@id/headerMenu"
               android:text="@string/eventInscriptionTitle"
               android:textSize="22dp"
               android:textColor="#2d2f2e"
@@ -104,4 +115,6 @@
 
         </RelativeLayout>
     </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

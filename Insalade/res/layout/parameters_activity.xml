@@ -29,13 +29,13 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
+                android:onClick="onClickPreviousButton"
                 >
 
             <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:src="@drawable/previous_white"
-                    android:onClick="onClickPreviousButton"
                     />
         </RelativeLayout>
 
@@ -48,18 +48,18 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@id/headerMenu"
-            android:layout_marginBottom="110dp"
+            android:fillViewport="true"
             >
 
         <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 >
 
             <RelativeLayout
                     android:id="@+id/parametersPanel"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@drawable/shadow"
                     >
@@ -203,26 +203,31 @@
                     android:layout_below="@id/parametersPanel"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="30dp"
+                    android:layout_marginBottom="5dp"
                     android:background="@drawable/parameters_unsubscribe_button"
                     android:onClick="onClickDeleteAccount"
                     />
+
+
+            <ImageView android:id="@+id/parameters_icon"
+                       android:layout_width="80dp"
+                       android:layout_height="wrap_content"
+                       android:layout_below="@id/button_deleteAccount"
+                       android:layout_above="@+id/parameters_app_version"
+                       android:layout_centerHorizontal="true"
+                       android:src="@drawable/parameters_logo"
+                       android:scaleType="fitEnd"
+                    />
+
+            <TextView android:id="@id/parameters_app_version"
+                      android:layout_width="wrap_content"
+                      android:layout_height="20dp"
+                      android:layout_alignParentBottom="true"
+                      android:layout_centerHorizontal="true"
+                      android:text="Version 2.0.0"
+                      android:textSize="10dp"
+                      android:textColor="#333333"/>
         </RelativeLayout>
     </ScrollView>
 
-    <ImageView android:id="@+id/parameters_icon"
-               android:layout_above="@+id/parameters_app_version"
-               android:layout_width="80dp"
-               android:layout_height="80dp"
-               android:layout_centerHorizontal="true"
-               android:src="@drawable/parameters_logo"
-            />
-    <TextView android:id="@+id/parameters_app_version"
-              android:layout_width="wrap_content"
-              android:layout_height="20dp"
-              android:layout_alignParentBottom="true"
-              android:layout_centerHorizontal="true"
-              android:text="Version 2.0.0"
-              android:layout_marginBottom="10dp"
-              android:textSize="10dp"
-              android:textColor="#333333"/>
 </RelativeLayout>

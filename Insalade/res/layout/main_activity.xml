@@ -29,11 +29,13 @@
                         android:layout_width="70dp"
                         android:layout_height="fill_parent"
                         android:layout_alignParentLeft="true"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:onClick="onClickMenu">
+
             <ImageView android:layout_width="25dp"
                        android:layout_height="25dp"
-                       android:src="@drawable/bouton_config"
-                       android:onClick="onClickMenu"/>
+                       android:src="@drawable/bouton_config"/>
+
         </RelativeLayout>
 
 
@@ -41,12 +43,13 @@
                         android:layout_width="70dp"
                         android:layout_height="fill_parent"
                         android:layout_alignParentRight="true"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:onClick="onClickEventButton">
 
             <ImageView android:layout_width="35dp"
                        android:layout_height="35dp"
-                       android:src="@drawable/event_active"
-                       android:onClick="onClickEventButton"/>
+                       android:src="@drawable/event_active"/>
+
         </RelativeLayout>
     </RelativeLayout>
     <!--End topbar-->
