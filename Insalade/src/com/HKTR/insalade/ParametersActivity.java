@@ -1,5 +1,6 @@
 package com.HKTR.insalade;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,11 +16,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.HKTR.insalade.Tools.isOnline;
+
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
  * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
 public class ParametersActivity extends BaseActivity {
+    Context context;
+
     ToggleButton notificationMenuInput;
     ToggleButton notificationEventInput;
     ToggleButton notificationOtherInput;
@@ -36,11 +41,16 @@ public class ParametersActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parameters_activity);
+
+        context = getApplicationContext();
+
         changeTextViewFont((TextView) findViewById(R.id.layoutTitle), fontPacifico);
 
         changeTextViewFont((TextView) findViewById(R.id.notificationMenuLabel), fontRobotoLight);
         changeTextViewFont((TextView) findViewById(R.id.notificationEventLabel), fontRobotoLight);
         changeTextViewFont((TextView) findViewById(R.id.notificationOtherLabel), fontRobotoLight);
+
+        changeTextViewFont((TextView) findViewById(R.id.parameters_app_version), fontRobotoLight);
 
         notificationMenuInput = (ToggleButton) findViewById(R.id.notificationMenuInput);
         notificationEventInput = (ToggleButton) findViewById(R.id.notificationEventInput);
@@ -153,61 +163,67 @@ public class ParametersActivity extends BaseActivity {
 
     @Override
     public void changeMenuPushConfig(int push_menu) throws JSONException {
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://37.59.123.110:443/pushs/";
+        if(isOnline(context)) {
+            // Instantiate the RequestQueue.
+            RequestQueue queue = Volley.newRequestQueue(this);
+            String url = "http://37.59.123.110:443/pushs/";
 
-        JSONObject params = new JSONObject();
+            JSONObject params = new JSONObject();
 
-        String token = sharedPref.getString("registration_id", "");
-        String device_id = sharedPref.getString(getString(R.string.device_id), "");
+            String token = sharedPref.getString("registration_id", "");
+            String device_id = sharedPref.getString(getString(R.string.device_id), "");
 
-        params.put("token", token);
-        params.put("os", "android");
-        params.put("push_menu", push_menu);
-        params.put("id_device", device_id);
+            params.put("token", token);
+            params.put("os", "android");
+            params.put("push_menu", push_menu);
+            params.put("id_device", device_id);
 
-        final int _push_menu = push_menu;
+            final int _push_menu = push_menu;
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.POST,
-                        url,
-                        params,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                enableParametersPanel();
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putInt(getString(R.string.push_menu), _push_menu);
-                                editor.commit();
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        enableParametersPanel();
-                        toggleBack();
-                        Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_SHORT).show();
-                    }
-                })
-        {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                String auth_token = sharedPref.getString(getString(R.string.server_auth_token), "");
-                params.put("Authorization", auth_token);
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST,
+                            url,
+                            params,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    enableParametersPanel();
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putInt(getString(R.string.push_menu), _push_menu);
+                                    editor.commit();
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            enableParametersPanel();
+                            toggleBack();
+                            Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    String auth_token = sharedPref.getString(getString(R.string.server_auth_token), "");
+                    params.put("Authorization", auth_token);
 
-                return params;
-            }
-        };
+                    return params;
+                }
+            };
 
-        jsObjRequest.setRetryPolicy(
-                new DefaultRetryPolicy(
-                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
-                        0,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            jsObjRequest.setRetryPolicy(
+                    new DefaultRetryPolicy(
+                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                            0,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Add the request to the RequestQueue.
-        queue.add(jsObjRequest);
+            // Add the request to the RequestQueue.
+            queue.add(jsObjRequest);
+        }
+        else {
+            Toast.makeText(context, "Connexion internet non disponible", Toast.LENGTH_LONG).show();
+            toggleBack();
+            enableParametersPanel();
+        }
     }
 
     private void toggleBack() {
@@ -228,113 +244,125 @@ public class ParametersActivity extends BaseActivity {
 
     @Override
      public void changeUserPushConfig(int event, int other) throws JSONException {
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://37.59.123.110:443/users/pushs/";
+        if(isOnline(context)) {
+            // Instantiate the RequestQueue.
+            RequestQueue queue = Volley.newRequestQueue(this);
+            String url = "http://37.59.123.110:443/users/pushs/";
 
-        JSONObject params = new JSONObject();
+            JSONObject params = new JSONObject();
 
-        String token = sharedPref.getString("registration_id", "");
+            String token = sharedPref.getString("registration_id", "");
 
-        params.put("token", token);
-        params.put("os", "android");
-        params.put("push_event", event);
-        params.put("push_other", other);
+            params.put("token", token);
+            params.put("os", "android");
+            params.put("push_event", event);
+            params.put("push_other", other);
 
-        final int _push_event = event;
-        final int _push_other = other;
+            final int _push_event = event;
+            final int _push_other = other;
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.POST,
-                        url,
-                        params,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                enableParametersPanel();
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putInt(getString(R.string.push_event), _push_event);
-                                editor.putInt(getString(R.string.push_other), _push_other);
-                                editor.commit();
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        enableParametersPanel();
-                        toggleBack();
-                        Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_SHORT).show();
-                    }
-                })
-        {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                String auth_token = sharedPref.getString(getString(R.string.server_auth_token), "");
-                params.put("Authorization", auth_token);
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST,
+                            url,
+                            params,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    enableParametersPanel();
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putInt(getString(R.string.push_event), _push_event);
+                                    editor.putInt(getString(R.string.push_other), _push_other);
+                                    editor.commit();
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            enableParametersPanel();
+                            toggleBack();
+                            Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+            {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    String auth_token = sharedPref.getString(getString(R.string.server_auth_token), "");
+                    params.put("Authorization", auth_token);
 
-                return params;
-            }
-        };
+                    return params;
+                }
+            };
 
-        jsObjRequest.setRetryPolicy(
-                new DefaultRetryPolicy(
-                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
-                        0,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            jsObjRequest.setRetryPolicy(
+                    new DefaultRetryPolicy(
+                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                            0,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Add the request to the RequestQueue.
-        queue.add(jsObjRequest);
+            // Add the request to the RequestQueue.
+            queue.add(jsObjRequest);
+        }
+        else {
+            Toast.makeText(context, "Connexion internet non disponible", Toast.LENGTH_LONG).show();
+            toggleBack();
+            enableParametersPanel();
+        }
     }
 
     public void deleteUser() throws JSONException {
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://37.59.123.110:443/users/";
+        if(isOnline(context)) {
+            // Instantiate the RequestQueue.
+            RequestQueue queue = Volley.newRequestQueue(this);
+            String url = "http://37.59.123.110:443/users/";
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.DELETE,
-                        url,
-                        null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString(getString(R.string.server_auth_token), "");
-                                editor.putInt(getString(R.string.push_event), 0);
-                                editor.putInt(getString(R.string.push_other), 0);
-                                editor.commit();
-                                deleteAccountButton.setVisibility(View.GONE);
-                                notificationEventInput.setChecked(false);
-                                notificationOtherInput.setChecked(false);
-                                notificationEventInput.setEnabled(false);
-                                notificationOtherInput.setEnabled(false);
-                                Toast.makeText(getApplicationContext(), "Compte désactivé avec succès", Toast.LENGTH_SHORT).show();
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_SHORT).show();
-                    }
-                })
-        {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                String auth_token = sharedPref.getString(getString(R.string.server_auth_token), "");
-                params.put("Authorization", auth_token);
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.DELETE,
+                            url,
+                            null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString(getString(R.string.server_auth_token), "");
+                                    editor.putInt(getString(R.string.push_event), 0);
+                                    editor.putInt(getString(R.string.push_other), 0);
+                                    editor.commit();
+                                    deleteAccountButton.setVisibility(View.GONE);
+                                    notificationEventInput.setChecked(false);
+                                    notificationOtherInput.setChecked(false);
+                                    notificationEventInput.setEnabled(false);
+                                    notificationOtherInput.setEnabled(false);
+                                    Toast.makeText(getApplicationContext(), "Compte désactivé avec succès", Toast.LENGTH_SHORT).show();
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+            {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    String auth_token = sharedPref.getString(getString(R.string.server_auth_token), "");
+                    params.put("Authorization", auth_token);
 
-                return params;
-            }
-        };
+                    return params;
+                }
+            };
 
-        jsObjRequest.setRetryPolicy(
-                new DefaultRetryPolicy(
-                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
-                        0,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            jsObjRequest.setRetryPolicy(
+                    new DefaultRetryPolicy(
+                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                            0,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Add the request to the RequestQueue.
-        queue.add(jsObjRequest);
+            // Add the request to the RequestQueue.
+            queue.add(jsObjRequest);
+        }
+        else {
+            Toast.makeText(context, "Connexion internet non disponible", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onClickDeleteAccount(View view) {

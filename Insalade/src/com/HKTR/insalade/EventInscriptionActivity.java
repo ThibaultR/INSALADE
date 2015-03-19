@@ -21,11 +21,15 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.HKTR.insalade.Tools.isOnline;
+
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
  * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
 public class EventInscriptionActivity extends BaseActivity {
+
+    Context context;
 
     RelativeLayout modal;
     Button submitButton;
@@ -42,6 +46,8 @@ public class EventInscriptionActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_inscription_activity);
+
+        context = getApplicationContext();
         changeTextViewFont((TextView) findViewById(R.id.insalade_logo), fontPacifico);
 
         eventInscriptionInput = (EditText) findViewById(R.id.eventInscriptionInput);
@@ -169,55 +175,60 @@ public class EventInscriptionActivity extends BaseActivity {
     }
 
     public void onSubmitEventInscriptionEmail(View view) throws JSONException {
-        final RelativeLayout loadingView = (RelativeLayout) findViewById(R.id.loadingPanel);
-        loadingView.setVisibility(View.VISIBLE);
+        if(isOnline(context)) {
+            final RelativeLayout loadingView = (RelativeLayout) findViewById(R.id.loadingPanel);
+            loadingView.setVisibility(View.VISIBLE);
 
-        submitButton.setClickable(false);
-        final String email = eventInscriptionInput.getText().toString();
+            submitButton.setClickable(false);
+            final String email = eventInscriptionInput.getText().toString();
 
-        String url = "http://37.59.123.110:443/users/";
-        RequestQueue queue = Volley.newRequestQueue(this);
+            String url = "http://37.59.123.110:443/users/";
+            RequestQueue queue = Volley.newRequestQueue(this);
 
-        String android_id = Settings.Secure.getString(getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+            String android_id = Settings.Secure.getString(getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
 
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(getString(R.string.device_id), android_id);
-        editor.commit();
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.device_id), android_id);
+            editor.commit();
 
-        JSONObject params = new JSONObject();
-        params.put("id_device", android_id);
-        params.put("mail", email);
+            JSONObject params = new JSONObject();
+            params.put("id_device", android_id);
+            params.put("mail", email);
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.PUT,
-                        url,
-                        params,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString(getString(R.string.saved_email), email);
-                                editor.commit();
-                                loadingView.setVisibility(View.GONE);
-                                Intent intent = new Intent(getApplicationContext(), EventInscriptionCodeActivity.class);
-                                startActivity(intent);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        shakeModal(modal);
-                        submitButton.setClickable(true);
-                        loadingView.setVisibility(View.GONE);
-                    }
-                });
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.PUT,
+                            url,
+                            params,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString(getString(R.string.saved_email), email);
+                                    editor.commit();
+                                    loadingView.setVisibility(View.GONE);
+                                    Intent intent = new Intent(getApplicationContext(), EventInscriptionCodeActivity.class);
+                                    startActivity(intent);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            shakeModal(modal);
+                            submitButton.setClickable(true);
+                            loadingView.setVisibility(View.GONE);
+                        }
+                    });
 
-        jsObjRequest.setRetryPolicy(
-                new DefaultRetryPolicy(
-                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
-                        0,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            jsObjRequest.setRetryPolicy(
+                    new DefaultRetryPolicy(
+                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                            0,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        queue.add(jsObjRequest);
+            queue.add(jsObjRequest);
+        }
+        else {
+            Toast.makeText(context, "Connexion internet non disponible", Toast.LENGTH_LONG).show();
+        }
     }
 }

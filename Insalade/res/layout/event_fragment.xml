@@ -43,6 +43,7 @@
                 android:layout_height="fill_parent"
                 android:visibility="gone"
                 android:textColor="@color/white"
+                android:textSize="18dp"
                 android:background="#99000000"
                 android:gravity="center"
                 android:padding="30dp"/>

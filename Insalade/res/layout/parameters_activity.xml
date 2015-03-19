@@ -44,9 +44,11 @@
 
     <!-- Start Parameters -->
     <ScrollView
+            android:id="@+id/parameters_scrollview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@id/headerMenu"
+            android:layout_marginBottom="110dp"
             >
 
         <RelativeLayout
@@ -56,11 +58,10 @@
 
             <RelativeLayout
                     android:id="@+id/parametersPanel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="10dp"
                     android:background="@drawable/shadow"
-                    android:layout_centerInParent="true"
                     >
 
                 <RelativeLayout
@@ -98,7 +99,7 @@
                                 android:id="@+id/notificationMenuLabel"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:textSize="20dp"
+                                android:textSize="@dimen/parameters_label_font_size"
                                 android:textColor="#333333"
                                 android:text="Nouveau menu disponible"
                                 android:layout_weight="7"
@@ -128,7 +129,7 @@
                                 android:id="@+id/notificationEventLabel"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:textSize="20dp"
+                                android:textSize="@dimen/parameters_label_font_size"
                                 android:textColor="#333333"
                                 android:text="Nouvel événement"
                                 android:layout_weight="7"
@@ -158,7 +159,7 @@
                                 android:id="@+id/notificationOtherLabel"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:textSize="20dp"
+                                android:textSize="@dimen/parameters_label_font_size"
                                 android:textColor="#333333"
                                 android:text="Autres"
                                 android:layout_weight="7"
@@ -205,8 +206,23 @@
                     android:background="@drawable/parameters_unsubscribe_button"
                     android:onClick="onClickDeleteAccount"
                     />
-
         </RelativeLayout>
     </ScrollView>
 
+    <ImageView android:id="@+id/parameters_icon"
+               android:layout_above="@+id/parameters_app_version"
+               android:layout_width="80dp"
+               android:layout_height="80dp"
+               android:layout_centerHorizontal="true"
+               android:src="@drawable/parameters_logo"
+            />
+    <TextView android:id="@+id/parameters_app_version"
+              android:layout_width="wrap_content"
+              android:layout_height="20dp"
+              android:layout_alignParentBottom="true"
+              android:layout_centerHorizontal="true"
+              android:text="Version 2.0.0"
+              android:layout_marginBottom="10dp"
+              android:textSize="10dp"
+              android:textColor="#333333"/>
 </RelativeLayout>

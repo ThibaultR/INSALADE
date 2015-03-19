@@ -786,53 +786,54 @@ public class MainActivity extends FragmentActivity {
      * To get from the server a new token for events
      */
     private void refreshServerToken() throws JSONException {
+        if (isOnline(context)) {
+            final SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+            String url = "http://37.59.123.110:443/sessions/";
+            RequestQueue queue = Volley.newRequestQueue(this);
 
-        final SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
-        String url = "http://37.59.123.110:443/sessions/";
-        RequestQueue queue = Volley.newRequestQueue(this);
+            String device_id = sharedPref.getString(getString(R.string.device_id), "");
 
-        String device_id = sharedPref.getString(getString(R.string.device_id), "");
+            JSONObject params = new JSONObject();
+            params.put("id_device", device_id);
 
-        JSONObject params = new JSONObject();
-        params.put("id_device", device_id);
+            String email = sharedPref.getString(getString(R.string.saved_email), "");
+            final String password = sharedPref.getString(getString(R.string.server_password), "");
 
-        String email = sharedPref.getString(getString(R.string.saved_email), "");
-        final String password = sharedPref.getString(getString(R.string.server_password), "");
+            params.put("mail", email);
+            params.put("password", password);
+            params.put("os", "android");
 
-        params.put("mail", email);
-        params.put("password", password);
-        params.put("os", "android");
-
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.POST,
-                        url,
-                        params,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    SharedPreferences.Editor editor = sharedPref.edit();
-                                    editor.putString(getString(R.string.server_auth_token), response.getString("token"));
-                                    editor.commit();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST,
+                            url,
+                            params,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        SharedPreferences.Editor editor = sharedPref.edit();
+                                        editor.putString(getString(R.string.server_auth_token), response.getString("token"));
+                                        editor.commit();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString(getString(R.string.server_auth_token), "");
-                        editor.commit();
-                    }
-                });
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString(getString(R.string.server_auth_token), "");
+                            editor.commit();
+                        }
+                    });
 
-        jsObjRequest.setRetryPolicy(
-                new DefaultRetryPolicy(
-                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
-                        0,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            jsObjRequest.setRetryPolicy(
+                    new DefaultRetryPolicy(
+                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                            0,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        queue.add(jsObjRequest);
+            queue.add(jsObjRequest);
+        }
     }
 }
