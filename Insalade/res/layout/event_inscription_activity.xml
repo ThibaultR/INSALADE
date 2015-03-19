@@ -81,13 +81,12 @@
                   android:inputType="textVisiblePassword"
                   android:imeOptions="actionDone"/>
 
-        <ImageButton android:id="@+id/button_send"
+        <Button android:id="@+id/button_send"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:src="@drawable/bouton_demander_code"
                      android:layout_below="@id/eventInscriptionInput"
                      android:onClick="onSubmitEventInscriptionEmail"
-                     android:background="@android:color/transparent"
+                     android:background="@drawable/event_inscription_email_button"
                      android:layout_marginTop="15dp"
                      android:layout_centerHorizontal="true"/>
 

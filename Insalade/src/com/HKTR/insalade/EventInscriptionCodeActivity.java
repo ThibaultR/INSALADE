@@ -29,7 +29,7 @@ public class EventInscriptionCodeActivity extends EventInscriptionActivity {
         modal.setBackgroundResource(R.drawable.event_inscription_code_modal);
         modal.setPadding(left, top, right, bottom);
 
-        submitButton.setImageResource(R.drawable.bouton_valider_code);
+        submitButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.event_inscription_code_button));
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

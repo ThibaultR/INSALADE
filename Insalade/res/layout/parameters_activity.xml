@@ -195,15 +195,14 @@
             </RelativeLayout>
             <!-- End Parameters -->
 
-            <ImageButton
+            <Button
                     android:id="@+id/button_deleteAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/bouton_desactiver_le_compte"
                     android:layout_below="@id/parametersPanel"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="30dp"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/parameters_unsubscribe_button"
                     android:onClick="onClickDeleteAccount"
                     />
 

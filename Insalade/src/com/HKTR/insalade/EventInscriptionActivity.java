@@ -14,10 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -31,7 +28,7 @@ import org.json.JSONObject;
 public class EventInscriptionActivity extends BaseActivity {
 
     RelativeLayout modal;
-    ImageButton submitButton;
+    Button submitButton;
 
     TextView eventInscriptionTitle;
     TextView eventInscriptionSubTitle;
@@ -56,7 +53,7 @@ public class EventInscriptionActivity extends BaseActivity {
         changeTextViewFont(eventInscriptionSubTitle, fontRobotoLight);
 
         modal = (RelativeLayout) findViewById(R.id.eventInscriptionModal);
-        submitButton = (ImageButton) findViewById(R.id.button_send);
+        submitButton = (Button) findViewById(R.id.button_send);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 

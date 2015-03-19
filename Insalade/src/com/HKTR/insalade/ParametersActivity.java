@@ -24,7 +24,7 @@ public class ParametersActivity extends BaseActivity {
     ToggleButton notificationEventInput;
     ToggleButton notificationOtherInput;
 
-    ImageButton deleteAccountButton;
+    Button deleteAccountButton;
 
     RelativeLayout loadingPanel;
 
@@ -47,7 +47,7 @@ public class ParametersActivity extends BaseActivity {
         notificationOtherInput = (ToggleButton) findViewById(R.id.notificationOtherInput);
 
         loadingPanel = (RelativeLayout) findViewById(R.id.loadingPanel);
-        deleteAccountButton = (ImageButton) findViewById(R.id.button_deleteAccount);
+        deleteAccountButton = (Button) findViewById(R.id.button_deleteAccount);
     }
 
     @Override
