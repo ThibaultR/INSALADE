@@ -68,7 +68,7 @@ import static com.HKTR.insalade.XmlFileGetter.getUrls;
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
  * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
 
     DayModel currentDay;
     WeekModel currentWeek;

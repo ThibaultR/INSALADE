@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.provider.CalendarContract;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
@@ -40,7 +41,7 @@ import static com.HKTR.insalade.Tools.isOnline;
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
  * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
-public class EventActivity extends FragmentActivity {
+public class EventActivity extends BaseActivity {
     JSONArray eventsArray;
     Context context;
     SharedPreferences sharedPref;
@@ -54,7 +55,7 @@ public class EventActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_activity);
 
-        //changeTextViewFont((TextView) findViewById(R.id.headerEventTitle), fontPacifico);
+        changeTextViewFont((TextView) findViewById(R.id.headerEventTitle), fontPacifico);
 
         initiateScrollRefresh();
 
@@ -62,7 +63,7 @@ public class EventActivity extends FragmentActivity {
         sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
     }
 
-    //@Override
+    @Override
     public void onClickPreviousButton(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -145,9 +146,26 @@ public class EventActivity extends FragmentActivity {
         String defaultValue = "{\"status\":\"201\",\"events\":[{\"id_event\":-1,\"title\":\"Titre\",\"event_end\":\"Date de fin\",\"image_url\":\"random.jpg\",\"association\":\"Nom de l'association\",\"event_start\":\"Date de debut\",\"description\":\"Description\"}]}\"";
         String stringJSONEvent = sharedPref.getString("lastJSONEvent", defaultValue);
 
+
         // Display eventFragment if possible
         if(stringJSONEvent.equals(defaultValue)){
-            Toast.makeText(context, "Pas d'évenement à afficher", Toast.LENGTH_LONG).show();
+            ScrollView eventScrollView = (ScrollView) findViewById(R.id.EventScrollView);
+            eventScrollView.removeAllViewsInLayout();
+            TextView noEvent = new TextView(getApplicationContext());
+            noEvent.setText("Pas d'événement en ce moment");
+            noEvent.setTextSize(30);
+            noEvent.setTextColor(getResources().getColor(R.color.menuTextColor));
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT);
+            noEvent.setLayoutParams(lp);
+            BaseActivity.changeTextViewFont(noEvent, fontRobotoLight);
+            noEvent.setGravity(Gravity.CENTER);
+
+            eventScrollView.setLayoutParams(lp);
+            eventScrollView.addView(noEvent);
+
+            //Toast.makeText(context, "Pas d'événement à afficher", Toast.LENGTH_LONG).show();
         }
         else
         {

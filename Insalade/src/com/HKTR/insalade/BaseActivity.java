@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,7 +23,7 @@ import java.util.Map;
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
  * @author Thibault Rapin (thibault.rapin@gmail.com)
  */
-public class BaseActivity extends Activity {
+public class BaseActivity extends FragmentActivity {
 
     /* FONTS */
     public static Typeface fontPacifico;
@@ -161,4 +164,7 @@ public class BaseActivity extends Activity {
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
     }
+
+    //GOOGLE ANALYTICS
+
 }
