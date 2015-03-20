@@ -1,7 +1,6 @@
 package com.HKTR.insalade;
 
-//import android.app.FragmentManager;
-//import android.app.FragmentTransaction;
+
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -97,8 +96,6 @@ public class EventActivity extends BaseActivity {
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    Log.e("GET : ", response.toString());//TODO remove
-
                                     // Save last Json for offline purpose
                                     SharedPreferences.Editor editor = sharedPref.edit();
                                     editor.putString("lastJSONEvent", response.toString());
@@ -169,20 +166,19 @@ public class EventActivity extends BaseActivity {
         }
         else
         {
-            JSONObject response = null;
+            JSONObject response;
             try {
                 response = new JSONObject(stringJSONEvent);
+                eventsArray = response.optJSONArray("events");
+                if (eventsArray == null) {
+                    Log.e("Array : ", "Pas d'event");
+                }
+                else {
+                    displayEventFragment(eventsArray);
+                }
             }
             catch (JSONException e) {
                 e.printStackTrace();
-            }
-
-            eventsArray = response.optJSONArray("events");
-            if (eventsArray == null) {
-                Log.e("Array : ", "Pas d'event");
-            }
-            else {
-                displayEventFragment(eventsArray);
             }
         }
     }
@@ -215,7 +211,6 @@ public class EventActivity extends BaseActivity {
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject event = jsonArray.getJSONObject(i);
-                Log.e("event" + i + " : ", event.getString("title"));//TODO remove
 
                 String imageUrl = event.getString("image_url");
                 // Download image if not already on storage
@@ -265,7 +260,7 @@ public class EventActivity extends BaseActivity {
             String title = ((TextView) parentView.findViewById(R.id.eventTitle)).getText().toString();
             String description = ((TextView) parentView.findViewById(R.id.eventDescription)).getText().toString();
 
-            String ligne, beginDate, beginTimeHour, endDate, endTimeHour;
+
             int beginDay = 0, beginMonth = 0, beginHour = 0, beginMinute = 0, endDay = 0, endMonth = 0, endHour = 0, endMinute = 0;
 
             try{
@@ -273,18 +268,12 @@ public class EventActivity extends BaseActivity {
                 String entree = ((TextView) view).getText().toString();
                 Matcher m = p.matcher(entree);
                 while (m.find()) {
-
-                    ligne = m.group(0);
-                    beginDate = m.group(1);
                     beginDay = Integer.decode(m.group(2));
                     beginMonth = Integer.decode(m.group(3));
-                    beginTimeHour = m.group(4);
                     beginHour = Integer.decode(m.group(5));
                     beginMinute = Integer.decode(m.group(6));
-                    endDate = m.group(7);
                     endDay = Integer.decode(m.group(8));
                     endMonth = Integer.decode(m.group(9));
-                    endTimeHour = m.group(10);
                     endHour = Integer.decode(m.group(11));
                     endMinute = Integer.decode(m.group(12));
                 }
@@ -349,7 +338,7 @@ public class EventActivity extends BaseActivity {
                 e.printStackTrace();
             }
 
-            fragmentTransaction.commitAllowingStateLoss();;
+            fragmentTransaction.commitAllowingStateLoss();
         }
     }
 
@@ -360,7 +349,7 @@ public class EventActivity extends BaseActivity {
         // Create eventImageDir
         File mypath = new File(directory,eventImageName);
 
-        FileOutputStream fos = null;
+        FileOutputStream fos;
         try {
             fos = new FileOutputStream(mypath);
 

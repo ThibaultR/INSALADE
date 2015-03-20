@@ -1,6 +1,5 @@
 package com.HKTR.insalade;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;

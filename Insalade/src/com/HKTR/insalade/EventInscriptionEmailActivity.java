@@ -1,8 +1,6 @@
 package com.HKTR.insalade;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
@@ -14,9 +12,4 @@ public class EventInscriptionEmailActivity extends EventInscriptionActivity {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onClickPreviousButton(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 }

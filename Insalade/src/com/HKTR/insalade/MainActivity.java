@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -32,6 +30,7 @@ import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.baoyz.widget.PullRefreshLayout;
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -52,13 +51,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.HKTR.insalade.Tools.getWeekNumberFromPattern;
 import static com.HKTR.insalade.Tools.isOnline;
@@ -73,7 +68,6 @@ public class MainActivity extends BaseActivity {
     DayModel currentDay;
     WeekModel currentWeek;
     int currentWeekNumber = 0;
-    int menuNumber = 0;
 
     int selectedPage;
     int triangleWidth;
@@ -121,8 +115,6 @@ public class MainActivity extends BaseActivity {
     static final String TAG = "GCMDemo";
 
     GoogleCloudMessaging gcm;
-    AtomicInteger msgId = new AtomicInteger();
-    SharedPreferences prefs;
     Context context;
 
     String regid;
@@ -143,20 +135,37 @@ public class MainActivity extends BaseActivity {
             gcm = GoogleCloudMessaging.getInstance(this);
             regid = getRegistrationId(context);
 
-            Log.e("redId", regid);
-
             if (regid.length() == 0) {
                 registerInBackground();
             }
-        } else {
+        }
+        else {
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
 
         navigationButtons = (LinearLayout) findViewById(R.id.navigationButtonList);
         setTriangleWidth();
-        changeHeaderFont();
+        changeTextViewFont((TextView) findViewById(R.id.insalade_logo), fontPacifico);
 
         initiateScrollRefresh();
+
+
+        //Get a Tracker (should auto-report)
+        ((MyApplication) getApplication()).getTracker(MyApplication.TrackerName.APP_TRACKER);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     private void initiateScrollRefresh() {
@@ -190,12 +199,6 @@ public class MainActivity extends BaseActivity {
         // listen refresh event
         refreshLayout.setOnRefreshListener(onRefreshListener);
         noMenuRefreshView.setOnRefreshListener(onRefreshListener);
-    }
-
-    private void changeHeaderFont() {
-        Typeface fontPacifico = Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf");
-        TextView headerMenuTitle = (TextView) findViewById(R.id.insalade_logo);
-        headerMenuTitle.setTypeface(fontPacifico);
     }
 
     private void setTriangleWidth() {
@@ -238,12 +241,10 @@ public class MainActivity extends BaseActivity {
             int actualDayNumber = mondayDayNumber + i;
             dayNumber.setText("" + actualDayNumber);
 
-            Typeface fontRobotoLight = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
-            dayName.setTypeface(fontRobotoLight);
-            dayNumber.setTypeface(fontRobotoLight);
+            changeTextViewFont(dayName, fontRobotoLight);
+            changeTextViewFont(dayNumber, fontRobotoLight);
 
             // Set tickmarks color if closed
-            HashMap<Integer, WeekModel> test = WeekModel.getWeekList();
             DayModel currentDay = WeekModel.getWeekList().get(XmlFileGetter.weekNumber).getWeek().get(i);
             if (currentDay.getLunch().isClosed()) {
                 navigationButton.findViewById(R.id.tickMarkLunch).setBackgroundResource(R.drawable.closed_tickmark);
@@ -260,14 +261,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        menuNumber = 0;
         checkPlayServices();
 
         try {
-            if(isOnline(context)){
+            if (isOnline(context)) {
                 refreshServerToken();
             }
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -373,6 +374,7 @@ public class MainActivity extends BaseActivity {
     public void getMenus(String file) {
         //Step 1 : getting instance of the class "DocumentBuilderFactory"
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        int menuNumber = 0;
 
         try {
             //Step 2 : creation of the parser
@@ -396,32 +398,14 @@ public class MainActivity extends BaseActivity {
             for (int i = 0; i < nbRacineNoeuds; i++) {
                 if (racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
                     final Element menu = (Element) racineNoeuds.item(i);
-
-                    String date = menu.getAttribute("date");
-                    String dateStr = "";
-                    String dateInt;
-                    Pattern p;
-                    Matcher m;
-
                     final Element starter = (Element) menu.getElementsByTagName("starter").item(0);
                     final Element mainCourse = (Element) menu.getElementsByTagName("maincourse").item(0);
                     final Element dessert = (Element) menu.getElementsByTagName("dessert").item(0);
 
                     if (menu.getAttribute("when").equals("0")) {
-
-                        // get date string (ex: Lundi)
-                        p = Pattern.compile("([a-zA-Z]+)");
-                        m = p.matcher(date);
-                        while (m.find()) { // Find each match in turn; String can't do this.
-                            dateStr = m.group(1); // Access a submatch group; String can't do this.
-                        }
-
-                        // get date int (ex: 12)
-                        dateInt = getWeekNumberFromPattern(date, "([\\d]+)");
-
                         currentDay = new DayModel();
                         currentDay.setWeekNumber(currentWeekNumber);
-                        currentDay.setDayNumber(menuNumber++); //TODO : why ? o_O
+                        currentDay.setDayNumber(menuNumber++);
 
                         String starterContent = removeWhiteSpaces(starter.getTextContent());
                         String mainCourseContent = removeWhiteSpaces(mainCourse.getTextContent());
@@ -482,14 +466,14 @@ public class MainActivity extends BaseActivity {
 
         // Remove old files
         File[] listFiles = getFilesDir().listFiles();
-        for (int i = 0; i < listFiles.length; i++) {
+        for (File listFile : listFiles) {
 
-            String number = getWeekNumberFromPattern(listFiles[i].getName(), "([\\d]+)");
+            String number = getWeekNumberFromPattern(listFile.getName(), "([\\d]+)");
 
             if (number.length() > 0) {
                 // if it's not the current week or the next week, we delete
                 if (XmlFileGetter.weekNumber != Integer.valueOf(number) && (XmlFileGetter.weekNumber + 1) % 52 != Integer.valueOf(number)) {
-                    listFiles[i].delete();
+                    listFile.delete();
                 }
                 // is currentWeekMenu present
                 if (Integer.valueOf(number) == XmlFileGetter.weekNumber) {
@@ -530,11 +514,6 @@ public class MainActivity extends BaseActivity {
         }
 
         return result;
-    }
-
-    public void onClickEventInscription(View view) {
-        Intent intent = new Intent(this, EventInscriptionActivity.class);
-        startActivity(intent);
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -653,8 +632,9 @@ public class MainActivity extends BaseActivity {
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
+                                                      PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }
+            else {
                 Log.i("MainActivity", "This device is not supported.");
                 finish();
             }
@@ -665,11 +645,11 @@ public class MainActivity extends BaseActivity {
 
     /**
      * Gets the current registration ID for application on GCM service.
-     * <p>
+     * <p/>
      * If result is empty, the app needs to register.
      *
      * @return registration ID, or empty string if there is no existing
-     *         registration ID.
+     * registration ID.
      */
     private String getRegistrationId(Context context) {
         final SharedPreferences prefs = getGCMPreferences(context);
@@ -705,9 +685,10 @@ public class MainActivity extends BaseActivity {
     private static int getAppVersion(Context context) {
         try {
             PackageInfo packageInfo = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0);
+                                             .getPackageInfo(context.getPackageName(), 0);
             return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (PackageManager.NameNotFoundException e) {
             // should never happen
             throw new RuntimeException("Could not get package name: " + e);
         }
@@ -715,7 +696,7 @@ public class MainActivity extends BaseActivity {
 
     /**
      * Registers the application with GCM servers asynchronously.
-     * <p>
+     * <p/>
      * Stores the registration ID and app versionCode in the application's
      * shared preferences.
      */
@@ -743,7 +724,8 @@ public class MainActivity extends BaseActivity {
 
                     // Persist the registration ID - no need to register again.
                     storeRegistrationId(context, regid);
-                } catch (IOException ex) {
+                }
+                catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
                     // If there is an error, don't just keep trying to register.
                     // Require the user to click a button again, or perform
@@ -769,8 +751,10 @@ public class MainActivity extends BaseActivity {
      * Stores the registration ID and app versionCode in the application's
      * {@code SharedPreferences}.
      *
-     * @param context application's context.
-     * @param regId registration ID
+     * @param context
+     *         application's context.
+     * @param regId
+     *         registration ID
      */
     private void storeRegistrationId(Context context, String regId) {
         final SharedPreferences prefs = getGCMPreferences(context);
@@ -805,20 +789,21 @@ public class MainActivity extends BaseActivity {
 
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
                     (Request.Method.POST,
-                            url,
-                            params,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        SharedPreferences.Editor editor = sharedPref.edit();
-                                        editor.putString(getString(R.string.server_auth_token), response.getString("token"));
-                                        editor.commit();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
+                     url,
+                     params,
+                     new Response.Listener<JSONObject>() {
+                         @Override
+                         public void onResponse(JSONObject response) {
+                             try {
+                                 SharedPreferences.Editor editor = sharedPref.edit();
+                                 editor.putString(getString(R.string.server_auth_token), response.getString("token"));
+                                 editor.commit();
+                             }
+                             catch (JSONException e) {
+                                 e.printStackTrace();
+                             }
+                         }
+                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             SharedPreferences.Editor editor = sharedPref.edit();

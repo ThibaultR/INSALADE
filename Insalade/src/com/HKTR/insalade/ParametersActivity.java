@@ -1,7 +1,6 @@
 package com.HKTR.insalade;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -155,11 +154,6 @@ public class ParametersActivity extends BaseActivity {
         notificationOtherInput.setClickable(true);
     }
 
-    @Override
-    public void onClickPreviousButton(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void changeMenuPushConfig(int push_menu) throws JSONException {

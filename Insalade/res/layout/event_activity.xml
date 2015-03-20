@@ -17,7 +17,7 @@
         <TextView android:id="@+id/headerEventTitle"
                   android:layout_width="fill_parent"
                   android:layout_height="fill_parent"
-                  android:text="Events"
+                  android:text="@string/headerEventTitle"
                   android:textColor="@color/headerFontColor"
                   android:textSize="40dp"
                   android:onClick="onClickHeaderText"

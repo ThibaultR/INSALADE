@@ -36,4 +36,10 @@
     <string name="dialog_default_title">Here\'s a message!</string>
 
     <string name="default_progressbar">Default Progressbar:</string>
+    <string name="headerEventTitle">Events</string>
+    <string name="headerParameterTitle">Réglages</string>
+    <string name="parameterNotification">Notifications</string>
+    <string name="parameterNotification1">Nouveau menu disponible</string>
+    <string name="parameterNotification2">Nouvel événement</string>
+    <string name="parameterNotification3">Autres</string>
 </resources>

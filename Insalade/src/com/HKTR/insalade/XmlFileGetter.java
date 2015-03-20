@@ -44,10 +44,10 @@ public class XmlFileGetter {
 
         @Override
         protected String doInBackground(String... sUrl) {
-            for(int i = 0 ; i < sUrl.length; i++) {
+            for (String aSUrl : sUrl) {
                 try {
                     // Create a URL for the desired page
-                    URL url = new URL(sUrl[i]);
+                    URL url = new URL(aSUrl);
 
                     // Read all the text returned by the server
                     InputStream inputStream = url.openStream();
@@ -65,16 +65,18 @@ public class XmlFileGetter {
                     String fileText = sb.toString();
 
 
-                    String weekNumString = getWeekNumberFromPattern(sUrl[i],"menu([\\d]+)\\.xml");
+                    String weekNumString = getWeekNumberFromPattern(aSUrl, "menu([\\d]+)\\.xml");
 
                     // write in file
                     FileOutputStream fileOutputStream = context.openFileOutput("menu" + weekNumString, Context.MODE_PRIVATE);
                     fileOutputStream.write(fileText.getBytes());
                     fileOutputStream.close();
 
-                } catch (MalformedURLException e) {
+                }
+                catch (MalformedURLException e) {
                     e.printStackTrace();
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
             }
