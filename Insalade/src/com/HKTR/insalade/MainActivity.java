@@ -31,6 +31,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.baoyz.widget.PullRefreshLayout;
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Logger;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -152,6 +154,7 @@ public class MainActivity extends BaseActivity {
 
         //Get a Tracker (should auto-report)
         ((MyApplication) getApplication()).getTracker(MyApplication.TrackerName.APP_TRACKER);
+
     }
 
     @Override

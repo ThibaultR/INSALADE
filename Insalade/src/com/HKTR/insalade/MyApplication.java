@@ -2,7 +2,9 @@ package com.HKTR.insalade;
 
 
 import android.app.Application;
+import android.util.Log;
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.HashMap;
@@ -14,8 +16,6 @@ public class MyApplication extends Application {
 
     //Logging TAG
     private static final String TAG = "MyApp";
-
-    public static int GENERAL_TRACKER = 0;
 
     public enum TrackerName {
         APP_TRACKER, // Tracker used only in this app.
@@ -29,15 +29,22 @@ public class MyApplication extends Application {
         super();
     }
 
-    synchronized Tracker getTracker(TrackerName trackerId) {
+    synchronized Tracker getTracker(MyApplication.TrackerName trackerId) {
+        Log.d(TAG, "getTracker()");
         if (!mTrackers.containsKey(trackerId)) {
-
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            Tracker t = (trackerId == TrackerName.APP_TRACKER) ? analytics.newTracker(R.xml.app_tracker)
-                                                               : (trackerId == TrackerName.GLOBAL_TRACKER) ? analytics.newTracker(PROPERTY_ID)
-                                                                                                           : null ;
-            mTrackers.put(trackerId, t);
+            // Global GA Settings
+            // <!-- Google Analytics SDK V4 BUG20141213 Using a GA global xml freezes the app! Do config by coding. -->
+            analytics.setDryRun(false);
 
+            analytics.getLogger().setLogLevel(Logger.LogLevel.VERBOSE);
+
+            // Create a new tracker
+            Tracker t = (trackerId == MyApplication.TrackerName.APP_TRACKER) ? analytics.newTracker(R.xml.app_tracker) : null;
+            if (t != null) {
+                t.enableAdvertisingIdCollection(true);
+            }
+            mTrackers.put(trackerId, t);
         }
         return mTrackers.get(trackerId);
     }
