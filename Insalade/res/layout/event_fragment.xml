@@ -37,16 +37,26 @@
                 android:onClick="onClickEventImage"
                 android:clickable="true"/>
 
-        <TextView
-                android:id="@+id/eventDescription"
+       <ScrollView
+                android:id="@+id/eventDescriptionScroll"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="300dp"
+                android:fillViewport="true"
                 android:visibility="gone"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:background="#99000000"
-                android:gravity="center"
-                android:padding="30dp"/>
+                >
+            <TextView
+                    android:id="@+id/eventDescription"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="gone"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    android:background="#99000000"
+                    android:gravity="center"
+                    android:padding="30dp"
+                    android:onClick="onClickEventImage"
+                    android:clickable="true"/>
+       </ScrollView>
     </FrameLayout>
 
     <TextView

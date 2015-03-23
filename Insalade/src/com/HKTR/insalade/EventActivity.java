@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.CalendarContract;
 import android.support.v4.app.FragmentActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -245,12 +246,15 @@ public class EventActivity extends BaseActivity {
     public void onClickEventImage(View view) {
         FrameLayout imageGroup = (FrameLayout) view.getParent();
         TextView eventDescription = (TextView) imageGroup.findViewById(R.id.eventDescription);
+        ScrollView eventDescriptionScroll = (ScrollView) imageGroup.findViewById(R.id.eventDescriptionScroll);
 
         if (eventDescription.getVisibility() == View.VISIBLE) {
             eventDescription.setVisibility(View.GONE);
+            eventDescriptionScroll.setVisibility(View.GONE);
         }
         else {
             eventDescription.setVisibility(View.VISIBLE);
+            eventDescriptionScroll.setVisibility(View.VISIBLE);
         }
     }
 

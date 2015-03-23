@@ -1,12 +1,14 @@
 package com.HKTR.insalade;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.*;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -47,6 +49,39 @@ public class EventFragment extends android.support.v4.app.Fragment {
             eventImage.setBackground(Drawable.createFromPath(filePath.toString()+File.separatorChar+ImageUrl));
         }
 
+        ScrollView eventDescriptionScroll = (ScrollView) eventFragment.findViewById(R.id.eventDescriptionScroll);
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        ScrollView.LayoutParams params = new ScrollView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, display.getWidth()-Tools.dpToPx(30));
+        eventDescriptionScroll.setLayoutParams(params);
+
+        handleNestedScrollProblem(eventDescriptionScroll);
+
         return eventFragment;
+    }
+
+
+    private void handleNestedScrollProblem(ScrollView eventDescriptionScroll) {
+
+        eventDescriptionScroll.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                ScrollView globalScroll = (ScrollView) getActivity().findViewById(R.id.EventScrollView);
+
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (v.getScrollY() > 0) {
+                        globalScroll.requestDisallowInterceptTouchEvent(true);
+                        return false;
+                    }
+                }
+
+                if(event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    if (v.getScrollY() == 0) {
+                        globalScroll.requestDisallowInterceptTouchEvent(false);
+                    }
+                }
+
+                return true;
+            }
+        });
     }
 }
