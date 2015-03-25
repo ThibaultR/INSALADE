@@ -26,4 +26,16 @@ class AppController extends Controller
 
         return array();
     }
+
+    /**
+     * Help
+     *
+     * @Route("/help", name="help")
+     * @Method("GET")
+     * @Template()
+     */
+    public function helpAction()
+    {
+        return array();
+    }
 }

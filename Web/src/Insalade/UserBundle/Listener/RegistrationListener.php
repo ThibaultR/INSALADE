@@ -24,9 +24,8 @@ class RegistrationListener
         }
 
         if ($entity instanceof Asso) {
-            $entity->setEnabled(true);
-            $parent = $this->container->get('security.context')->getToken()->getUser();
-            $entity->setParentId($parent->getId());
+            $entity->setEnabled(false);
+            $entity->setParentId(2);
         }
 
         if ($entity instanceof Amicale) {

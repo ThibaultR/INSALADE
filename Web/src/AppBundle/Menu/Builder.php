@@ -15,11 +15,9 @@ class Builder extends ContainerAware
 
         $securityContext = $this->container->get('security.context');
 
-        if($securityContext->isGranted("ROLE_AMICALE")) {
-            $push = $menu->addChild('Ajouter une association', array(
-                'route' => 'asso_registration'
+        $login = $menu->addChild('Help', array(
+                'route' => 'help'
             ));
-        }
 
         if($securityContext->isGranted("ROLE_USER"))
         {
@@ -41,6 +39,10 @@ class Builder extends ContainerAware
             }
 
         else {
+            $registerAsso = $menu->addChild('Enregistrer une association aeir', array(
+                'route' => 'asso_registration'
+            ));
+
             $login = $menu->addChild('Login', array(
                 'route' => 'fos_user_security_login'
             ));
