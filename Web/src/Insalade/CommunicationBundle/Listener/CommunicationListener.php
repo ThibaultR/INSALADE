@@ -3,20 +3,27 @@
 namespace Insalade\CommunicationBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Insalade\CommunicationBundle\Entity\Post;
 use Insalade\CommunicationBundle\Entity\Push;
+use Insalade\UserBundle\Entity\Asso;
+use Insalade\UserBundle\Entity\Amicale;
 
 class CommunicationListener
 {
-    public function __construct(\Swift_Mailer $mailer)
+    private $tokenStorage;
+
+    public function __construct(\Swift_Mailer $mailer, TokenStorageInterface $tokenStorage)
     {
         $this->mailer = $mailer;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
+        $user = $this->tokenStorage->getToken()->getUser();
 
         if ($entity instanceof Post) {
             $message = \Swift_Message::newInstance()
@@ -36,6 +43,13 @@ class CommunicationListener
                 ->setBody("http://37.59.123.110/Web/web/push/".$entity->getId())
             ;
             $this->mailer->send($message);
+        }
+
+        if ($user instanceof Asso) {
+            $entity->setParentId($user->getParentId());
+        }
+        if ($user instanceof Amicale) {
+            $entity->setParentId($user->getId());
         }
     }
 

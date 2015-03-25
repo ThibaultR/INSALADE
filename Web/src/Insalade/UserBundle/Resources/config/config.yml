@@ -14,3 +14,10 @@ pugx_multi_user:
           form: 
             type: Insalade\UserBundle\Form\Type\RegistrationAmicaleFormType
           template: InsaladeUserBundle:Registration:amicale.form.html.twig
+    asso:
+        entity: 
+          class: Insalade\UserBundle\Entity\Asso
+        registration:
+          form: 
+            type: Insalade\UserBundle\Form\Type\RegistrationAssoFormType
+          template: InsaladeUserBundle:Registration:asso.form.html.twig

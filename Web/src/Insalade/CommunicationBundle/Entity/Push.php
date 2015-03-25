@@ -38,6 +38,13 @@ class Push
     private $creatorId;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="parent_id", type="integer", nullable=true)
+     */
+    private $parentId;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -260,5 +267,28 @@ class Push
     public function getCreatorId()
     {
         return $this->creatorId;
+    }
+
+    /**
+     * Set parentId
+     *
+     * @param integer $parentId
+     * @return Post
+     */
+    public function setParentId($parentId)
+    {
+        $this->parentId = $parentId;
+
+        return $this;
+    }
+
+    /**
+     * Get parentId
+     *
+     * @return integer 
+     */
+    public function getParentId()
+    {
+        return $this->parentId;
     }
 }

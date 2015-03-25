@@ -39,19 +39,23 @@
                     <select class="form-control" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
                         <option></option>
                         <option value="{{ path('push_show', { 'id': entity.id }) }}">Show</option>
-                        {% if entity.state != 'pushed' and (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) %}
+                        {% if (is_granted("ROLE_INSALADE") or (is_granted("ROLE_AMICALE") and entity.parentId == app.user.id) or entity.creatorId == app.user.id) and entity.state != 'pushed' %}
                         <option value="{{ path('push_edit', { 'id': entity.id }) }}">Edit</option>
                         <option value="{{ path('push_delete', { 'id': entity.id }) }}">Delete</option>
                         {% endif %}
-                        {% if (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) and entity.state == 'waiting' %}
-                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
-                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
-                        {% elseif (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) and entity.state == 'validated' %}
-                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
-                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
-                        {% elseif (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) and entity.state == 'rejected' %}
-                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
-                        <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+
+                        {% if is_granted("ROLE_INSALADE") or (is_granted("ROLE_AMICALE") and entity.parentId == app.user.id) %}
+
+                            {% if entity.state == 'waiting' %}
+                            <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                            <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                            {% elseif entity.state == 'validated' %}
+                            <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                            <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                            {% elseif entity.state == 'rejected' %}
+                            <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                            <option value="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                            {% endif %}
                         {% endif %}
                     </select>
                 </td>

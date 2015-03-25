@@ -92,6 +92,9 @@ fos_user:
             from_email:
                 address:        insalade@gmail.com
                 sender_name:    Insalade
+    registration:
+        confirmation:
+            enabled: false
 
 mopa_bootstrap:
     form:  # Adds twig form theme  support

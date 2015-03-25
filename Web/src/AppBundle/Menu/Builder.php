@@ -15,6 +15,12 @@ class Builder extends ContainerAware
 
         $securityContext = $this->container->get('security.context');
 
+        if($securityContext->isGranted("ROLE_AMICALE")) {
+            $push = $menu->addChild('Ajouter une association', array(
+                'route' => 'asso_registration'
+            ));
+        }
+
         if($securityContext->isGranted("ROLE_USER"))
         {
             $push = $menu->addChild('Pushs', array(

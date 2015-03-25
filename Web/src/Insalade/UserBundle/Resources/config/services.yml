@@ -3,3 +3,4 @@ services:
         class: Insalade\UserBundle\Listener\RegistrationListener
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+        arguments: ["@service_container"]

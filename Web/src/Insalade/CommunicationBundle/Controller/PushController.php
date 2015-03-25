@@ -163,10 +163,13 @@ class PushController extends Controller
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        if($entity->getCreatorId() != $user->getId() && !$this->get('security.context')->isGranted('ROLE_INSALADE')) {
+        if(
+            !$this->get('security.context')->isGranted('ROLE_INSALADE') &&
+            !($this->get('security.context')->isGranted('ROLE_AMICALE') && $entity->getParentId() == $user->getId()) &&
+            !($entity->getCreatorId() == $user->getId())) {
+
             return $this->redirect($this->generateUrl('push_show', array('id' => $id)));
         }
-
         $editForm = $this->createEditForm($entity);
 
         return array(
@@ -209,6 +212,12 @@ class PushController extends Controller
             throw $this->createNotFoundException('Unable to find Push entity.');
         }
 
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        if($entity->getCreatorId() != $user->getId() && !$this->get('security.context')->isGranted('ROLE_AMICALE')) {
+            return $this->redirect($this->generateUrl('push_show', array('id' => $id)));
+        }
+
         if($entity->getState() == 'pushed') {
             return $this->redirect($this->generateUrl('push_show', array('id' => $id)));
         }
@@ -243,6 +252,16 @@ class PushController extends Controller
             throw $this->createNotFoundException('Unable to find Push entity.');
         }
 
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        if(
+            !$this->get('security.context')->isGranted('ROLE_INSALADE') &&
+            !($this->get('security.context')->isGranted('ROLE_AMICALE') && $entity->getParentId() == $user->getId()) &&
+            !($entity->getCreatorId() == $user->getId())) {
+
+            return $this->redirect($this->generateUrl('push_show', array('id' => $id)));
+        }
+
         $em->remove($entity);
         $em->flush();
 
@@ -257,9 +276,12 @@ class PushController extends Controller
      */
     public function updateStateAction($id, $state)
     {
-        if($this->get('security.context')->isGranted('ROLE_INSALADE')) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('InsaladeCommunicationBundle:Push')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('InsaladeCommunicationBundle:Push')->find($id);
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if(
+            $this->get('security.context')->isGranted('ROLE_INSALADE') OR
+            ($this->get('security.context')->isGranted('ROLE_AMICALE') && $entity->getParentId() == $user->getId())) {
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Push entity.');

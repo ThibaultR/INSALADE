@@ -1,0 +1,12 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    <form action="{{ path('asso_registration') }}" {{ form_enctype(form) }} method="POST">
+        {{ form_widget(form) }}
+        <div style="text-align: center;">
+            <input type="submit" class="btn btn-success" value="{{ 'registration.submit'|trans }}" />
+        </div>
+    </form>
+{% endblock fos_user_content %}

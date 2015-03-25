@@ -43,15 +43,17 @@
                             <span class="label label-default">Pushed</span>
                         {% endif %}
 
-                        {% if (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) and entity.state == 'waiting' %}
-                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
-                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
-                        {% elseif (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) and entity.state == 'validated' %}
-                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
-                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
-                        {% elseif (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) and entity.state == 'rejected' %}
-                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
-                        <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                        {% if is_granted("ROLE_INSALADE") or (is_granted("ROLE_AMICALE") and entity.parentId == app.user.id) %}
+                            {% if entity.state == 'waiting' %}
+                            <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                            <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                            {% elseif entity.state == 'validated' %}
+                            <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                            <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'rejected' }) }}">Reject</option>
+                            {% elseif entity.state == 'rejected' %}
+                            <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'waiting' }) }}">Wait</option>
+                            <a href="{{ path('push_update_state', { 'id': entity.id, 'state': 'validated' }) }}">Validate</option>
+                            {% endif %}
                         {% endif %}
                     </td>
                 </tr>
@@ -64,7 +66,7 @@
                 Back to the list
             </a>
         </li>
-        {% if (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) and entity.state != 'pushed' %}
+        {% if (is_granted("ROLE_INSALADE") or (is_granted("ROLE_AMICALE") and entity.parentId == app.user.id) or entity.creatorId == app.user.id) and entity.state != 'pushed' %}
         <li class="list-group-item">
             <a href="{{ path('push_edit', { 'id': entity.id }) }}" class="btn btn-warning center-block">
                 Edit
@@ -72,7 +74,7 @@
         </li>
         {% endif %}
 
-        {% if (is_granted("ROLE_INSALADE") or entity.creatorId == app.user.id) %}
+        {% if (is_granted("ROLE_INSALADE") or (is_granted("ROLE_AMICALE") and entity.parentId == app.user.id) or entity.creatorId == app.user.id) %}
         <li class="list-group-item">
             <a href="{{ path('push_delete', { 'id': entity.id }) }}" class="btn btn-danger center-block">
                 Delete

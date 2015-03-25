@@ -3,7 +3,8 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_AMICALE: ROLE_USER
+        ROLE_ASSO: ROLE_USER
+        ROLE_AMICALE: ROLE_ASSO
         ROLE_INSALADE: ROLE_AMICALE
 
     providers:
@@ -21,7 +22,10 @@ security:
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register/asso, role: ROLE_AMICALE }
+        - { path: ^/register/amicale, role: ROLE_INSALADE }
+        - { path: ^/register/confirmed, role: ROLE_USER }
+        - { path: ^/register/, role: ROLE_INSALADE }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/post/, role: ROLE_AMICALE }
-        - { path: ^/push/, role: ROLE_AMICALE }
+        - { path: ^/post/, role: ROLE_ASSO }
+        - { path: ^/push/, role: ROLE_ASSO }

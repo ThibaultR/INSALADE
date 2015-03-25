@@ -5,3 +5,7 @@ insalade_registration:
 amicale_registration:
     pattern:  /register/amicale
     defaults: { _controller: InsaladeUserBundle:RegistrationAmicale:register }
+
+asso_registration:
+    pattern:  /register/asso
+    defaults: { _controller: InsaladeUserBundle:RegistrationAsso:register }
