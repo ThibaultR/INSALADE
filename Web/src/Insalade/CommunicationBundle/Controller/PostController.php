@@ -71,6 +71,13 @@ class PostController extends Controller
             $user = $this->container->get('security.context')->getToken()->getUser();
             $entity->setCreatorId($user->getId());
 
+            if($entity->getImageUrl() == null) {
+                return array(
+                    'entity' => $entity,
+                    'form'   => $form->createView(),
+                );
+            }
+
             $em->persist($entity);
             $em->flush();
 
