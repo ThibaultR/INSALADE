@@ -71,6 +71,13 @@ class PostController extends Controller
             $user = $this->container->get('security.context')->getToken()->getUser();
             $entity->setCreatorId($user->getId());
 
+            if($entity->getImageUrl() == null) {
+                return array(
+                    'entity' => $entity,
+                    'form'   => $form->createView(),
+                );
+            }
+
             $em->persist($entity);
             $em->flush();
 
@@ -158,11 +165,11 @@ class PostController extends Controller
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
-        if($entity->getState() == 'pushed') {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        if($entity->getState() == 'pushed' && !$this->get('security.context')->isGranted('ROLE_INSALADE')) {
             return $this->redirect($this->generateUrl('post_show', array('id' => $id)));
         }
-
-        $user = $this->container->get('security.context')->getToken()->getUser();
 
         if(
             !$this->get('security.context')->isGranted('ROLE_INSALADE') &&
@@ -220,7 +227,7 @@ class PostController extends Controller
             return $this->redirect($this->generateUrl('post_show', array('id' => $id)));
         }
 
-        if($entity->getState() == 'pushed') {
+        if($entity->getState() == 'pushed' && !$this->get('security.context')->isGranted('ROLE_INSALADE')) {
             return $this->redirect($this->generateUrl('post_show', array('id' => $id)));
         }
 
