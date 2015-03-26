@@ -1,15 +1,13 @@
 package com.HKTR.insalade;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import org.w3c.dom.Text;
 
 import java.io.File;
 
@@ -44,44 +42,46 @@ public class EventFragment extends android.support.v4.app.Fragment {
         File filePath = getActivity().getDir("eventImageDir", Context.MODE_PRIVATE);
 
         if (android.os.Build.VERSION.SDK_INT < 16) {
-            eventImage.setBackgroundDrawable(Drawable.createFromPath(filePath.toString()+File.separatorChar+ImageUrl));
-        } else {
-            eventImage.setBackground(Drawable.createFromPath(filePath.toString()+File.separatorChar+ImageUrl));
+            eventImage.setBackgroundDrawable(Drawable.createFromPath(filePath.toString() + File.separatorChar + ImageUrl));
+        }
+        else {
+            eventImage.setBackground(Drawable.createFromPath(filePath.toString() + File.separatorChar + ImageUrl));
         }
 
         ScrollView eventDescriptionScroll = (ScrollView) eventFragment.findViewById(R.id.eventDescriptionScroll);
         Display display = getActivity().getWindowManager().getDefaultDisplay();
 
-        ScrollView.LayoutParams params = new ScrollView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, display.getWidth()-Tools.dpToPx(30));
+        ScrollView.LayoutParams params = new ScrollView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, display.getWidth() - Tools.dpToPx(30));
         eventDescriptionScroll.setLayoutParams(params);
 
-        handleNestedScrollProblem(eventDescriptionScroll);
+        eventDescription.setOnTouchListener(new View.OnTouchListener() {
+            ScrollView globalScroll = (ScrollView) getActivity().findViewById(R.id.EventScrollView);
+            int pos;
 
-        return eventFragment;
-    }
-
-
-    private void handleNestedScrollProblem(ScrollView eventDescriptionScroll) {
-
-        eventDescriptionScroll.setOnTouchListener(new View.OnTouchListener() {
+            @Override
             public boolean onTouch(View v, MotionEvent event) {
-                ScrollView globalScroll = (ScrollView) getActivity().findViewById(R.id.EventScrollView);
-
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (v.getScrollY() > 0) {
-                        globalScroll.requestDisallowInterceptTouchEvent(true);
-                        return false;
+                    pos = ((ScrollView) v.getParent()).getScrollY();
+                }
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if (((ScrollView) v.getParent()).getScrollY() == pos) {
+                        v.setVisibility(View.GONE);
+                        ((ScrollView) v.getParent()).setVisibility(View.GONE);
                     }
                 }
 
-                if(event.getAction() == MotionEvent.ACTION_CANCEL) {
-                    if (v.getScrollY() == 0) {
-                        globalScroll.requestDisallowInterceptTouchEvent(false);
-                    }
-                }
+                int childHeight = v.getHeight();
+                boolean isScrollable = ((ScrollView) v.getParent()).getHeight() < childHeight;
 
+                if(isScrollable){
+
+                    globalScroll.requestDisallowInterceptTouchEvent(true);
+                }
                 return true;
             }
         });
+
+        return eventFragment;
     }
 }

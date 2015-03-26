@@ -11,7 +11,9 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@color/menuPageContent">
+                android:background="@color/menuPageContent"
+        >
+
     <TextView
             android:id="@+id/eventTitle"
             android:layout_width="fill_parent"
@@ -19,14 +21,16 @@
             android:gravity="center"
             android:textColor="#333333"
             android:padding="8dp"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            />
 
     <FrameLayout
             android:id="@+id/eventImageGroup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/eventTitle">
+            android:layout_below="@id/eventTitle"
+            >
 
         <com.HKTR.insalade.SquareImageView
                 android:id="@+id/eventImage"
@@ -35,15 +39,16 @@
                 android:scaleType="center"
                 android:layout_gravity="center"
                 android:onClick="onClickEventImage"
-                android:clickable="true"/>
+                />
 
-       <ScrollView
+        <ScrollView
                 android:id="@+id/eventDescriptionScroll"
                 android:layout_width="fill_parent"
                 android:layout_height="300dp"
                 android:fillViewport="true"
                 android:visibility="gone"
                 >
+
             <TextView
                     android:id="@+id/eventDescription"
                     android:layout_width="fill_parent"
@@ -55,8 +60,9 @@
                     android:gravity="center"
                     android:padding="30dp"
                     android:onClick="onClickEventImage"
-                    android:clickable="true"/>
-       </ScrollView>
+                    android:clickable="true"
+                    />
+        </ScrollView>
     </FrameLayout>
 
     <TextView
@@ -69,5 +75,6 @@
             android:padding="8dp"
             android:textSize="15dp"
             android:onClick="onClickAddDateToCalendar"
-            android:clickable="true"/>
+            android:clickable="true"
+            />
 </RelativeLayout>
