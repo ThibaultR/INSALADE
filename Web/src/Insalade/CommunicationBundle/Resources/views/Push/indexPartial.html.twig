@@ -39,7 +39,7 @@
                     <select class="form-control" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
                         <option></option>
                         <option value="{{ path('push_show', { 'id': entity.id }) }}">Show</option>
-                        {% if (is_granted("ROLE_INSALADE") or (is_granted("ROLE_AMICALE") and entity.parentId == app.user.id) or entity.creatorId == app.user.id) and entity.state != 'pushed' %}
+                        {% if is_granted("ROLE_INSALADE") or ((is_granted("ROLE_AMICALE") and entity.parentId == app.user.id) or entity.creatorId == app.user.id and entity.state != 'pushed') %}
                         <option value="{{ path('push_edit', { 'id': entity.id }) }}">Edit</option>
                         <option value="{{ path('push_delete', { 'id': entity.id }) }}">Delete</option>
                         {% endif %}
