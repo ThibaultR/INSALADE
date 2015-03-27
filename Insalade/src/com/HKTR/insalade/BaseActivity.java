@@ -1,4 +1,4 @@
-package com.HKTR.insalade;
+package com.HKTR.INSALADE;
 
 import android.content.SharedPreferences;
 import android.graphics.Typeface;

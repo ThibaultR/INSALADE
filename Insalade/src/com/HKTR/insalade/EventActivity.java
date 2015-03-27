@@ -1,4 +1,4 @@
-package com.HKTR.insalade;
+package com.HKTR.INSALADE;
 
 
 import android.content.Context;
@@ -11,8 +11,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.CalendarContract;
-import android.support.v4.app.FragmentActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -35,7 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import static com.HKTR.insalade.Tools.isOnline;
+import static com.HKTR.INSALADE.Tools.isOnline;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)

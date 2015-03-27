@@ -1,4 +1,4 @@
-package com.HKTR.insalade.model;
+package com.HKTR.INSALADE.model;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)

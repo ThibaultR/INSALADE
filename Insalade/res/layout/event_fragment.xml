@@ -32,7 +32,7 @@
             android:layout_below="@id/eventTitle"
             >
 
-        <com.HKTR.insalade.SquareImageView
+        <com.HKTR.INSALADE.SquareImageView
                 android:id="@+id/eventImage"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"

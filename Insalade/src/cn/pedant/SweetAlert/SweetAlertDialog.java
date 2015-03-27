@@ -17,7 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.HKTR.insalade.R;
+import com.HKTR.INSALADE.R;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;

@@ -25,5 +25,5 @@
     <bool name="ga_dryRun">false</bool>
 
     <!-- The screen names that will appear in reports -->
-    <string name="com.HKTR.insalade">My Activity Insalade</string>
+    <string name="com.HKTR.INSALADE">My Activity Insalade</string>
 </resources>

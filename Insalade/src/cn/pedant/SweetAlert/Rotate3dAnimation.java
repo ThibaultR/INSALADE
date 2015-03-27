@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-import com.HKTR.insalade.R;
+import com.HKTR.INSALADE.R;
 
 public class Rotate3dAnimation extends Animation {
     private int mPivotXType = ABSOLUTE;

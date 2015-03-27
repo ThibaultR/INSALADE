@@ -1,4 +1,4 @@
-package com.HKTR.insalade;
+package com.HKTR.INSALADE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.HKTR.insalade.Tools.isOnline;
+import static com.HKTR.INSALADE.Tools.isOnline;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)
