@@ -2,7 +2,7 @@ package cn.pedant.SweetAlert;
 
 import android.content.Context;
 
-import com.HKTR.insalade.R;
+import com.HKTR.INSALADE.R;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 public class ProgressHelper {

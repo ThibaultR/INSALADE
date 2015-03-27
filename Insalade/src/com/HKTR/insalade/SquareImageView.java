@@ -1,4 +1,4 @@
-package com.HKTR.insalade;
+package com.HKTR.INSALADE;
 
 import android.content.Context;
 import android.util.AttributeSet;

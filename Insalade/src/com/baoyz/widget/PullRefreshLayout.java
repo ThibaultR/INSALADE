@@ -16,7 +16,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
 import android.widget.AbsListView;
 import android.widget.ImageView;
-import com.HKTR.insalade.R;
+import com.HKTR.INSALADE.R;
 
 import java.security.InvalidParameterException;
 

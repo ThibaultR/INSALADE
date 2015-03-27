@@ -1,4 +1,4 @@
-package com.HKTR.insalade;
+package com.HKTR.INSALADE;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -7,7 +7,6 @@ import android.view.*;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import org.w3c.dom.Text;
 
 import java.io.File;
 

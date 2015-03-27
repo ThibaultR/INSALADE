@@ -1,4 +1,4 @@
-package com.HKTR.insalade;
+package com.HKTR.INSALADE;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,9 +8,9 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import com.HKTR.insalade.model.DayModel;
-import com.HKTR.insalade.model.MenuModel;
-import com.HKTR.insalade.model.WeekModel;
+import com.HKTR.INSALADE.model.DayModel;
+import com.HKTR.INSALADE.model.MenuModel;
+import com.HKTR.INSALADE.model.WeekModel;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)

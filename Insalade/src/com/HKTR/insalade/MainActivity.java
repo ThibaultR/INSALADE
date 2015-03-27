@@ -1,4 +1,4 @@
-package com.HKTR.insalade;
+package com.HKTR.INSALADE;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,17 +22,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.HKTR.insalade.XmlFileGetter.DownloadTask;
-import com.HKTR.insalade.model.DayModel;
-import com.HKTR.insalade.model.MenuModel;
-import com.HKTR.insalade.model.WeekModel;
+import com.HKTR.INSALADE.XmlFileGetter.DownloadTask;
+import com.HKTR.INSALADE.model.DayModel;
+import com.HKTR.INSALADE.model.MenuModel;
+import com.HKTR.INSALADE.model.WeekModel;
 import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.baoyz.widget.PullRefreshLayout;
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Logger;
-import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -57,9 +55,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static com.HKTR.insalade.Tools.getWeekNumberFromPattern;
-import static com.HKTR.insalade.Tools.isOnline;
-import static com.HKTR.insalade.XmlFileGetter.getUrls;
+import static com.HKTR.INSALADE.Tools.getWeekNumberFromPattern;
+import static com.HKTR.INSALADE.Tools.isOnline;
+import static com.HKTR.INSALADE.XmlFileGetter.getUrls;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)

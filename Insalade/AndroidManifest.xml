@@ -4,38 +4,54 @@
 @author Thibault Rapin (thibault.rapin@gmail.com)
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.HKTR.insalade"
+          package="com.HKTR.INSALADE"
           android:versionCode="3"
-          android:versionName="2.0.0">
-    <uses-sdk android:minSdkVersion="8"
-              android:targetSdkVersion="19"/>
+          android:versionName="2.0.0"
+        >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-sdk
+            android:minSdkVersion="8"
+            android:targetSdkVersion="19"
+            />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <permission android:name="com.example.gcm.permission.C2D_MESSAGE"
-                android:protectionLevel="signature" />
+
+    <permission
+            android:name="com.example.gcm.permission.C2D_MESSAGE"
+            android:protectionLevel="signature"
+            />
     <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
 
 
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:name=".MyApplication">
-        <activity android:name="MainActivity"
-                  android:label="@string/app_name">
+    <application
+            android:label="@string/app_name"
+            android:icon="@drawable/ic_launcher"
+            android:name="com.HKTR.INSALADE.MyApplication"
+            >
+        <activity
+                android:name="com.HKTR.INSALADE.MainActivity"
+                android:label="@string/app_name"
+                >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EventActivity"/>
-        <activity android:name=".EventInscriptionActivity"/>
-        <activity android:name=".BaseActivity"/>
-        <activity android:name=".EventInscriptionEmailActivity"/>
-        <activity android:name=".EventInscriptionCodeActivity"/>
-        <activity android:name=".ParametersActivity"/>
-        <meta-data android:name="com.google.android.gms.version"
-                   android:value="@integer/google_play_services_version" />
+        <activity android:name="com.HKTR.INSALADE.EventActivity" />
+        <activity android:name="com.HKTR.INSALADE.EventInscriptionActivity" />
+        <activity android:name="com.HKTR.INSALADE.BaseActivity" />
+        <activity android:name="com.HKTR.INSALADE.EventInscriptionEmailActivity" />
+        <activity android:name="com.HKTR.INSALADE.EventInscriptionCodeActivity" />
+        <activity android:name="com.HKTR.INSALADE.ParametersActivity" />
+
+        <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version"
+                />
 
         <!--
           WakefulBroadcastReceiver that will receive intents from GCM
@@ -45,15 +61,16 @@
           so only GCM services can send data messages for the app.
         -->
         <receiver
-                android:name=".GcmBroadcastReceiver"
-                android:permission="com.google.android.c2dm.permission.SEND" >
+                android:name="com.HKTR.INSALADE.GcmBroadcastReceiver"
+                android:permission="com.google.android.c2dm.permission.SEND"
+                >
             <intent-filter>
                 <!-- Receives the actual messages. -->
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="com.google.android.gcm.demo.app" />
             </intent-filter>
         </receiver>
-        <service android:name=".GcmIntentService" />
+        <service android:name="com.HKTR.INSALADE.GcmIntentService" />
 
     </application>
 </manifest>

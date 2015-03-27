@@ -1,4 +1,4 @@
-package com.HKTR.insalade;
+package com.HKTR.INSALADE;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import static com.HKTR.insalade.Tools.getWeekNumberFromPattern;
+import static com.HKTR.INSALADE.Tools.getWeekNumberFromPattern;
 
 /**
  * @author Hyukchan Kwon (hyukchan.k@gmail.com)

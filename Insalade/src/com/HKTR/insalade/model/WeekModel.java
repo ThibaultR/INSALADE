@@ -1,4 +1,4 @@
-package com.HKTR.insalade.model;
+package com.HKTR.INSALADE.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
