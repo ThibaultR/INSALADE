@@ -30,7 +30,6 @@ public class MyApplication extends Application {
     }
 
     synchronized Tracker getTracker(MyApplication.TrackerName trackerId) {
-        Log.d(TAG, "getTracker()");
         if (!mTrackers.containsKey(trackerId)) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             // Global GA Settings
