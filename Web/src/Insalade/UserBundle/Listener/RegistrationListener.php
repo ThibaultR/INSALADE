@@ -8,8 +8,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class RegistrationListener
 {
     private $container;
+    private $mailer;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container, \Swift_Mailer $mailer) {
+        $this->mailer = $mailer;
         $this->container = $container;
     }
 
@@ -26,6 +28,14 @@ class RegistrationListener
         if ($entity instanceof Asso) {
             $entity->setEnabled(false);
             $entity->setParentId(2);
+
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Un nouveau compte Asso a été crée !')
+                ->setFrom('insalade@gmail.com')
+                ->setTo('insalade@gmail.com')
+                ->setBody("".$entity->getUsername())
+            ;
+            $this->mailer->send($message);
         }
 
         if ($entity instanceof Amicale) {
@@ -39,3 +49,4 @@ class RegistrationListener
         $entityManager->flush();
     }
 }
+
