@@ -14,14 +14,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Display;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 import com.HKTR.INSALADE.XmlFileGetter.DownloadTask;
 import com.HKTR.INSALADE.model.DayModel;
 import com.HKTR.INSALADE.model.MenuModel;
@@ -492,6 +486,23 @@ public class MainActivity extends BaseActivity {
             else {
                 Toast.makeText(getApplicationContext(), "Menu de la semaine non disponible, vérifiez votre connexion", Toast.LENGTH_LONG).show();
             }
+
+
+            ScrollView scrollNoMenu = (ScrollView) findViewById(R.id.scrollNoMenu);
+            scrollNoMenu.removeAllViewsInLayout();
+            TextView noMenu = new TextView(context);
+            noMenu.setText("Menu non disponible");
+            noMenu.setTextSize(30);
+            noMenu.setTextColor(getResources().getColor(R.color.menuTextColor));
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT);
+            noMenu.setLayoutParams(lp);
+            BaseActivity.changeTextViewFont(noMenu, fontRobotoLight);
+            noMenu.setGravity(Gravity.CENTER);
+
+            scrollNoMenu.setLayoutParams(lp);
+            scrollNoMenu.addView(noMenu);
 
             return false;
         }

@@ -61,8 +61,9 @@ public class EventActivity extends BaseActivity {
         sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
     }
 
+
     @Override
-    public void onClickPreviousButton(View view) {
+    public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -105,7 +106,6 @@ public class EventActivity extends BaseActivity {
                             new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    Log.e("GETError : ", "Marche pas");
                                     useJsonEventList();
                                 }
                             }

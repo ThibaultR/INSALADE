@@ -94,8 +94,11 @@
                                         android:visibility="gone"
                                         android:layout_marginTop="-10dp">
 
-        <ScrollView android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+        <ScrollView
+                android:id="@+id/scrollNoMenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="match_parent"
