@@ -618,7 +618,7 @@ public class MainActivity extends BaseActivity {
     public void goToCurrentMenu() {
         //Sunday = 1, Monday = 2 ...
         Calendar now = Calendar.getInstance();
-        int today = (now.get(Calendar.DAY_OF_WEEK) - 2) % 7;
+        int today = (now.get(Calendar.DAY_OF_WEEK) + 5) % 7;
         int timeH = now.get(Calendar.HOUR_OF_DAY);
 
         int menuNumber;

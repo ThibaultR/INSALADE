@@ -94,6 +94,7 @@ public class GcmIntentService extends IntentService {
         notification.defaults |= Notification.DEFAULT_SOUND;
         notification.defaults |= Notification.DEFAULT_LIGHTS;
         notification.defaults |= Notification.DEFAULT_VIBRATE;
+        notification.defaults |= Notification.FLAG_AUTO_CANCEL;
         notification.ledARGB = 0x64cd40; // Green
         notification.ledOnMS = 200;
         notification.ledOffMS = 200;
