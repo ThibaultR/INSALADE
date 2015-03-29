@@ -1,8 +1,10 @@
 package com.HKTR.INSALADE;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -57,6 +59,19 @@ public class ParametersActivity extends BaseActivity {
 
         loadingPanel = (RelativeLayout) findViewById(R.id.loadingPanel);
         deleteAccountButton = (Button) findViewById(R.id.button_deleteAccount);
+
+
+        LinearLayout.OnClickListener listener = new LinearLayout.OnClickListener() {
+            public void onClick(View v) {
+                ToggleButton tButton = (ToggleButton) v.findViewWithTag("tButtonDisabled");
+                if(!tButton.isEnabled()){
+                    Toast.makeText(getApplicationContext(), "Inscription nécessaire pour activer ces notifications !", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
+        ((LinearLayout) notificationEventInput.getParent()).setOnClickListener(listener);
+        ((LinearLayout) notificationOtherInput.getParent()).setOnClickListener(listener);
     }
 
     @Override
@@ -326,6 +341,7 @@ public class ParametersActivity extends BaseActivity {
                                     notificationOtherInput.setChecked(false);
                                     notificationEventInput.setEnabled(false);
                                     notificationOtherInput.setEnabled(false);
+
                                     Toast.makeText(getApplicationContext(), "Compte désactivé avec succès", Toast.LENGTH_SHORT).show();
                                 }
                             }, new Response.ErrorListener() {
