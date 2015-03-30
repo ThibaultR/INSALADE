@@ -221,7 +221,6 @@ public class MainActivity extends BaseActivity {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.WEEK_OF_YEAR, XmlFileGetter.weekNumber);
         cal.set(Calendar.DAY_OF_WEEK, 2);
-        int mondayDayNumber = cal.get(Calendar.DAY_OF_MONTH);
         navigationButtons.removeAllViews();
         for (int i = 0; i < 7; i++) {
             RelativeLayout navigationButton = (RelativeLayout) getLayoutInflater().inflate(R.layout.day_button_fragment, navigationButtons, false);
@@ -232,8 +231,7 @@ public class MainActivity extends BaseActivity {
 
             // Set Day number
             TextView dayNumber = (TextView) navigationButton.findViewById(R.id.dayNumber);
-
-            int actualDayNumber = mondayDayNumber + i;
+            int actualDayNumber = cal.get(Calendar.DAY_OF_MONTH);
             dayNumber.setText("" + actualDayNumber);
 
             changeTextViewFont(dayName, fontRobotoLight);
@@ -250,6 +248,8 @@ public class MainActivity extends BaseActivity {
             }
 
             navigationButtons.addView(navigationButton);
+
+            cal.add(Calendar.DATE, 1);
         }
     }
 
