@@ -21,6 +21,13 @@ class Builder extends ContainerAware
 
         if($securityContext->isGranted("ROLE_USER"))
         {
+
+            if($securityContext->isGranted("ROLE_INSALADE")) {
+                $user = $menu->addChild('Users', array(
+                    'route' => 'user'
+                ));
+            }
+
             $push = $menu->addChild('Pushs', array(
                 'route' => 'push'
             ));
