@@ -1,0 +1,51 @@
+{% if list.pager.nbResults > 0 %}
+<div class="panel panel-default"  id="{{ list.option('id') }}">
+    <!-- Default panel contents -->
+    <div class="panel-heading">User list</div>
+    <table class="records_list table">
+        <thead>
+            <tr>
+                <th class="hidden-xs">Id</th>
+                <th>Username</th>
+                <th class="hidden-xs">Email</th>
+                <th>State</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in list.pager %}
+            <tr>
+                <td class="hidden-xs"><a href="{{ path('push_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.username }}</td>
+                <td class="hidden-xs">{{ entity.email }}</td>
+                <td>
+                    {% if entity.enabled == 1 %}
+                        <span class="label label-success">Active</span>
+                    {% elseif entity.enabled == 0 %}
+                        <span class="label label-warning">Unactive</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <select class="form-control" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        {% if is_granted("ROLE_INSALADE") %}
+                            {% if entity.enabled == 0 %}
+                                <option value="{{ path('user_update_enabled', { 'id': entity.id, 'enabled': 1 }) }}">Activate</option>
+                            {% elseif entity.enabled == 1 %}
+                                <option value="{{ path('user_update_enabled', { 'id': entity.id, 'enabled': 0 }) }}">Unactivate</option>
+                            {% endif %}
+                        {% endif %}
+                    </select>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="text-center">
+    {% include 'AvListBundle:AvList:control.html.twig' with {'list':list}%}
+    <br />
+</div>
+{% else %}
+    <p>There is no user yet.</p>
+{% endif %}

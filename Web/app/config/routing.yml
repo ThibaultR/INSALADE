@@ -3,6 +3,11 @@ insalade_communication:
     type:     annotation
     prefix:   /
 
+insalade_user2:
+    resource: "@InsaladeUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 insalade_user:
     resource: "@InsaladeUserBundle/Resources/config/routing.yml"
 
