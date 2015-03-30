@@ -39,6 +39,12 @@ class StatisticController extends Controller
         $userCount = $queryIOSUserCount->fetchAll();
         $nbIOSUser = $userCount[0]['COUNT(*)'];
 
-        return array('data' => array('total' => $nbUser, 'android' => $nbAndroidUser, 'ios' => $nbIOSUser));
+        //get ios user number
+        $queryAssoCount = $em->prepare("SELECT COUNT(*) FROM asso");
+        $queryAssoCount->execute();
+        $userCount = $queryAssoCount->fetchAll();
+        $nbAsso = $userCount[0]['COUNT(*)'];
+
+        return array('data' => array('total' => $nbUser, 'android' => $nbAndroidUser, 'ios' => $nbIOSUser, 'asso' => $nbAsso));
     }
 }
