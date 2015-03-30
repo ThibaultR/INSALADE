@@ -37,7 +37,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: true
-    bundles:        [MopaBootstrapBundle, FOSUserBundle]
+    bundles:        [MopaBootstrapBundle, FOSUserBundle, InsaladeStatisticBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~

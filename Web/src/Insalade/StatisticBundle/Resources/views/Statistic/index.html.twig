@@ -1,0 +1,47 @@
+{% extends '::layout.html.twig' %}
+
+{% block head_style %}
+    {{parent()}}
+    {% stylesheets
+        'bundles/insaladestatistic/css/style.css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock head_style %}
+
+
+{% block content %}
+    <div class="row row-centered">
+        <div class="col-md-12">
+            <div class="page-header no-margin no-border">
+                <h1 class="statistic-title">Subscribed user counts</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row row-centered">
+        <div class="col-md-4">
+            <div class="statistic-tile">
+                <div class="container">
+                    <span class="icon-mobile2"></span>
+                    <p>{{ data.total }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="statistic-tile">
+                <div class="container">
+                    <span class="icon-android"></span>
+                    <p>{{ data.android }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="statistic-tile">
+                <div class="container">
+                    <span class="icon-apple"></span>
+                    <p>{{ data.ios }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

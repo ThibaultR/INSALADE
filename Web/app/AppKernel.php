@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Craue\FormFlowBundle\CraueFormFlowBundle(),
             new AppVentus\ListBundle\AvListBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
+            new Insalade\StatisticBundle\InsaladeStatisticBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

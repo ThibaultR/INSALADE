@@ -28,6 +28,10 @@ class Builder extends ContainerAware
                 ));
             }
 
+            $push = $menu->addChild('Statistics', array(
+                'route' => 'statistic'
+            ));
+
             $push = $menu->addChild('Pushs', array(
                 'route' => 'push'
             ));
