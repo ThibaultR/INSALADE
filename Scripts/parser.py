@@ -27,6 +27,7 @@ tmpHtmlFile = "tmp.html"
 output = sys.argv[2]
 
 # Extract pdf into html
+#os.system(("/usr/local/bin/pdf2txt.py -t html %s > %s")%(input, tmpHtmlFile)) #Uncomment on server
 os.system(("pdf2txt.py -t html %s > %s")%(input, tmpHtmlFile))
 
 # List of x coordinate of each column

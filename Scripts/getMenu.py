@@ -33,12 +33,12 @@ print(week_number)
 
 # Get login/pwd
 fic = open('./pw.txt','r')
-username = fic.readline();
-password = fic.readline();
+username = fic.readline().rstrip();
+password = fic.readline().rstrip();
 fic.close()
 
 # Connect with mechanize
-url = "https://cas.insa-rennes.fr/cas/login?service=http://intranet.insa-rennes.fr/"
+url = "https://cas.insa-rennes.fr/cas/login?service=http://intranet.insa-rennes.fr/index.php?id=56"
 br = mechanize.Browser()
 br.set_handle_robots(False) #You may need to do this
 br.open(url)
@@ -48,12 +48,15 @@ br['password']=password
 br.method = "POST"
 response = br.submit() #At this point you should see the html for the page that loads after login
 
-for index in range(week_number-2, week_number+2):
+#TODO refactoring
+for index in range(week_number, week_number+1):
     file_name = 'pdf/menu'+str(index)+'.pdf'
+    print file_name
     try:
         fo = open(file_name, "w")
         fo.write(br.open('http://intranet.insa-rennes.fr/fileadmin/ressources_intranet/Restaurant/menu'+str(index)+'.pdf').get_data())
+        print 'menu'+str(index)+' : OK'
         fo.close()
     except urllib2.HTTPError, e:
-        print e.code
+        print 'menu'+str(index)+' : '+str(e.code)
         os.remove(fo.name)

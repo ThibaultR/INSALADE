@@ -9,15 +9,17 @@
 
 import os
 
+#os.chdir("/root/INSALADE/") #Uncomment on server
 
 # Get available menu from intranet
 os.system("python getMenu.py")
 
 # Get the list of menu from getMenu.py
+#menuList = os.listdir("/root/INSALADE/pdf/") #Uncomment on server
 menuList = os.listdir("pdf")
 
 # parse for each file
 for menuFile in menuList:
-        menu = os.path.splitext(menuFile)[0]
-		# in server use /var/www/INSALADE/XmlMenus/ instead of xml/
-        os.system(("python parser.py pdf/%s.pdf xml/%s.xml")%(menu, menu))
+    menu = os.path.splitext(menuFile)[0]
+    #os.system(("python parser.py pdf/%s.pdf /var/www/INSALADE/XmlMenus/%s.xml")%(menu, menu)) #Uncomment on server
+    os.system(("python parser.py pdf/%s.pdf xml/%s.xml")%(menu, menu))
