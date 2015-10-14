@@ -4,7 +4,8 @@
 # @author Thibault Rapin (thibault.rapin@gmail.com)
 #
 # use script with "python hourlyScript.py"
-# Our crontab (every hour) : 0 */1 * * * python /root/INSALADE/hourlyScript.py
+# Our crontab (every hour) : 0 */1 * * * /usr/bin/python /root/INSALADE/hourlyScript.py > /tmp/mybackup.log 2>&1
+
 
 
 import os
